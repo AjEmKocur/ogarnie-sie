@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'moderation' => [
+        'python_enabled' => (bool) env('MODERATION_PYTHON_ENABLED', true),
+        'python_url' => env('MODERATION_PYTHON_URL', 'http://moderation-api:8001/moderate'),
+        'timeout_seconds' => (int) env('MODERATION_TIMEOUT_SECONDS', 5),
+    ],
+
 ];

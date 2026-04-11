@@ -10,11 +10,19 @@ class Testimonial extends Model
 {
     use HasFactory;
 
+    public const MODERATION_APPROVE = 'approve';
+    public const MODERATION_REVIEW = 'review';
+    public const MODERATION_REJECT = 'reject';
+
     protected $fillable = [
         'user_id',
         'ticket_id',
         'rating',
         'content',
+        'moderation_status',
+        'moderation_score',
+        'moderation_reasons',
+        'moderated_at',
         'is_approved',
         'approved_at',
     ];
@@ -22,9 +30,26 @@ class Testimonial extends Model
     protected function casts(): array
     {
         return [
+            'moderation_score' => 'integer',
+            'moderation_reasons' => 'array',
+            'moderated_at' => 'datetime',
             'is_approved' => 'boolean',
             'approved_at' => 'datetime',
         ];
+    }
+
+    public static function moderationStatuses(): array
+    {
+        return [
+            self::MODERATION_APPROVE => 'Automatycznie zaakceptowana',
+            self::MODERATION_REVIEW => 'Do ręcznej weryfikacji',
+            self::MODERATION_REJECT => 'Automatycznie odrzucona',
+        ];
+    }
+
+    public function moderationStatusLabel(): string
+    {
+        return self::moderationStatuses()[$this->moderation_status] ?? $this->moderation_status;
     }
 
     public function user(): BelongsTo
@@ -37,4 +62,3 @@ class Testimonial extends Model
         return $this->belongsTo(Ticket::class);
     }
 }
-

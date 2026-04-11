@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ticket;
 use App\Models\Testimonial;
+use App\Models\Ticket;
+use App\Services\TestimonialModerationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class ClientTestimonialController extends Controller
 {
+    public function __construct(
+        private readonly TestimonialModerationService $moderationService
+    ) {}
+
     public function create(Request $request): View
     {
         $eligibleTickets = $request->user()
@@ -43,18 +49,32 @@ class ClientTestimonialController extends Controller
             ->whereDoesntHave('testimonial')
             ->firstOrFail();
 
+        $moderation = $this->moderationService->moderate($validated['content']);
+
+        if ($moderation['status'] !== Testimonial::MODERATION_APPROVE) {
+            $reasons = $moderation['reasons'] ?? [];
+            $reasonText = implode(' ', array_map(static fn ($reason) => '- '.$reason, $reasons));
+
+            throw ValidationException::withMessages([
+                'content' => trim('Wykryto nieprawidłowości w opinii. Popraw treść i spróbuj ponownie. '.$reasonText),
+            ]);
+        }
+
         Testimonial::create([
             'user_id' => $request->user()->id,
             'ticket_id' => $ticket->id,
             'rating' => $validated['rating'],
             'content' => $validated['content'],
-            'is_approved' => false,
-            'approved_at' => null,
+            'moderation_status' => $moderation['status'],
+            'moderation_score' => $moderation['score'],
+            'moderation_reasons' => $moderation['reasons'],
+            'moderated_at' => now(),
+            'is_approved' => true,
+            'approved_at' => now(),
         ]);
 
         return redirect()
             ->route('public.testimonials')
-            ->with('status', 'Dziękujemy. Opinia została zapisana i czeka na akceptację.');
+            ->with('status', 'Dziękujemy. Opinia została opublikowana.');
     }
 }
-

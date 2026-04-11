@@ -9,26 +9,38 @@ use Illuminate\View\View;
 
 class AdminTestimonialController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
+        $status = (string) $request->query('status', 'all');
+        $query = Testimonial::with(['user', 'ticket'])->latest();
+
+        if ($status !== 'all' && array_key_exists($status, Testimonial::moderationStatuses())) {
+            $query->where('moderation_status', $status);
+        } else {
+            $status = 'all';
+        }
+
         return view('admin.testimonials.index', [
-            'testimonials' => Testimonial::with(['user', 'ticket'])
-                ->latest()
-                ->get(),
+            'testimonials' => $query->get(),
+            'moderationStatuses' => Testimonial::moderationStatuses(),
+            'statusFilter' => $status,
         ]);
     }
 
     public function update(Request $request, Testimonial $testimonial): RedirectResponse
     {
         $validated = $request->validate([
-            'is_approved' => ['required', 'boolean'],
+            'action' => ['required', 'in:approve,review,reject'],
         ]);
 
-        $approved = (bool) $validated['is_approved'];
+        $action = $validated['action'];
+        $isApproved = $action === Testimonial::MODERATION_APPROVE;
 
         $testimonial->update([
-            'is_approved' => $approved,
-            'approved_at' => $approved ? now() : null,
+            'moderation_status' => $action,
+            'is_approved' => $isApproved,
+            'approved_at' => $isApproved ? now() : null,
+            'moderated_at' => now(),
         ]);
 
         return redirect()

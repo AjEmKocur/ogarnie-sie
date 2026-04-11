@@ -25,6 +25,7 @@ services:
             - pgsql
             - redis
             - mailpit
+            - moderation-api
     pgsql:
         image: 'postgres:18-alpine'
         ports:
@@ -70,6 +71,14 @@ services:
         ports:
             - '${FORWARD_MAILPIT_PORT:-1025}:1025'
             - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
+        networks:
+            - sail
+    moderation-api:
+        build:
+            context: './python/moderation_api'
+            dockerfile: Dockerfile
+        ports:
+            - '${FORWARD_MODERATION_API_PORT:-8001}:8001'
         networks:
             - sail
 networks:

@@ -5,12 +5,6 @@
         <h1 class="text-4xl font-bold">Opinie klientów</h1>
         <p class="mt-4 text-slate-300">Opinie publikowane są po akceptacji przez administratora.</p>
 
-        @if (session('status'))
-            <div class="mt-6 rounded-lg border border-green-200 bg-green-50 p-4 text-green-700">
-                {{ session('status') }}
-            </div>
-        @endif
-
         @auth
             @if (!auth()->user()->isAdmin() && auth()->user()->hasClosedTicketsWithoutTestimonial())
                 <div class="mt-6 rounded-xl border border-gray-200 bg-white p-4">
@@ -44,4 +38,3 @@
         </div>
     </section>
 @endsection
-
