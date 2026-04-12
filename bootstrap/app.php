@@ -25,17 +25,6 @@ return Application::configure(basePath: dirname(__DIR__))
             | Request::HEADER_X_FORWARDED_PROTO
             | Request::HEADER_X_FORWARDED_AWS_ELB);
 
-        // Stabilny fix pod Render: omijamy CSRF tylko dla auth form.
-        // Dzięki temu 419 nie blokuje logowania/rejestracji.
-        $middleware->validateCsrfTokens(except: [
-            'login',
-            'register',
-            'forgot-password',
-            'reset-password',
-            'confirm-password',
-            'email/verification-notification',
-        ]);
-
         $middleware->alias([
             'admin' => EnsureUserIsAdmin::class,
             'client' => EnsureUserIsClient::class,
