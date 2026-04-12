@@ -14,8 +14,16 @@ rm -f public/hot
 # Clear stale caches between deployments.
 php artisan optimize:clear
 
+if [ "${RUN_FRESH_MIGRATIONS:-false}" = "true" ]; then
+  php artisan migrate:fresh --force
+fi
+
 if [ "${RUN_MIGRATIONS:-false}" = "true" ]; then
   php artisan migrate --force
+fi
+
+if [ "${RUN_SEEDERS:-false}" = "true" ]; then
+  php artisan db:seed --force
 fi
 
 exec php artisan serve --host=0.0.0.0 --port="${PORT:-10000}"
