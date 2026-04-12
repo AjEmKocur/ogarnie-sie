@@ -13,6 +13,7 @@ use App\Http\Controllers\PublicContactController;
 use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\TicketMessageController;
 use App\Http\Controllers\TicketAttachmentController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PublicPageController::class, 'home'])->name('public.home');
@@ -23,6 +24,23 @@ Route::get('/cennik', [PublicPageController::class, 'pricing'])->name('public.pr
 Route::view('/kontakt', 'public.contact')->name('public.contact');
 Route::get('/opinie', [PublicPageController::class, 'testimonials'])->name('public.testimonials');
 Route::get('/blog', [PublicPageController::class, 'blog'])->name('public.blog');
+
+// Tymczasowa diagnostyka sesji na deployu (usunąć po naprawie logowania).
+Route::get('/diag/session', function (Request $request) {
+    $request->session()->put('diag_touch', now()->timestamp);
+
+    return response()->json([
+        'app_env' => app()->environment(),
+        'session_driver' => config('session.driver'),
+        'session_cookie' => config('session.cookie'),
+        'session_domain' => config('session.domain'),
+        'session_secure' => config('session.secure'),
+        'session_same_site' => config('session.same_site'),
+        'has_session' => $request->hasSession(),
+        'session_id' => $request->session()->getId(),
+        'csrf_token' => csrf_token(),
+    ]);
+});
 
 Route::get('/dashboard', function () {
     if (auth()->user()->isAdmin()) {
