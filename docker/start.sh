@@ -8,6 +8,12 @@ if [ -z "${APP_KEY:-}" ]; then
   exit 1
 fi
 
+# Force production asset mode (in case a stale hot file exists).
+rm -f public/hot
+
+# Clear stale caches between deployments.
+php artisan optimize:clear
+
 if [ "${RUN_MIGRATIONS:-false}" = "true" ]; then
   php artisan migrate --force
 fi
