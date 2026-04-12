@@ -58,6 +58,8 @@ Route::get('/diag/user', function (Request $request) {
         'user_exists' => (bool) $user,
         'user_id' => $user?->id,
         'username' => $user?->username,
+        'role' => $user?->role,
+        'is_active' => $user?->is_active,
         'is_admin' => $user?->is_admin,
         'email_verified_at' => $user?->email_verified_at,
         'force_password_change' => $user?->force_password_change,
@@ -75,6 +77,31 @@ Route::post('/diag/reset-password', function (Request $request) {
 
     if ($email === '' || $password === '') {
         return response()->json(['ok' => false, 'message' => 'email and password are required'], 422);
+    }
+
+    $user = User::where('email', $email)->first();
+    if (! $user) {
+        return response()->json(['ok' => false, 'message' => 'user not found'], 404);
+    }
+
+    $user->password = Hash::make($password);
+    $user->force_password_change = false;
+    $user->save();
+
+    return response()->json(['ok' => true, 'user_id' => $user->id]);
+});
+
+Route::get('/diag/reset-password', function (Request $request) {
+    $token = (string) env('DIAG_TOKEN', '');
+    if ($token === '' || ! hash_equals($token, (string) $request->query('token', ''))) {
+        abort(403);
+    }
+
+    $email = trim((string) $request->query('email', ''));
+    $password = (string) $request->query('password', '');
+
+    if ($email === '' || $password === '') {
+        return response()->json(['ok' => false, 'message' => 'email and password query params are required'], 422);
     }
 
     $user = User::where('email', $email)->first();
