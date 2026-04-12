@@ -11,7 +11,7 @@ COPY vite.config.js postcss.config.js tailwind.config.js ./
 RUN npm run build
 
 
-FROM php:8.4-cli-alpine
+FROM php:8.3-cli-alpine
 
 WORKDIR /var/www/html
 
