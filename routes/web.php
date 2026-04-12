@@ -14,12 +14,9 @@ use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\TicketMessageController;
 use App\Http\Controllers\TicketAttachmentController;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
 
 Route::get('/', [PublicPageController::class, 'home'])->name('public.home');
 Route::view('/o-nas', 'public.about')->name('public.about');
@@ -117,35 +114,6 @@ Route::get('/diag/reset-password', function (Request $request) {
     $user->save();
 
     return response()->json(['ok' => true, 'user_id' => $user->id]);
-});
-
-Route::get('/diag/check-auth', function (Request $request) {
-    $token = (string) env('DIAG_TOKEN', '');
-    if ($token === '' || ! hash_equals($token, (string) $request->query('token', ''))) {
-        abort(403);
-    }
-
-    $email = trim((string) $request->query('email', ''));
-    $password = (string) $request->query('password', '');
-
-    if ($email === '' || $password === '') {
-        return response()->json(['ok' => false, 'message' => 'email and password query params are required'], 422);
-    }
-
-    $user = User::where('email', $email)->orWhere('username', $email)->first();
-    $throttleKey = Str::transliterate(Str::lower($email).'|'.$request->ip());
-
-    return response()->json([
-        'ok' => true,
-        'email_or_username_checked' => $email,
-        'resolved_user_email' => $user?->email,
-        'user_exists' => (bool) $user,
-        'password_hash_matches' => $user ? Hash::check($password, (string) $user->password) : false,
-        'auth_validate' => $user ? Auth::validate(['email' => (string) $user->email, 'password' => $password]) : false,
-        'too_many_attempts' => RateLimiter::tooManyAttempts($throttleKey, 5),
-        'remaining_attempts' => RateLimiter::remaining($throttleKey, 5),
-        'available_in_seconds' => RateLimiter::availableIn($throttleKey),
-    ]);
 });
 
 Route::get('/dashboard', function () {
