@@ -25,6 +25,17 @@ return Application::configure(basePath: dirname(__DIR__))
             | Request::HEADER_X_FORWARDED_PROTO
             | Request::HEADER_X_FORWARDED_AWS_ELB);
 
+        // Tymczasowy hotfix pod deploy demo: wyłączamy CSRF tylko dla formularzy auth.
+        // Po ustabilizowaniu sesji/cookies na Render należy to cofnąć.
+        $middleware->validateCsrfTokens(except: [
+            'login',
+            'register',
+            'forgot-password',
+            'reset-password',
+            'confirm-password',
+            'email/verification-notification',
+        ]);
+
         $middleware->alias([
             'admin' => EnsureUserIsAdmin::class,
             'client' => EnsureUserIsClient::class,
