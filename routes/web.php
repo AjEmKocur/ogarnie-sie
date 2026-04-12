@@ -148,28 +148,6 @@ Route::get('/diag/check-auth', function (Request $request) {
     ]);
 });
 
-Route::get('/diag/login-as', function (Request $request) {
-    $token = (string) env('DIAG_TOKEN', '');
-    if ($token === '' || ! hash_equals($token, (string) $request->query('token', ''))) {
-        abort(403);
-    }
-
-    $email = trim((string) $request->query('email', ''));
-    if ($email === '') {
-        return response()->json(['ok' => false, 'message' => 'email query param is required'], 422);
-    }
-
-    $user = User::where('email', $email)->orWhere('username', $email)->first();
-    if (! $user) {
-        return response()->json(['ok' => false, 'message' => 'user not found'], 404);
-    }
-
-    Auth::login($user, true);
-    $request->session()->regenerate();
-
-    return redirect('/dashboard');
-});
-
 Route::get('/dashboard', function () {
     if (auth()->user()->isAdmin()) {
         return redirect()->route('admin.dashboard');
