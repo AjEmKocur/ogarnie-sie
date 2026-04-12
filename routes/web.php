@@ -13,8 +13,6 @@ use App\Http\Controllers\PublicContactController;
 use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\TicketMessageController;
 use App\Http\Controllers\TicketAttachmentController;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -42,51 +40,6 @@ Route::get('/diag/session', function (Request $request) {
         'session_id' => $request->session()->getId(),
         'csrf_token' => csrf_token(),
     ]);
-});
-
-Route::get('/diag/user', function (Request $request) {
-    $token = (string) env('DIAG_TOKEN', '');
-    if ($token === '' || ! hash_equals($token, (string) $request->query('token', ''))) {
-        abort(403);
-    }
-
-    $email = trim((string) $request->query('email', ''));
-    $user = $email !== '' ? User::where('email', $email)->first() : null;
-
-    return response()->json([
-        'email_checked' => $email,
-        'user_exists' => (bool) $user,
-        'user_id' => $user?->id,
-        'username' => $user?->username,
-        'is_admin' => $user?->is_admin,
-        'email_verified_at' => $user?->email_verified_at,
-        'force_password_change' => $user?->force_password_change,
-    ]);
-});
-
-Route::post('/diag/reset-password', function (Request $request) {
-    $token = (string) env('DIAG_TOKEN', '');
-    if ($token === '' || ! hash_equals($token, (string) $request->input('token', ''))) {
-        abort(403);
-    }
-
-    $email = trim((string) $request->input('email', ''));
-    $password = (string) $request->input('password', '');
-
-    if ($email === '' || $password === '') {
-        return response()->json(['ok' => false, 'message' => 'email and password are required'], 422);
-    }
-
-    $user = User::where('email', $email)->first();
-    if (! $user) {
-        return response()->json(['ok' => false, 'message' => 'user not found'], 404);
-    }
-
-    $user->password = Hash::make($password);
-    $user->force_password_change = false;
-    $user->save();
-
-    return response()->json(['ok' => true, 'user_id' => $user->id]);
 });
 
 Route::get('/dashboard', function () {
