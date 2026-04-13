@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 use App\Http\Controllers\AdminTicketController;
 use App\Http\Controllers\AdminBlogPostController;
