@@ -1,28 +1,12 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import logging
 import os
-import re
-from functools import lru_cache
-from pathlib import Path
 from typing import List, Literal
 
 import httpx
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
-
-"""
-Ten plik to główny moduł moderacji opinii.
-
-Aktualny tryb: OPENAI-ONLY
-1) Laravel wysyła POST /moderate z treścią opinii.
-2) Python pyta OpenAI Moderation API.
-3) Python zwraca status: approve / review / reject.
-
-Uwaga:
-- Lokalne reguły zostały celowo wyłączone w endpointzie /moderate.
-- Funkcje lokalne zostają w pliku tylko jako materiał zapasowy/porównawczy.
-"""
 
 
 class ModerateRequest(BaseModel):
@@ -35,144 +19,16 @@ class ModerateResponse(BaseModel):
     reasons: List[str]
 
 
-app = FastAPI(title="OgarnieSie Moderation API", version="1.2.1")
+app = FastAPI(title="OgarnieSie Moderation API", version="2.0.0-openai-only")
 
 logger = logging.getLogger("moderation")
 logging.basicConfig(level=logging.INFO)
 
 
-def env_flag(name: str, default: str = "false") -> bool:
-    return os.getenv(name, default).strip().lower() in {"1", "true", "yes", "y", "on"}
-
-
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "").strip()
-OPENAI_ENABLED = env_flag("OPENAI_MODERATION_ENABLED", "false")
+OPENAI_ENABLED = os.getenv("OPENAI_MODERATION_ENABLED", "false").strip().lower() in {"1", "true", "yes", "y", "on"}
 OPENAI_MODEL = os.getenv("OPENAI_MODERATION_MODEL", "omni-moderation-latest").strip() or "omni-moderation-latest"
 OPENAI_TIMEOUT = int(os.getenv("OPENAI_TIMEOUT_SECONDS", "12"))
-
-DATA_DIR = Path(__file__).resolve().parent / "data"
-PROFANITY_FILE = DATA_DIR / "profanity_pl.txt"
-
-DIACRITICS_MAP = str.maketrans(
-    {
-        "ą": "a",
-        "ć": "c",
-        "ę": "e",
-        "ł": "l",
-        "ń": "n",
-        "ó": "o",
-        "ś": "s",
-        "ż": "z",
-        "ź": "z",
-    }
-)
-
-LEET_MAP = str.maketrans(
-    {
-        "@": "a",
-        "$": "s",
-        "€": "e",
-        "0": "o",
-        "1": "i",
-        "3": "e",
-        "4": "a",
-        "5": "s",
-        "7": "t",
-        "!": "i",
-    }
-)
-
-# Zamiany liter na cyfry do wykrywania ukrytych numerow telefonu.
-DIGIT_SUBSTITUTIONS = str.maketrans(
-    {
-        "o": "0",
-        "O": "0",
-        "i": "1",
-        "I": "1",
-        "l": "1",
-        "L": "1",
-    }
-)
-
-# Kwoty w PLN (zeby nie mylic ceny z numerem telefonu).
-CURRENCY_PATTERN = re.compile(
-    r"\b(?:\d{1,6}|\d{1,3}(?:[ .]\d{3})+)(?:[.,]\d{1,2})?\s?(?:zł|zl|pln)\b",
-    flags=re.IGNORECASE,
-)
-
-EMAIL_PATTERN = re.compile(r"[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}", flags=re.IGNORECASE)
-
-
-def normalize_text(text: str) -> str:
-    t = text.lower().translate(DIACRITICS_MAP).translate(LEET_MAP)
-    t = re.sub(r"[^a-z0-9\s]", " ", t)
-    t = re.sub(r"\s+", " ", t).strip()
-    return t
-
-
-def compact_text(text: str) -> str:
-    # Usuwa separatory typu spacja/kropka/myslnik, by lapac "k.u.r.w.a"
-    return re.sub(r"[^a-z0-9]", "", text)
-
-
-@lru_cache(maxsize=1)
-def load_profanity_stems() -> List[str]:
-    if not PROFANITY_FILE.exists():
-        return []
-
-    stems: List[str] = []
-    for line in PROFANITY_FILE.read_text(encoding="utf-8").splitlines():
-        raw = line.strip()
-        if not raw or raw.startswith("#"):
-            continue
-
-        stem = compact_text(normalize_text(raw))
-        if len(stem) >= 3:
-            stems.append(stem)
-
-    # Unikalne, dluzsze najpierw (mniej falszywych trafien)
-    return sorted(set(stems), key=len, reverse=True)
-
-
-def find_profanity_matches(content: str) -> List[str]:
-    normalized = normalize_text(content)
-    compact = compact_text(normalized)
-    stems = load_profanity_stems()
-
-    matches: List[str] = []
-    for stem in stems:
-        token_pattern = rf"\b{re.escape(stem)}[a-z0-9]*\b"
-        compact_pattern = rf"{re.escape(stem)}[a-z0-9]*"
-
-        if re.search(token_pattern, normalized) or re.search(compact_pattern, compact):
-            matches.append(stem)
-
-    return matches
-
-
-def has_phone_like_sequence(content: str) -> bool:
-    # 1) Normalizacja obejsc typu litera -> cyfra.
-    normalized = content.translate(DIGIT_SUBSTITUTIONS)
-
-    # 2) Wycinamy kwoty, np. "300,50 zl", "1200 pln", "99.99 zł".
-    scrubbed = CURRENCY_PATTERN.sub(" ", normalized)
-
-    # 3) Szukamy sekwencji wygladajacych jak telefon, także z "kombinowanymi"
-    # separatorami typu "/", "_", ":", "|", "()", wieloma spacjami itp.
-    for match in re.finditer(r"(?:\+?\d(?:[\s\W_]*\d){6,14})", scrubbed):
-        digits = re.sub(r"\D", "", match.group(0))
-        if 7 <= len(digits) <= 15:
-            return True
-
-    return False
-
-
-def uppercase_ratio(text: str) -> float:
-    letters = "".join(ch for ch in text if ch.isalpha())
-    if not letters:
-        return 0.0
-    upper = "".join(ch for ch in letters if ch.isupper())
-    return len(upper) / max(1, len(letters))
 
 
 def status_from_score(score: int) -> Literal["approve", "review", "reject"]:
@@ -219,7 +75,6 @@ def openai_score(category_scores: dict) -> int:
 
 
 def moderate_with_openai(content: str) -> tuple[int, List[str], bool] | None:
-    # Sekcja opcjonalna: działa tylko przy OPENAI_MODERATION_ENABLED=true.
     if not (OPENAI_ENABLED and OPENAI_API_KEY):
         return None
 
@@ -250,32 +105,14 @@ def moderate_with_openai(content: str) -> tuple[int, List[str], bool] | None:
 
 @app.get("/health")
 def health() -> dict[str, str]:
-    # Endpoint techniczny (monitoring/Render).
     return {"status": "ok"}
-
-
-@app.get("/dictionary-info")
-def dictionary_info() -> dict[str, int]:
-    # Pomocniczo: pokazuje ile wpisów ma słownik wulgaryzmów.
-    stems = load_profanity_stems()
-    return {"entries": len(stems)}
 
 
 @app.post("/moderate", response_model=ModerateResponse)
 def moderate(payload: ModerateRequest) -> ModerateResponse:
-    # Główny endpoint używany przez Laravel.
-    # TRYB OPENAI-ONLY: tylko OpenAI (bez lokalnych reguł).
-    content = payload.content
+    openai = moderate_with_openai(payload.content)
 
-    # WYŁĄCZONE (fallback lokalny):
-    # score = 0
-    # reasons: List[str] = []
-    # ... lokalne reguły (profanity/PII/spam) ...
-    # local_score = max(0, min(100, score))
-
-    openai = moderate_with_openai(content)
     if openai is None:
-        logger.warning("Moderation blocked: OpenAI-only mode and OpenAI unavailable.")
         return ModerateResponse(
             status="reject",
             score=100,
@@ -285,8 +122,6 @@ def moderate(payload: ModerateRequest) -> ModerateResponse:
     score, reasons, flagged = openai
     if flagged:
         score = max(score, 60)
-
-    logger.info("Moderation used OpenAI-only mode. score=%s flagged=%s", score, flagged)
 
     status: Literal["approve", "review", "reject"] = status_from_score(score)
 
