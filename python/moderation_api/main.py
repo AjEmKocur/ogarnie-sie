@@ -57,9 +57,11 @@ Reguły decyzji:
 - Jeśli tekst zawiera dane kontaktowe (telefon, email, link, social handle) => status="reject", score >= 60.
   Traktuj jako dane kontaktowe także formy maskowane/obfuskowane, np.:
   - numery z separatorami: 5.4.3-0-9-9.3.2.1, 5 4 3 0 9 9 3 2 1, 543-099-321
-  - sekwencje cyfr rozdzielane znakami specjalnymi, spacjami lub nawiasami
+  - sekwencje cyfr rozdzielane mieszanymi separatorami (.,-,:,;,/,_,spacja,nawiasy), np. 8,56-73,6.2.3.2
+  - jeśli w jednym fragmencie tekstu da się złożyć 7+ cyfr rozdzielonych separatorami, traktuj to jako kontakt
   - zapisy typu "dzwoń", "pisz", "dajcie do mnie", "odezwij się", gdy obok jest kontakt
 - Nie traktuj jako kontaktu samych kwot/cen, np. "50,50 zł", "30.45", "za 120 PLN", o ile brak innych sygnałów kontaktowych.
+  Cena to zwykle 1 liczba (ew. z 1 separatorem dziesiętnym), a nie długi ciąg wielu grup cyfr.
 - Jeśli tekst zawiera spam/promocję bez danych kontaktowych => status="review", score 25-59.
 - Jeśli tekst zachęca do kontaktu/oferty poza platformą lub zawiera obchodzenie moderacji => status="reject", score >= 60.
 - Jeśli tekst jest neutralny i bez powyższych ryzyk => status="approve", score 0-24.
