@@ -44,9 +44,9 @@ return [
 
     'openai' => [
         'key' => env('OPENAI_API_KEY'),
-        'moderation_enabled' => env('OPENAI_MODERATION_ENABLED', false),
+        'moderation_enabled' => (bool) env('OPENAI_MODERATION_ENABLED', false),
         'moderation_model' => env('OPENAI_MODERATION_MODEL', 'omni-moderation-latest'),
-        'timeout_seconds' => env('OPENAI_TIMEOUT_SECONDS', 12),
+        'timeout_seconds' => (int) env('OPENAI_TIMEOUT_SECONDS', 12),
     ],
 
 ];

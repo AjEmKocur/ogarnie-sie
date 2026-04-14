@@ -51,7 +51,7 @@ class ClientTestimonialController extends Controller
 
         $moderation = $this->moderationService->moderate($validated['content']);
 
-        if ($moderation['status'] !== Testimonial::MODERATION_APPROVE) {
+        if ($moderation['status'] === Testimonial::MODERATION_REJECT) {
             $reasons = $moderation['reasons'] ?? [];
             // Hide technical debug reasons from end users (e.g. moderation source).
             $reasons = array_values(array_filter(
@@ -65,6 +65,8 @@ class ClientTestimonialController extends Controller
             ]);
         }
 
+        $isAutoApproved = $moderation['status'] === Testimonial::MODERATION_APPROVE;
+
         Testimonial::create([
             'user_id' => $request->user()->id,
             'ticket_id' => $ticket->id,
@@ -74,12 +76,17 @@ class ClientTestimonialController extends Controller
             'moderation_score' => $moderation['score'],
             'moderation_reasons' => $moderation['reasons'],
             'moderated_at' => now(),
-            'is_approved' => true,
-            'approved_at' => now(),
+            'is_approved' => $isAutoApproved,
+            'approved_at' => $isAutoApproved ? now() : null,
         ]);
 
         return redirect()
             ->route('public.testimonials')
-            ->with('status', 'Dziękujemy. Opinia została opublikowana.');
+            ->with(
+                'status',
+                $isAutoApproved
+                    ? 'Dziękujemy. Opinia została opublikowana.'
+                    : 'Dziękujemy. Opinia została zapisana i czeka na akceptację administratora.'
+            );
     }
 }

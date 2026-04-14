@@ -9,7 +9,7 @@ use Throwable;
 class TestimonialModerationService
 {
     /**
-     * @return array{status:string, score:int, reasons:array<int,string>}
+     * @return array{status:string, score:int, reasons:array<int,string>, source:string}
      */
     public function moderate(string $content): array
     {
@@ -57,7 +57,7 @@ class TestimonialModerationService
     }
 
     /**
-     * @return array{status:string, score:int, reasons:array<int,string>}|null
+     * @return array{status:string, score:int, reasons:array<int,string>, source:string}|null
      */
     private function moderateWithOpenAi(string $content): ?array
     {
@@ -116,6 +116,7 @@ class TestimonialModerationService
                 'status' => $status,
                 'score' => min(100, $score),
                 'reasons' => $reasons,
+                'source' => 'openai',
             ];
         } catch (Throwable $e) {
             Log::warning('OpenAI moderation unavailable. Using fallback.', [
@@ -127,7 +128,7 @@ class TestimonialModerationService
     }
 
     /**
-     * @return array{status:string, score:int, reasons:array<int,string>}|null
+     * @return array{status:string, score:int, reasons:array<int,string>, source:string}|null
      */
     private function moderateWithPython(string $content): ?array
     {
@@ -170,6 +171,7 @@ class TestimonialModerationService
                 'status' => $status,
                 'score' => max(0, min(100, $score)),
                 'reasons' => $reasons,
+                'source' => 'python',
             ];
         } catch (Throwable $e) {
             Log::warning('Python moderation API unavailable. Using local fallback.', [
@@ -181,13 +183,14 @@ class TestimonialModerationService
     }
 
     /**
-     * @return array{status:string, score:int, reasons:array<int,string>}
+     * @return array{status:string, score:int, reasons:array<int,string>, source:string}
      */
     private function moderateLocally(string $content): array
     {
         $normalized = mb_strtolower($content);
         $score = 0;
         $reasons = [];
+        $hasDirectProfanity = false;
 
         $blockedWords = $this->blockedWords();
 
@@ -195,11 +198,12 @@ class TestimonialModerationService
             if (str_contains($normalized, $word)) {
                 $score += 70;
                 $reasons[] = 'Wykryto słownictwo obraźliwe.';
+                $hasDirectProfanity = true;
                 break;
             }
         }
 
-        if ($this->containsObfuscatedProfanity($content, $blockedWords)) {
+        if (! $hasDirectProfanity && $this->containsObfuscatedProfanity($content, $blockedWords)) {
             $score = max($score, 70);
             $reasons[] = 'Wykryto maskowane słownictwo obraźliwe.';
         }
@@ -242,6 +246,7 @@ class TestimonialModerationService
             'status' => $status,
             'score' => min(100, $score),
             'reasons' => $reasons,
+            'source' => 'local',
         ];
     }
 
