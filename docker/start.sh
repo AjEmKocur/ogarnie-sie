@@ -18,4 +18,4 @@ if [ "${RUN_MIGRATIONS:-false}" = "true" ]; then
   php artisan migrate --force
 fi
 
-exec php -S "0.0.0.0:${PORT:-10000}" -t public public/index.php
+exec php artisan serve --host=0.0.0.0 --port="${PORT:-10000}"
