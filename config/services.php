@@ -39,6 +39,7 @@ return [
         'python_enabled' => (bool) env('MODERATION_PYTHON_ENABLED', true),
         'python_url' => env('MODERATION_PYTHON_URL', 'http://moderation-api:8001/moderate'),
         'timeout_seconds' => (int) env('MODERATION_TIMEOUT_SECONDS', 5),
+        'debug_source' => (bool) env('MODERATION_DEBUG_SOURCE', false),
     ],
 
     'openai' => [

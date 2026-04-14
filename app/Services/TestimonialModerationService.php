@@ -88,6 +88,8 @@ class TestimonialModerationService
                 $reasons[] = 'Brak wykrytych ryzyk. Opinia może zostać opublikowana automatycznie.';
             }
 
+            $this->appendSourceReason($reasons, 'OpenAI Moderation');
+
             return [
                 'status' => $status,
                 'score' => min(100, $score),
@@ -139,10 +141,13 @@ class TestimonialModerationService
                 $reasons = ['Brak szczegółowego uzasadnienia z modułu moderacji.'];
             }
 
+            $reasons = array_values(array_map(static fn ($r) => (string) $r, $reasons));
+            $this->appendSourceReason($reasons, 'Python moderation');
+
             return [
                 'status' => $status,
                 'score' => max(0, min(100, $score)),
-                'reasons' => array_values(array_map(static fn ($r) => (string) $r, $reasons)),
+                'reasons' => $reasons,
             ];
         } catch (Throwable $e) {
             Log::warning('Python moderation API unavailable. Using local fallback.', [
@@ -205,6 +210,8 @@ class TestimonialModerationService
         if ($status === 'approve' && empty($reasons)) {
             $reasons[] = 'Brak wykrytych ryzyk. Opinia może zostać opublikowana automatycznie.';
         }
+
+        $this->appendSourceReason($reasons, 'Lokalne reguły');
 
         return [
             'status' => $status,
@@ -341,5 +348,17 @@ class TestimonialModerationService
         }
 
         return array_values(array_unique($matches[0]));
+    }
+
+    /**
+     * @param array<int,string> $reasons
+     */
+    private function appendSourceReason(array &$reasons, string $source): void
+    {
+        if (! (bool) config('services.moderation.debug_source', false)) {
+            return;
+        }
+
+        $reasons[] = 'Źródło moderacji: '.$source.'.';
     }
 }
