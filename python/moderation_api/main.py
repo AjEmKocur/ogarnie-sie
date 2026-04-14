@@ -14,11 +14,14 @@ from pydantic import BaseModel, Field
 """
 Ten plik to główny moduł moderacji opinii.
 
-Przepływ:
+Aktualny tryb: OPENAI-ONLY
 1) Laravel wysyła POST /moderate z treścią opinii.
-2) Python liczy score ryzyka (słownik, dane kontaktowe, spam).
-3) Opcjonalnie (env) dokłada wynik z OpenAI Moderation API.
-4) Zwraca status: approve / review / reject.
+2) Python pyta OpenAI Moderation API.
+3) Python zwraca status: approve / review / reject.
+
+Uwaga:
+- Lokalne reguły zostały celowo wyłączone w endpointzie /moderate.
+- Funkcje lokalne zostają w pliku tylko jako materiał zapasowy/porównawczy.
 """
 
 
@@ -261,8 +264,15 @@ def dictionary_info() -> dict[str, int]:
 @app.post("/moderate", response_model=ModerateResponse)
 def moderate(payload: ModerateRequest) -> ModerateResponse:
     # Główny endpoint używany przez Laravel.
-    # TRYB TESTOWY: tylko OpenAI (bez lokalnych reguł).
+    # TRYB OPENAI-ONLY: tylko OpenAI (bez lokalnych reguł).
     content = payload.content
+
+    # WYŁĄCZONE (fallback lokalny):
+    # score = 0
+    # reasons: List[str] = []
+    # ... lokalne reguły (profanity/PII/spam) ...
+    # local_score = max(0, min(100, score))
+
     openai = moderate_with_openai(content)
     if openai is None:
         logger.warning("Moderation blocked: OpenAI-only mode and OpenAI unavailable.")
