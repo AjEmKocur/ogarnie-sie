@@ -98,6 +98,7 @@ class TestimonialModerationService
 
             $pii = $this->detectPii($content);
             $this->applyPiiFindings($pii, $score, $reasons);
+            $this->applyProfanityFindings($content, $score, $reasons);
 
             if ($flagged) {
                 $score = max($score, 60);
@@ -188,9 +189,7 @@ class TestimonialModerationService
         $score = 0;
         $reasons = [];
 
-        $blockedWords = [
-            'kurwa', 'chuj', 'pierdol', 'debil', 'idiota',
-        ];
+        $blockedWords = $this->blockedWords();
 
         foreach ($blockedWords as $word) {
             if (str_contains($normalized, $word)) {
@@ -198,6 +197,11 @@ class TestimonialModerationService
                 $reasons[] = 'Wykryto słownictwo obraźliwe.';
                 break;
             }
+        }
+
+        if ($this->containsObfuscatedProfanity($content, $blockedWords)) {
+            $score = max($score, 70);
+            $reasons[] = 'Wykryto maskowane słownictwo obraźliwe.';
         }
 
         if (preg_match('/https?:\/\/|www\./i', $content)) {
@@ -360,6 +364,28 @@ class TestimonialModerationService
     }
 
     /**
+     * @param array<int,string> $reasons
+     */
+    private function applyProfanityFindings(string $content, int &$score, array &$reasons): void
+    {
+        $blockedWords = $this->blockedWords();
+        $normalized = mb_strtolower($content);
+
+        foreach ($blockedWords as $word) {
+            if (str_contains($normalized, $word)) {
+                $score = max($score, 70);
+                $reasons[] = 'Wykryto słownictwo obraźliwe.';
+                return;
+            }
+        }
+
+        if ($this->containsObfuscatedProfanity($content, $blockedWords)) {
+            $score = max($score, 70);
+            $reasons[] = 'Wykryto maskowane słownictwo obraźliwe.';
+        }
+    }
+
+    /**
      * @return array<int,string>
      */
     private function collectMatches(string $pattern, string $content): array
@@ -369,6 +395,42 @@ class TestimonialModerationService
         }
 
         return array_values(array_unique($matches[0]));
+    }
+
+    /**
+     * @return array<int,string>
+     */
+    private function blockedWords(): array
+    {
+        return [
+            'kurwa',
+            'chuj',
+            'pierdol',
+            'debil',
+            'idiota',
+            'japierdole',
+        ];
+    }
+
+    /**
+     * @param array<int,string> $blockedWords
+     */
+    private function containsObfuscatedProfanity(string $content, array $blockedWords): bool
+    {
+        $lettersOnly = preg_replace('/[^\p{L}]/u', '', $content) ?? '';
+        if ($lettersOnly === '') {
+            return false;
+        }
+
+        $normalized = mb_strtolower($lettersOnly);
+
+        foreach ($blockedWords as $word) {
+            if (str_contains($normalized, $word)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
