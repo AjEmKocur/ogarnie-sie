@@ -1,10 +1,14 @@
 ﻿from __future__ import annotations
 
+import json
+import logging
+import os
 import re
 from functools import lru_cache
 from pathlib import Path
 from typing import List, Literal
 
+import httpx
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
 
@@ -20,6 +24,19 @@ class ModerateResponse(BaseModel):
 
 
 app = FastAPI(title="OgarnieSie Moderation API", version="1.2.1")
+
+logger = logging.getLogger("moderation")
+logging.basicConfig(level=logging.INFO)
+
+
+def env_flag(name: str, default: str = "false") -> bool:
+    return os.getenv(name, default).strip().lower() in {"1", "true", "yes", "y", "on"}
+
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "").strip()
+OPENAI_ENABLED = env_flag("OPENAI_MODERATION_ENABLED", "false")
+OPENAI_MODEL = os.getenv("OPENAI_MODERATION_MODEL", "omni-moderation-latest").strip() or "omni-moderation-latest"
+OPENAI_TIMEOUT = int(os.getenv("OPENAI_TIMEOUT_SECONDS", "12"))
 
 DATA_DIR = Path(__file__).resolve().parent / "data"
 PROFANITY_FILE = DATA_DIR / "profanity_pl.txt"
@@ -70,6 +87,8 @@ CURRENCY_PATTERN = re.compile(
     r"\b(?:\d{1,6}|\d{1,3}(?:[ .]\d{3})+)(?:[.,]\d{1,2})?\s?(?:zł|zl|pln)\b",
     flags=re.IGNORECASE,
 )
+
+EMAIL_PATTERN = re.compile(r"[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}", flags=re.IGNORECASE)
 
 
 def normalize_text(text: str) -> str:
@@ -144,6 +163,78 @@ def uppercase_ratio(text: str) -> float:
     return len(upper) / max(1, len(letters))
 
 
+def status_from_score(score: int) -> Literal["approve", "review", "reject"]:
+    if score >= 60:
+        return "reject"
+    if score >= 25:
+        return "review"
+    return "approve"
+
+
+def openai_reasons(categories: dict) -> List[str]:
+    labels = {
+        "harassment": "Wykryto treści nękające.",
+        "harassment/threatening": "Wykryto treści nękające z groźbami.",
+        "hate": "Wykryto mowę nienawiści.",
+        "hate/threatening": "Wykryto mowę nienawiści z groźbami.",
+        "sexual": "Wykryto treści seksualne.",
+        "sexual/minors": "Wykryto treści seksualne z udziałem nieletnich.",
+        "violence": "Wykryto treści o przemocy.",
+        "violence/graphic": "Wykryto drastyczne treści przemocy.",
+        "self-harm": "Wykryto treści o samookaleczeniu.",
+        "self-harm/intent": "Wykryto intencje samookaleczenia.",
+        "self-harm/instructions": "Wykryto instrukcje samookaleczenia.",
+        "illicit": "Wykryto treści o działaniach nielegalnych.",
+        "illicit/violent": "Wykryto treści o przemocy w kontekście działań nielegalnych.",
+    }
+
+    reasons: List[str] = []
+    for key, value in categories.items():
+        if value is True:
+            reasons.append(labels.get(key, f"Wykryto ryzykowną kategorię: {key}."))
+
+    return reasons
+
+
+def openai_score(category_scores: dict) -> int:
+    max_score = 0.0
+    for value in category_scores.values():
+        try:
+            max_score = max(max_score, float(value))
+        except (TypeError, ValueError):
+            continue
+    return int(round(max_score * 100))
+
+
+def moderate_with_openai(content: str) -> tuple[int, List[str], bool] | None:
+    if not (OPENAI_ENABLED and OPENAI_API_KEY):
+        return None
+
+    payload = {"model": OPENAI_MODEL, "input": content}
+    headers = {"Authorization": f"Bearer {OPENAI_API_KEY}"}
+
+    try:
+        with httpx.Client(timeout=OPENAI_TIMEOUT) as client:
+            response = client.post("https://api.openai.com/v1/moderations", json=payload, headers=headers)
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("OpenAI moderation error: %s", exc)
+        return None
+
+    if response.status_code >= 400:
+        logger.warning("OpenAI moderation non-OK: %s %s", response.status_code, response.text)
+        return None
+
+    data = response.json()
+    result = (data.get("results") or [{}])[0]
+    categories = result.get("categories") or {}
+    category_scores = result.get("category_scores") or {}
+    flagged = bool(result.get("flagged", False))
+
+    score = openai_score(category_scores)
+    reasons = openai_reasons(categories)
+    return score, reasons, flagged
+
+
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
@@ -174,6 +265,10 @@ def moderate(payload: ModerateRequest) -> ModerateResponse:
         score += 25
         reasons.append("Wykryto próbę podania numeru telefonu.")
 
+    if EMAIL_PATTERN.search(content):
+        score += 25
+        reasons.append("Wykryto adres e-mail w opinii.")
+
     if re.search(r"(.)\1{5,}", content):
         score += 20
         reasons.append("Wykryto powtarzające się znaki (potencjalny spam).")
@@ -182,16 +277,22 @@ def moderate(payload: ModerateRequest) -> ModerateResponse:
         score += 20
         reasons.append("Nadmierne użycie wielkich liter.")
 
-    score = max(0, min(100, score))
-
-    if score >= 60:
-        status: Literal["approve", "review", "reject"] = "reject"
-    elif score >= 25:
-        status = "review"
+    local_score = max(0, min(100, score))
+    openai = moderate_with_openai(content)
+    if openai is not None:
+        openai_score_value, openai_reasons_list, flagged = openai
+        reasons.extend(openai_reasons_list)
+        if flagged:
+            openai_score_value = max(openai_score_value, 60)
+        score = max(local_score, openai_score_value)
+        logger.info("Moderation used OpenAI. score=%s flagged=%s", openai_score_value, flagged)
     else:
-        status = "approve"
+        score = local_score
+        logger.info("Moderation used local rules. score=%s", local_score)
+
+    status: Literal["approve", "review", "reject"] = status_from_score(score)
 
     if status == "approve" and not reasons:
         reasons.append("Brak wykrytych ryzyk. Opinia może zostać opublikowana automatycznie.")
 
-    return ModerateResponse(status=status, score=score, reasons=reasons)
+    return ModerateResponse(status=status, score=min(100, max(0, score)), reasons=reasons)
