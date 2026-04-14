@@ -59,6 +59,7 @@ Reguły decyzji:
   - numery z separatorami: 5.4.3-0-9-9.3.2.1, 5 4 3 0 9 9 3 2 1, 543-099-321
   - sekwencje cyfr rozdzielane mieszanymi separatorami (.,-,:,;,/,_,spacja,nawiasy), np. 8,56-73,6.2.3.2
   - jeśli w jednym fragmencie tekstu da się złożyć 7+ cyfr rozdzielonych separatorami, traktuj to jako kontakt
+  - numer podany słownie (np. "osiem pięć sześć siedem trzy..." lub "pięć-cztery-trzy..."), także traktuj jako kontakt
   - zapisy typu "dzwoń", "pisz", "dajcie do mnie", "odezwij się", gdy obok jest kontakt
 - Nie traktuj jako kontaktu samych kwot/cen, np. "50,50 zł", "30.45", "za 120 PLN", o ile brak innych sygnałów kontaktowych.
   Cena to zwykle 1 liczba (ew. z 1 separatorem dziesiętnym), a nie długi ciąg wielu grup cyfr.
