@@ -13,13 +13,36 @@ class TestimonialModerationService
      */
     public function moderate(string $content): array
     {
+        $pythonEnabled = (bool) config('services.moderation.python_enabled', true);
+        $requirePython = (bool) config('services.moderation.require_python', false);
         $openAiEnabled = (bool) config('services.openai.moderation_enabled', false);
         $openAiKey = (string) config('services.openai.key', '');
 
         Log::info('Moderation start.', [
+            'python_enabled' => $pythonEnabled,
+            'require_python' => $requirePython,
             'openai_enabled' => $openAiEnabled,
             'has_openai_key' => $openAiKey !== '',
         ]);
+
+        if ($requirePython) {
+            if (! $pythonEnabled) {
+                Log::warning('Moderation blocked: Python moderation is required but disabled.');
+                return $this->pythonRequiredUnavailable();
+            }
+
+            $pythonResult = $this->moderateWithPython($content);
+            if ($pythonResult !== null) {
+                Log::info('Moderation used Python (required mode).', [
+                    'status' => $pythonResult['status'],
+                    'score' => $pythonResult['score'],
+                ]);
+                return $pythonResult;
+            }
+
+            Log::warning('Moderation blocked: Python moderation is required but unavailable.');
+            return $this->pythonRequiredUnavailable();
+        }
 
         if ($openAiEnabled && $openAiKey !== '') {
             $openAiResult = $this->moderateWithOpenAi($content);
@@ -32,8 +55,6 @@ class TestimonialModerationService
             }
             Log::warning('Moderation fell back from OpenAI.');
         }
-
-        $pythonEnabled = (bool) config('services.moderation.python_enabled', true);
 
         if ($pythonEnabled) {
             $pythonResult = $this->moderateWithPython($content);
@@ -54,6 +75,21 @@ class TestimonialModerationService
         ]);
 
         return $local;
+    }
+
+    /**
+     * @return array{status:string, score:int, reasons:array<int,string>, source:string}
+     */
+    private function pythonRequiredUnavailable(): array
+    {
+        return [
+            'status' => 'reject',
+            'score' => 100,
+            'reasons' => [
+                'Sprawdzanie opinii przez AI jest chwilowo niedostępne. Spróbuj ponownie za chwilę.',
+            ],
+            'source' => 'python_required_unavailable',
+        ];
     }
 
     /**

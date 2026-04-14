@@ -11,7 +11,7 @@
                 </div>
             @else
                 <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-                    <form method="POST" action="{{ route('client.testimonials.store') }}" class="space-y-4">
+                    <form id="testimonial-form" method="POST" action="{{ route('client.testimonials.store') }}" class="space-y-4">
                         @csrf
 
                         <div>
@@ -51,10 +51,15 @@
                             <label class="mb-1 block text-sm font-medium">Twoja opinia</label>
                             <textarea name="content" rows="6" class="w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2" placeholder="Napisz, jak oceniasz realizację usługi..." required>{{ old('content') }}</textarea>
                             <x-input-error :messages="$errors->get('content')" class="mt-2" />
+                            <p class="mt-2 text-xs text-slate-400">Po wysłaniu treść zostanie automatycznie sprawdzona przez AI.</p>
+                        </div>
+
+                        <div id="ai-checking-notice" class="hidden rounded-md border border-blue-400/40 bg-blue-500/10 px-3 py-2 text-sm text-blue-200">
+                            Trwa sprawdzanie opinii przez AI...
                         </div>
 
                         <div class="flex justify-end">
-                            <x-primary-button>Wyślij opinię</x-primary-button>
+                            <x-primary-button id="testimonial-submit-button">Wyślij opinię</x-primary-button>
                         </div>
                     </form>
                 </div>
@@ -67,6 +72,9 @@
             const input = document.getElementById('rating');
             const stars = Array.from(document.querySelectorAll('.rating-star'));
             const label = document.getElementById('rating-label');
+            const form = document.getElementById('testimonial-form');
+            const submitButton = document.getElementById('testimonial-submit-button');
+            const checkingNotice = document.getElementById('ai-checking-notice');
             let current = Number(input?.value || 0);
 
             const render = (value) => {
@@ -99,7 +107,18 @@
             wrapper?.addEventListener('mouseleave', () => render(current));
 
             render(current);
+
+            form?.addEventListener('submit', () => {
+                if (submitButton) {
+                    submitButton.disabled = true;
+                    submitButton.classList.add('opacity-70', 'cursor-not-allowed');
+                    submitButton.textContent = 'Sprawdzanie AI...';
+                }
+
+                if (checkingNotice) {
+                    checkingNotice.classList.remove('hidden');
+                }
+            });
         });
     </script>
 </x-app-layout>
-
