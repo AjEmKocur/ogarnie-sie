@@ -54,7 +54,8 @@ Zwracaj WYŁĄCZNIE poprawny JSON o strukturze:
 
 Reguły decyzji:
 - Jeśli tekst zawiera wulgaryzmy/profanity/obelgi (np. kurwa, chuj i odmiany, maskowane formy) => status="reject", score >= 60.
-- Jeśli tekst zawiera dane kontaktowe (telefon, email, link, social handle) lub spam/promocję => status="review", score 25-59.
+- Jeśli tekst zawiera dane kontaktowe (telefon, email, link, social handle) => status="reject", score >= 60.
+- Jeśli tekst zawiera spam/promocję bez danych kontaktowych => status="review", score 25-59.
 - Jeśli tekst jest neutralny i bez powyższych ryzyk => status="approve", score 0-24.
 
 Zawsze podaj co najmniej 1 reason.
