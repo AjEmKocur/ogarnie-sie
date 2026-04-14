@@ -16,11 +16,21 @@ class TestimonialModerationService
         $openAiEnabled = (bool) config('services.openai.moderation_enabled', false);
         $openAiKey = (string) config('services.openai.key', '');
 
+        Log::info('Moderation start.', [
+            'openai_enabled' => $openAiEnabled,
+            'has_openai_key' => $openAiKey !== '',
+        ]);
+
         if ($openAiEnabled && $openAiKey !== '') {
             $openAiResult = $this->moderateWithOpenAi($content);
             if ($openAiResult !== null) {
+                Log::info('Moderation used OpenAI.', [
+                    'status' => $openAiResult['status'],
+                    'score' => $openAiResult['score'],
+                ]);
                 return $openAiResult;
             }
+            Log::warning('Moderation fell back from OpenAI.');
         }
 
         $pythonEnabled = (bool) config('services.moderation.python_enabled', true);
@@ -28,11 +38,22 @@ class TestimonialModerationService
         if ($pythonEnabled) {
             $pythonResult = $this->moderateWithPython($content);
             if ($pythonResult !== null) {
+                Log::info('Moderation used Python.', [
+                    'status' => $pythonResult['status'],
+                    'score' => $pythonResult['score'],
+                ]);
                 return $pythonResult;
             }
+            Log::warning('Moderation fell back from Python.');
         }
 
-        return $this->moderateLocally($content);
+        $local = $this->moderateLocally($content);
+        Log::info('Moderation used local rules.', [
+            'status' => $local['status'],
+            'score' => $local['score'],
+        ]);
+
+        return $local;
     }
 
     /**
