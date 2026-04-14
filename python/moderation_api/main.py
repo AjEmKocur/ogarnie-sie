@@ -59,6 +59,7 @@ Reguły decyzji:
   - numery z separatorami: 5.4.3-0-9-9.3.2.1, 5 4 3 0 9 9 3 2 1, 543-099-321
   - sekwencje cyfr rozdzielane znakami specjalnymi, spacjami lub nawiasami
   - zapisy typu "dzwoń", "pisz", "dajcie do mnie", "odezwij się", gdy obok jest kontakt
+- Nie traktuj jako kontaktu samych kwot/cen, np. "50,50 zł", "30.45", "za 120 PLN", o ile brak innych sygnałów kontaktowych.
 - Jeśli tekst zawiera spam/promocję bez danych kontaktowych => status="review", score 25-59.
 - Jeśli tekst zachęca do kontaktu/oferty poza platformą lub zawiera obchodzenie moderacji => status="reject", score >= 60.
 - Jeśli tekst jest neutralny i bez powyższych ryzyk => status="approve", score 0-24.
