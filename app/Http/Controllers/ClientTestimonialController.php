@@ -53,6 +53,11 @@ class ClientTestimonialController extends Controller
 
         if ($moderation['status'] !== Testimonial::MODERATION_APPROVE) {
             $reasons = $moderation['reasons'] ?? [];
+            // Hide technical debug reasons from end users (e.g. moderation source).
+            $reasons = array_values(array_filter(
+                array_map(static fn ($reason) => trim((string) $reason), $reasons),
+                static fn ($reason) => $reason !== '' && ! str_starts_with($reason, 'Źródło moderacji:')
+            ));
             $reasonText = implode(' ', array_map(static fn ($reason) => '- '.$reason, $reasons));
 
             throw ValidationException::withMessages([
