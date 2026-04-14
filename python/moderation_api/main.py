@@ -1,6 +1,5 @@
 ﻿from __future__ import annotations
 
-import json
 import logging
 import os
 import re
@@ -11,6 +10,16 @@ from typing import List, Literal
 import httpx
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
+
+"""
+Ten plik to główny moduł moderacji opinii.
+
+Przepływ:
+1) Laravel wysyła POST /moderate z treścią opinii.
+2) Python liczy score ryzyka (słownik, dane kontaktowe, spam).
+3) Opcjonalnie (env) dokłada wynik z OpenAI Moderation API.
+4) Zwraca status: approve / review / reject.
+"""
 
 
 class ModerateRequest(BaseModel):
@@ -207,6 +216,7 @@ def openai_score(category_scores: dict) -> int:
 
 
 def moderate_with_openai(content: str) -> tuple[int, List[str], bool] | None:
+    # Sekcja opcjonalna: działa tylko przy OPENAI_MODERATION_ENABLED=true.
     if not (OPENAI_ENABLED and OPENAI_API_KEY):
         return None
 
@@ -237,58 +247,36 @@ def moderate_with_openai(content: str) -> tuple[int, List[str], bool] | None:
 
 @app.get("/health")
 def health() -> dict[str, str]:
+    # Endpoint techniczny (monitoring/Render).
     return {"status": "ok"}
 
 
 @app.get("/dictionary-info")
 def dictionary_info() -> dict[str, int]:
+    # Pomocniczo: pokazuje ile wpisów ma słownik wulgaryzmów.
     stems = load_profanity_stems()
     return {"entries": len(stems)}
 
 
 @app.post("/moderate", response_model=ModerateResponse)
 def moderate(payload: ModerateRequest) -> ModerateResponse:
+    # Główny endpoint używany przez Laravel.
+    # TRYB TESTOWY: tylko OpenAI (bez lokalnych reguł).
     content = payload.content
-    score = 0
-    reasons: List[str] = []
-
-    profanity_matches = find_profanity_matches(content)
-    if profanity_matches:
-        score += 70
-        reasons.append("Wykryto obraźliwe słownictwo.")
-
-    if re.search(r"https?://|www\.", content, flags=re.IGNORECASE):
-        score += 25
-        reasons.append("Wykryto link w opinii.")
-
-    if has_phone_like_sequence(content):
-        score += 25
-        reasons.append("Wykryto próbę podania numeru telefonu.")
-
-    if EMAIL_PATTERN.search(content):
-        score += 25
-        reasons.append("Wykryto adres e-mail w opinii.")
-
-    if re.search(r"(.)\1{5,}", content):
-        score += 20
-        reasons.append("Wykryto powtarzające się znaki (potencjalny spam).")
-
-    if uppercase_ratio(content) > 0.6:
-        score += 20
-        reasons.append("Nadmierne użycie wielkich liter.")
-
-    local_score = max(0, min(100, score))
     openai = moderate_with_openai(content)
-    if openai is not None:
-        openai_score_value, openai_reasons_list, flagged = openai
-        reasons.extend(openai_reasons_list)
-        if flagged:
-            openai_score_value = max(openai_score_value, 60)
-        score = max(local_score, openai_score_value)
-        logger.info("Moderation used OpenAI. score=%s flagged=%s", openai_score_value, flagged)
-    else:
-        score = local_score
-        logger.info("Moderation used local rules. score=%s", local_score)
+    if openai is None:
+        logger.warning("Moderation blocked: OpenAI-only mode and OpenAI unavailable.")
+        return ModerateResponse(
+            status="reject",
+            score=100,
+            reasons=["Sprawdzanie opinii przez AI jest chwilowo niedostępne. Spróbuj ponownie za chwilę."],
+        )
+
+    score, reasons, flagged = openai
+    if flagged:
+        score = max(score, 60)
+
+    logger.info("Moderation used OpenAI-only mode. score=%s flagged=%s", score, flagged)
 
     status: Literal["approve", "review", "reject"] = status_from_score(score)
 
