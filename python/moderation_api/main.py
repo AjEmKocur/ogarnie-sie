@@ -55,7 +55,12 @@ Zwracaj WYŁĄCZNIE poprawny JSON o strukturze:
 Reguły decyzji:
 - Jeśli tekst zawiera wulgaryzmy/profanity/obelgi (np. kurwa, chuj i odmiany, maskowane formy) => status="reject", score >= 60.
 - Jeśli tekst zawiera dane kontaktowe (telefon, email, link, social handle) => status="reject", score >= 60.
+  Traktuj jako dane kontaktowe także formy maskowane/obfuskowane, np.:
+  - numery z separatorami: 5.4.3-0-9-9.3.2.1, 5 4 3 0 9 9 3 2 1, 543-099-321
+  - sekwencje cyfr rozdzielane znakami specjalnymi, spacjami lub nawiasami
+  - zapisy typu "dzwoń", "pisz", "dajcie do mnie", "odezwij się", gdy obok jest kontakt
 - Jeśli tekst zawiera spam/promocję bez danych kontaktowych => status="review", score 25-59.
+- Jeśli tekst zachęca do kontaktu/oferty poza platformą lub zawiera obchodzenie moderacji => status="reject", score >= 60.
 - Jeśli tekst jest neutralny i bez powyższych ryzyk => status="approve", score 0-24.
 
 Zawsze podaj co najmniej 1 reason.
