@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AboutGalleryImage;
 use App\Models\BlogPost;
 use App\Models\Service;
 use App\Models\Testimonial;
@@ -10,6 +11,17 @@ use Illuminate\View\View;
 
 class PublicPageController extends Controller
 {
+    public function about(): View
+    {
+        return view('public.about', [
+            'aboutGalleryImages' => AboutGalleryImage::query()
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->orderByDesc('id')
+                ->get(),
+        ]);
+    }
+
     public function home(): View
     {
         return view('public.home', [

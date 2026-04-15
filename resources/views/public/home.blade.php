@@ -14,16 +14,16 @@
                 <div class="mt-8 flex flex-wrap gap-3">
                     @auth
                         @if (auth()->user()->isAdmin())
-                            <a href="{{ route('admin.cms.dashboard') }}" class="rounded-md bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-500">
+                            <a href="{{ route('admin.cms.dashboard') }}" class="og-cta-primary rounded-md bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-500">
                                 Centrum CMS
                             </a>
                         @else
-                            <a href="{{ route('client.tickets.create') }}" class="rounded-md bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-500">
+                            <a href="{{ route('client.tickets.create') }}" class="og-cta-primary rounded-md bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-500">
                                 Nowe zgłoszenie
                             </a>
                         @endif
                     @else
-                        <a href="{{ route('register') }}" class="rounded-md bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-500">
+                        <a href="{{ route('register') }}" class="og-cta-primary rounded-md bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-500">
                             Załóż konto
                         </a>
                         <a href="{{ route('public.contact') }}" class="rounded-md border border-gray-300 px-5 py-3 text-sm font-semibold text-slate-200 hover:bg-slate-800">
@@ -68,4 +68,3 @@
         </div>
     </section>
 @endsection
-

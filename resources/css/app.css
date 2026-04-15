@@ -103,6 +103,23 @@
         opacity: 1;
     }
 
+    .og-cta-primary {
+        position: relative;
+        transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+        will-change: transform;
+    }
+
+    .og-cta-primary:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 14px 30px rgba(23, 152, 255, 0.42) !important;
+        filter: saturate(1.06);
+    }
+
+    .og-cta-primary:focus-visible {
+        outline: 2px solid rgba(144, 221, 255, 0.9);
+        outline-offset: 2px;
+    }
+
     .bg-blue-600 {
         background: linear-gradient(135deg, var(--og-accent) 0%, #22a5ff 60%, #1eb9dc 100%) !important;
         box-shadow: 0 8px 22px rgba(23, 152, 255, 0.32);

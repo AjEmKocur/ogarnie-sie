@@ -20,6 +20,12 @@
                         <h3 class="mt-2 text-lg font-semibold">Usługi (z cenami)</h3>
                         <p class="mt-2 text-sm text-slate-300">Dodawanie i edycja usług wraz z ceną od widoczną na stronie.</p>
                     </a>
+
+                    <a href="{{ route('admin.cms.about-gallery.index') }}" class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm hover:border-blue-500/60">
+                        <p class="text-xs uppercase tracking-wider text-gray-500">Treści</p>
+                        <h3 class="mt-2 text-lg font-semibold">Galeria O nas</h3>
+                        <p class="mt-2 text-sm text-slate-300">Dodawanie zdjęć serwisu do sekcji O nas (slider publiczny).</p>
+                    </a>
                 @endif
 
                 @if (auth()->user()->hasAdminPermission('cms_blog'))

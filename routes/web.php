@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminBlogPostController;
 use App\Http\Controllers\AdminContactMessageController;
 use App\Http\Controllers\AdminOperatorController;
 use App\Http\Controllers\AdminServiceController;
+use App\Http\Controllers\AdminAboutGalleryController;
 use App\Http\Controllers\AdminTestimonialController;
 use App\Http\Controllers\ClientTicketController;
 use App\Http\Controllers\ClientTestimonialController;
@@ -16,7 +17,7 @@ use App\Http\Controllers\TicketAttachmentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PublicPageController::class, 'home'])->name('public.home');
-Route::view('/o-nas', 'public.about')->name('public.about');
+Route::get('/o-nas', [PublicPageController::class, 'about'])->name('public.about');
 Route::get('/uslugi', [PublicPageController::class, 'services'])->name('public.services');
 Route::get('/uslugi/{service}', [PublicPageController::class, 'service'])->name('public.services.show');
 Route::get('/cennik', [PublicPageController::class, 'pricing'])->name('public.pricing');
@@ -48,6 +49,11 @@ Route::middleware(['auth', 'verified', 'password.change.required', 'admin'])->gr
     Route::patch('/admin/cms/services', [AdminServiceController::class, 'bulkUpdate'])->middleware('admin.permission:cms_services')->name('admin.cms.services.bulk-update');
     Route::patch('/admin/cms/services/{service}', [AdminServiceController::class, 'update'])->middleware('admin.permission:cms_services')->name('admin.cms.services.update');
     Route::delete('/admin/cms/services/{service}', [AdminServiceController::class, 'destroy'])->middleware('admin.permission:cms_services')->name('admin.cms.services.destroy');
+
+    Route::get('/admin/cms/about-gallery', [AdminAboutGalleryController::class, 'index'])->middleware('admin.permission:cms_services')->name('admin.cms.about-gallery.index');
+    Route::post('/admin/cms/about-gallery', [AdminAboutGalleryController::class, 'store'])->middleware('admin.permission:cms_services')->name('admin.cms.about-gallery.store');
+    Route::patch('/admin/cms/about-gallery/{aboutGalleryImage}', [AdminAboutGalleryController::class, 'update'])->middleware('admin.permission:cms_services')->name('admin.cms.about-gallery.update');
+    Route::delete('/admin/cms/about-gallery/{aboutGalleryImage}', [AdminAboutGalleryController::class, 'destroy'])->middleware('admin.permission:cms_services')->name('admin.cms.about-gallery.destroy');
 
     Route::get('/admin/cms/blog', [AdminBlogPostController::class, 'index'])->middleware('admin.permission:cms_blog')->name('admin.cms.blog.index');
     Route::post('/admin/cms/blog', [AdminBlogPostController::class, 'store'])->middleware('admin.permission:cms_blog')->name('admin.cms.blog.store');
@@ -91,4 +97,3 @@ Route::middleware(['auth', 'verified', 'password.change.required'])->group(funct
 });
 
 require __DIR__.'/auth.php';
-
