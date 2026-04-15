@@ -9,11 +9,19 @@
             @forelse ($posts as $post)
                 <article class="overflow-hidden rounded-xl border border-gray-200 bg-white/5 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-300/70">
                     <a href="{{ route('public.news.show', $post->slug) }}" class="block">
-                        @if ($post->coverImageUrl())
-                            <img src="{{ $post->coverImageUrl() }}" alt="{{ $post->title }}" class="h-52 w-full object-cover">
-                        @else
-                            <div class="flex h-52 w-full items-center justify-center bg-slate-900/70 text-sm text-slate-300">Brak zdjęcia</div>
-                        @endif
+                        <div class="relative h-52 w-full overflow-hidden">
+                            @if ($post->coverImageUrl())
+                                <img
+                                    src="{{ $post->coverImageUrl() }}"
+                                    alt="{{ $post->title }}"
+                                    class="h-52 w-full object-cover"
+                                    onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');"
+                                >
+                                <div class="hidden h-52 w-full flex items-center justify-center bg-slate-900/70 text-sm text-slate-300">Brak zdjęcia</div>
+                            @else
+                                <div class="flex h-52 w-full items-center justify-center bg-slate-900/70 text-sm text-slate-300">Brak zdjęcia</div>
+                            @endif
+                        </div>
                     </a>
                     <div class="p-5">
                         <p class="text-xs uppercase tracking-wider text-slate-400">{{ $post->published_at?->format('Y-m-d H:i') }}</p>

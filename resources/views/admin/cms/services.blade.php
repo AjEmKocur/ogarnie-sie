@@ -10,15 +10,15 @@
             @endif
 
             <div class="flex flex-wrap items-center gap-2">
-                <a href="#dodaj-usluge" class="inline-flex items-center rounded-md border border-blue-300/60 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-blue-200 hover:bg-blue-500/10">
+                <button type="button" data-open-target="dodaj-usluge-panel" class="inline-flex items-center rounded-md border border-blue-300/60 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-blue-200 hover:bg-blue-500/10">
                     Dodaj usługę
-                </a>
+                </button>
                 <a href="#lista-uslug" class="inline-flex items-center rounded-md border border-gray-300 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-slate-200 hover:bg-slate-800">
                     Lista usług
                 </a>
             </div>
 
-            <div id="dodaj-usluge" class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+            <div id="dodaj-usluge-panel" class="hidden rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
                 <h3 class="text-lg font-semibold">Dodaj usługę</h3>
                 <form method="POST" action="{{ route('admin.cms.services.store') }}" class="mt-4 grid gap-4 md:grid-cols-2">
                     @csrf
@@ -163,4 +163,19 @@
             @endif
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('[data-open-target]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    const targetId = button.getAttribute('data-open-target');
+                    const panel = targetId ? document.getElementById(targetId) : null;
+                    if (!panel) return;
+
+                    panel.classList.toggle('hidden');
+                    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
+        });
+    </script>
 </x-app-layout>

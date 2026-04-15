@@ -10,15 +10,15 @@
             @endif
 
             <div class="flex flex-wrap items-center gap-2">
-                <a href="#dodaj-aktualnosc" class="inline-flex items-center rounded-md border border-blue-300/60 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-blue-200 hover:bg-blue-500/10">
+                <button type="button" data-open-target="dodaj-aktualnosc-panel" class="inline-flex items-center rounded-md border border-blue-300/60 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-blue-200 hover:bg-blue-500/10">
                     Dodaj aktualność
-                </a>
+                </button>
                 <a href="#lista-aktualnosci" class="inline-flex items-center rounded-md border border-gray-300 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-slate-200 hover:bg-slate-800">
                     Lista aktualności
                 </a>
             </div>
 
-            <div id="dodaj-aktualnosc" class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+            <div id="dodaj-aktualnosc-panel" class="hidden rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
                 <h3 class="text-lg font-semibold">Dodaj aktualność</h3>
                 <form method="POST" action="{{ route('admin.cms.blog.store') }}" enctype="multipart/form-data" class="mt-4 grid gap-4">
                     @csrf
@@ -98,4 +98,19 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('[data-open-target]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    const targetId = button.getAttribute('data-open-target');
+                    const panel = targetId ? document.getElementById(targetId) : null;
+                    if (!panel) return;
+
+                    panel.classList.toggle('hidden');
+                    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
+        });
+    </script>
 </x-app-layout>
