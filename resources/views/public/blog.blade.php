@@ -6,31 +6,31 @@
         <p class="mt-4 text-slate-300">Nowinki z praktyki serwisowej i świata IT.</p>
 
         <div class="mt-10 grid gap-8 xl:grid-cols-[minmax(0,1fr)_360px]">
-            <div class="grid gap-6 md:grid-cols-2">
+            <div class="grid gap-4 sm:grid-cols-2 2xl:grid-cols-3">
                 @forelse ($posts as $post)
                     <article class="overflow-hidden rounded-xl border border-gray-200 bg-white/5 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-300/70">
                         <a href="{{ route('public.news.show', $post->slug) }}" class="block">
-                            <div class="relative h-52 w-full overflow-hidden">
+                            <div class="relative h-36 w-full overflow-hidden">
                                 @if ($post->coverImageUrl())
                                     <img
                                         src="{{ $post->coverImageUrl() }}"
                                         alt="{{ $post->title }}"
-                                        class="h-52 w-full object-cover"
+                                        class="h-36 w-full object-cover"
                                         onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');"
                                     >
-                                    <div class="hidden h-52 w-full flex items-center justify-center bg-slate-900/70 text-sm text-slate-300">Brak zdjęcia</div>
+                                    <div class="hidden h-36 w-full flex items-center justify-center bg-slate-900/70 text-sm text-slate-300">Brak zdjęcia</div>
                                 @else
-                                    <div class="flex h-52 w-full items-center justify-center bg-slate-900/70 text-sm text-slate-300">Brak zdjęcia</div>
+                                    <div class="flex h-36 w-full items-center justify-center bg-slate-900/70 text-sm text-slate-300">Brak zdjęcia</div>
                                 @endif
                             </div>
                         </a>
-                        <div class="p-5">
+                        <div class="p-4">
                             <p class="text-xs uppercase tracking-wider text-slate-400">{{ $post->published_at?->format('Y-m-d H:i') }}</p>
-                            <h2 class="mt-2 text-xl font-bold leading-snug">
+                            <h2 class="mt-2 text-lg font-bold leading-snug">
                                 <a href="{{ route('public.news.show', $post->slug) }}" class="hover:text-blue-300">{{ $post->title }}</a>
                             </h2>
-                            <p class="mt-3 text-sm text-slate-300">{{ $post->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($post->content), 180) }}</p>
-                            <div class="mt-4">
+                            <p class="mt-2 text-sm text-slate-300">{{ \Illuminate\Support\Str::limit($post->excerpt ?: strip_tags($post->content), 96) }}</p>
+                            <div class="mt-3">
                                 <a href="{{ route('public.news.show', $post->slug) }}" class="inline-flex items-center rounded-md border border-blue-300/60 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-blue-200 transition hover:bg-blue-500/10">
                                     Czytaj więcej
                                 </a>
