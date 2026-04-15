@@ -31,7 +31,7 @@
                 @if (auth()->user()->hasAdminPermission('cms_blog'))
                     <a href="{{ route('admin.cms.blog.index') }}" class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm hover:border-blue-500/60">
                         <p class="text-xs uppercase tracking-wider text-gray-500">Treści</p>
-                        <h3 class="mt-2 text-lg font-semibold">Blog / Aktualności</h3>
+                        <h3 class="mt-2 text-lg font-semibold">Aktualności</h3>
                         <p class="mt-2 text-sm text-slate-300">Publikowanie wpisów i nowości technicznych.</p>
                     </a>
                 @endif

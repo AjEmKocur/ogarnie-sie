@@ -24,8 +24,11 @@ return [
     | separate disk (for example S3/R2) without forcing other uploads to
     | use the same storage backend.
     |
+    | "news_cover_disk" is used for Aktualnosci cover images.
+    |
     */
     'about_gallery_disk' => env('ABOUT_GALLERY_DISK', 'public'),
+    'news_cover_disk' => env('NEWS_COVER_DISK', 'public'),
 
     /*
     |--------------------------------------------------------------------------

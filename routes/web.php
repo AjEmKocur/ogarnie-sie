@@ -24,6 +24,8 @@ Route::get('/cennik', [PublicPageController::class, 'pricing'])->name('public.pr
 Route::view('/kontakt', 'public.contact')->name('public.contact');
 Route::get('/opinie', [PublicPageController::class, 'testimonials'])->name('public.testimonials');
 Route::get('/blog', [PublicPageController::class, 'blog'])->name('public.blog');
+Route::get('/aktualnosci', [PublicPageController::class, 'blog'])->name('public.news');
+Route::get('/aktualnosci/{blogPost:slug}', [PublicPageController::class, 'blogShow'])->name('public.news.show');
 
 Route::get('/dashboard', function () {
     if (auth()->user()->isAdmin()) {

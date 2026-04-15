@@ -7,6 +7,7 @@ use App\Models\BlogPost;
 use App\Models\Service;
 use App\Models\Testimonial;
 use Illuminate\Http\Response;
+use Illuminate\Support\Carbon;
 use Illuminate\View\View;
 
 class PublicPageController extends Controller
@@ -78,6 +79,17 @@ class PublicPageController extends Controller
                 ->whereNotNull('published_at')
                 ->orderByDesc('published_at')
                 ->get(),
+        ]);
+    }
+
+    public function blogShow(BlogPost $blogPost): View
+    {
+        if (! $blogPost->is_published || ! $blogPost->published_at instanceof Carbon) {
+            abort(Response::HTTP_NOT_FOUND);
+        }
+
+        return view('public.news-show', [
+            'post' => $blogPost,
         ]);
     }
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class BlogPost extends Model
 {
@@ -14,6 +15,8 @@ class BlogPost extends Model
         'slug',
         'excerpt',
         'content',
+        'cover_image_disk',
+        'cover_image_path',
         'is_published',
         'published_at',
     ];
@@ -25,5 +28,13 @@ class BlogPost extends Model
             'published_at' => 'datetime',
         ];
     }
-}
 
+    public function coverImageUrl(): ?string
+    {
+        if (! $this->cover_image_path || ! $this->cover_image_disk) {
+            return null;
+        }
+
+        return Storage::disk($this->cover_image_disk)->url($this->cover_image_path);
+    }
+}
