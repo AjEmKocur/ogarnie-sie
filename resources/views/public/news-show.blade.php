@@ -2,9 +2,15 @@
 
 @section('content')
     <article class="mx-auto max-w-4xl px-5 py-16 sm:px-6 lg:px-8">
-        <a href="{{ route('public.news') }}" class="inline-flex items-center text-sm text-blue-300 hover:text-blue-200">← Wróć do aktualności</a>
+        @include('public.partials.breadcrumbs', [
+            'items' => [
+                ['label' => 'Start', 'url' => route('public.home')],
+                ['label' => 'Aktualności', 'url' => route('public.news')],
+                ['label' => $post->title],
+            ],
+        ])
 
-        <h1 class="mt-4 text-4xl font-bold leading-tight">{{ $post->title }}</h1>
+        <h1 class="mt-2 text-4xl font-bold leading-tight">{{ $post->title }}</h1>
         <p class="mt-3 text-sm text-slate-300">Opublikowano: {{ $post->published_at?->format('Y-m-d H:i') }}</p>
 
         @if ($post->coverImageUrl())
@@ -20,4 +26,3 @@
         </div>
     </article>
 @endsection
-

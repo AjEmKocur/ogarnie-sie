@@ -2,13 +2,17 @@
 
 @section('content')
     <section class="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
+        @include('public.partials.breadcrumbs', [
+            'items' => [
+                ['label' => 'Start', 'url' => route('public.home')],
+                ['label' => 'Usługi i cennik', 'url' => route('public.services')],
+                ['label' => $service->name],
+            ],
+        ])
+
         <div class="grid gap-6 lg:grid-cols-3">
             <article class="rounded-xl border border-gray-700 bg-slate-900/60 p-6 lg:col-span-2">
-                <a href="{{ route('public.services') }}" class="text-sm text-blue-300 hover:text-blue-200">
-                    <- Wróć do usług
-                </a>
-
-                <h1 class="mt-3 text-3xl font-bold">{{ $service->name }}</h1>
+                <h1 class="text-3xl font-bold">{{ $service->name }}</h1>
 
                 @if ($service->price_from !== null)
                     <p class="mt-4 text-lg text-blue-300">
