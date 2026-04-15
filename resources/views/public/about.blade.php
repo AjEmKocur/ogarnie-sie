@@ -1,6 +1,23 @@
 @extends('layouts.public')
 
 @section('content')
+    <style>
+        @keyframes aboutGalleryFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .about-gallery-item.is-visible {
+            animation: aboutGalleryFloat 5s ease-in-out infinite;
+        }
+
+        .about-gallery-item.is-animating {
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+    </style>
+
     <section class="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
         <h1 class="text-4xl font-bold">O nas</h1>
         <p class="mt-6 max-w-3xl text-lg text-slate-300">
@@ -67,29 +84,84 @@
                 const items = Array.from(document.querySelectorAll('[data-about-gallery-item]'));
                 const prev = document.getElementById('about-gallery-prev');
                 const next = document.getElementById('about-gallery-next');
-                const pageSize = 3;
+                const track = document.getElementById('about-gallery-track');
                 let start = 0;
                 const total = items.length;
+                let intervalId = null;
 
-                const render = () => {
+                const pageSize = () => {
+                    if (window.matchMedia('(min-width: 768px)').matches) return 3;
+                    if (window.matchMedia('(min-width: 640px)').matches) return 2;
+                    return 1;
+                };
+
+                const visibleIndexes = () => {
+                    const size = Math.min(pageSize(), total);
+                    return Array.from({ length: size }, (_, offset) => (start + offset) % total);
+                };
+
+                const render = (animate = false) => {
+                    const visible = visibleIndexes();
+
+                    if (animate) {
+                        items.forEach((item) => item.classList.add('is-animating'));
+                    }
+
                     items.forEach((item, index) => {
-                        const visible = Array.from({ length: Math.min(pageSize, total) }, (_, offset) => (start + offset) % total)
-                            .includes(index);
-                        item.style.display = visible ? '' : 'none';
+                        const isVisible = visible.includes(index);
+                        item.style.display = isVisible ? '' : 'none';
+                        item.classList.toggle('is-visible', isVisible);
+                    });
+
+                    requestAnimationFrame(() => {
+                        items.forEach((item) => item.classList.remove('is-animating'));
                     });
                 };
 
+                const shift = (direction) => {
+                    const step = pageSize();
+                    start = (start + (direction * step) + total) % total;
+                    render(true);
+                };
+
+                const startAutoplay = () => {
+                    if (intervalId !== null) return;
+                    intervalId = window.setInterval(() => {
+                        shift(1);
+                    }, 4500);
+                };
+
+                const stopAutoplay = () => {
+                    if (intervalId === null) return;
+                    clearInterval(intervalId);
+                    intervalId = null;
+                };
+
                 prev?.addEventListener('click', () => {
-                    start = (start - pageSize + total) % total;
-                    render();
+                    shift(-1);
                 });
 
                 next?.addEventListener('click', () => {
-                    start = (start + pageSize) % total;
-                    render();
+                    shift(1);
                 });
 
                 render();
+                startAutoplay();
+
+                track?.addEventListener('mouseenter', stopAutoplay);
+                track?.addEventListener('mouseleave', startAutoplay);
+
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) {
+                        stopAutoplay();
+                    } else {
+                        startAutoplay();
+                    }
+                });
+
+                window.addEventListener('resize', () => {
+                    render();
+                });
             });
         </script>
     @endif
