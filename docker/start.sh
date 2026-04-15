@@ -14,6 +14,9 @@ rm -f public/hot
 # Clear stale caches between deployments.
 php artisan optimize:clear
 
+# Ensure public/storage symlink exists (required for uploaded gallery images).
+php artisan storage:link --force || true
+
 if [ "${RUN_MIGRATIONS:-false}" = "true" ]; then
   php artisan migrate --force
 fi
