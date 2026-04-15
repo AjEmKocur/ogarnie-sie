@@ -10,29 +10,33 @@
             @endif
 
             <div class="flex flex-wrap items-center gap-2">
-                <button type="button" data-open-target="dodaj-aktualnosc-panel" class="inline-flex items-center rounded-md border border-blue-300/60 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-blue-200 hover:bg-blue-500/10">
-                    Dodaj aktualność
-                </button>
                 <a href="#lista-aktualnosci" class="inline-flex items-center rounded-md border border-gray-300 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-slate-200 hover:bg-slate-800">
                     Lista aktualności
                 </a>
             </div>
 
-            <div id="dodaj-aktualnosc-panel" class="hidden rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-                <h3 class="text-lg font-semibold">Dodaj aktualność</h3>
-                <form method="POST" action="{{ route('admin.cms.blog.store') }}" enctype="multipart/form-data" class="mt-4 grid gap-4">
-                    @csrf
-                    <input name="title" placeholder="Tytuł" class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2">
-                    <textarea name="excerpt" rows="2" placeholder="Skrót" class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2"></textarea>
-                    <textarea name="content" rows="5" placeholder="Treść" class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2"></textarea>
-                    <div>
-                        <label class="mb-1 block text-sm font-medium text-slate-200">Zdjęcie poglądowe (opcjonalnie)</label>
-                        <input type="file" name="cover_image" accept=".jpg,.jpeg,.png,.webp" class="block w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2 text-sm text-slate-200">
-                    </div>
-                    <label class="flex items-center gap-2 text-sm"><input type="checkbox" name="is_published" value="1"> Opublikowany</label>
-                    <div class="flex justify-end"><x-primary-button>Dodaj</x-primary-button></div>
-                </form>
-            </div>
+            <details class="rounded-xl border border-gray-200 bg-white shadow-sm" @if($posts->isEmpty()) open @endif>
+                <summary class="cursor-pointer list-none px-5 py-4">
+                    <span class="inline-flex items-center rounded-md border border-blue-300/60 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-blue-200 hover:bg-blue-500/10">
+                        {{ $posts->isEmpty() ? 'Dodaj pierwszą aktualność' : 'Dodaj kolejną aktualność' }}
+                    </span>
+                </summary>
+
+                <div class="border-t border-gray-200 px-5 py-4">
+                    <form method="POST" action="{{ route('admin.cms.blog.store') }}" enctype="multipart/form-data" class="grid gap-4">
+                        @csrf
+                        <input name="title" placeholder="Tytuł" class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2">
+                        <textarea name="excerpt" rows="2" placeholder="Skrót" class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2"></textarea>
+                        <textarea name="content" rows="5" placeholder="Treść" class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2"></textarea>
+                        <div>
+                            <label class="mb-1 block text-sm font-medium text-slate-200">Zdjęcie poglądowe (opcjonalnie)</label>
+                            <input type="file" name="cover_image" accept=".jpg,.jpeg,.png,.webp" class="block w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2 text-sm text-slate-200">
+                        </div>
+                        <label class="flex items-center gap-2 text-sm"><input type="checkbox" name="is_published" value="1"> Opublikowany</label>
+                        <div class="flex justify-end"><x-primary-button>Dodaj</x-primary-button></div>
+                    </form>
+                </div>
+            </details>
 
             <div id="lista-aktualnosci" class="space-y-4">
                 <h3 class="text-lg font-semibold">Edytuj aktualności</h3>
@@ -98,19 +102,4 @@
             </div>
         </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('[data-open-target]').forEach((button) => {
-                button.addEventListener('click', () => {
-                    const targetId = button.getAttribute('data-open-target');
-                    const panel = targetId ? document.getElementById(targetId) : null;
-                    if (!panel) return;
-
-                    panel.classList.toggle('hidden');
-                    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                });
-            });
-        });
-    </script>
 </x-app-layout>

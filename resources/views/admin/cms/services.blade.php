@@ -10,58 +10,62 @@
             @endif
 
             <div class="flex flex-wrap items-center gap-2">
-                <button type="button" data-open-target="dodaj-usluge-panel" class="inline-flex items-center rounded-md border border-blue-300/60 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-blue-200 hover:bg-blue-500/10">
-                    Dodaj usługę
-                </button>
                 <a href="#lista-uslug" class="inline-flex items-center rounded-md border border-gray-300 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-slate-200 hover:bg-slate-800">
                     Lista usług
                 </a>
             </div>
 
-            <div id="dodaj-usluge-panel" class="hidden rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-                <h3 class="text-lg font-semibold">Dodaj usługę</h3>
-                <form method="POST" action="{{ route('admin.cms.services.store') }}" class="mt-4 grid gap-4 md:grid-cols-2">
-                    @csrf
-                    <input
-                        name="name"
-                        placeholder="Nazwa usługi"
-                        class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2"
-                        required
-                    >
-                    <input
-                        name="price_from"
-                        type="number"
-                        step="0.01"
-                        placeholder="Cena od (PLN)"
-                        class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2"
-                    >
-                    <textarea
-                        name="description"
-                        rows="3"
-                        placeholder="Krótki opis (karta usługi)"
-                        class="md:col-span-2 rounded-md border border-gray-300 bg-slate-900 px-3 py-2"
-                    ></textarea>
-                    <textarea
-                        name="long_description"
-                        rows="6"
-                        placeholder="Opis szczegółowy (podstrona O usłudze)"
-                        class="md:col-span-2 rounded-md border border-gray-300 bg-slate-900 px-3 py-2"
-                    ></textarea>
-                    <input
-                        name="sort_order"
-                        type="number"
-                        value="0"
-                        class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2"
-                    >
-                    <label class="flex items-center gap-2 text-sm">
-                        <input type="checkbox" name="is_active" value="1" checked>
-                        Aktywna
-                    </label>
-                    <div class="md:col-span-2 flex justify-end">
-                        <x-primary-button>Dodaj</x-primary-button>
-                    </div>
-                </form>
-            </div>
+            <details class="rounded-xl border border-gray-200 bg-white shadow-sm" @if($services->isEmpty()) open @endif>
+                <summary class="cursor-pointer list-none px-5 py-4">
+                    <span class="inline-flex items-center rounded-md border border-blue-300/60 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-blue-200 hover:bg-blue-500/10">
+                        {{ $services->isEmpty() ? 'Dodaj pierwszą usługę' : 'Dodaj kolejną usługę' }}
+                    </span>
+                </summary>
+
+                <div class="border-t border-gray-200 px-5 py-4">
+                    <form method="POST" action="{{ route('admin.cms.services.store') }}" class="grid gap-4 md:grid-cols-2">
+                        @csrf
+                        <input
+                            name="name"
+                            placeholder="Nazwa usługi"
+                            class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2"
+                            required
+                        >
+                        <input
+                            name="price_from"
+                            type="number"
+                            step="0.01"
+                            placeholder="Cena od (PLN)"
+                            class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2"
+                        >
+                        <textarea
+                            name="description"
+                            rows="3"
+                            placeholder="Krótki opis (karta usługi)"
+                            class="md:col-span-2 rounded-md border border-gray-300 bg-slate-900 px-3 py-2"
+                        ></textarea>
+                        <textarea
+                            name="long_description"
+                            rows="6"
+                            placeholder="Opis szczegółowy (podstrona O usłudze)"
+                            class="md:col-span-2 rounded-md border border-gray-300 bg-slate-900 px-3 py-2"
+                        ></textarea>
+                        <input
+                            name="sort_order"
+                            type="number"
+                            value="0"
+                            class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2"
+                        >
+                        <label class="flex items-center gap-2 text-sm">
+                            <input type="checkbox" name="is_active" value="1" checked>
+                            Aktywna
+                        </label>
+                        <div class="md:col-span-2 flex justify-end">
+                            <x-primary-button>Dodaj</x-primary-button>
+                        </div>
+                    </form>
+                </div>
+            </details>
 
             @if ($services->isNotEmpty())
                 <form id="services-bulk-update-form" method="POST" action="{{ route('admin.cms.services.bulk-update') }}" class="space-y-4">
@@ -163,19 +167,4 @@
             @endif
         </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('[data-open-target]').forEach((button) => {
-                button.addEventListener('click', () => {
-                    const targetId = button.getAttribute('data-open-target');
-                    const panel = targetId ? document.getElementById(targetId) : null;
-                    if (!panel) return;
-
-                    panel.classList.toggle('hidden');
-                    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                });
-            });
-        });
-    </script>
 </x-app-layout>
