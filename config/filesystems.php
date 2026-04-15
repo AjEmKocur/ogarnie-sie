@@ -28,7 +28,7 @@ return [
     |
     */
     'about_gallery_disk' => env('ABOUT_GALLERY_DISK', 'public'),
-    'news_cover_disk' => env('NEWS_COVER_DISK', 'public'),
+    'news_cover_disk' => env('NEWS_COVER_DISK', env('ABOUT_GALLERY_DISK', 'public')),
 
     /*
     |--------------------------------------------------------------------------
