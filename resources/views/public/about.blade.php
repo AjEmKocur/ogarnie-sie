@@ -7,16 +7,15 @@
         }
 
         #about-gallery-track {
-            transition: transform 220ms ease;
+            display: flex;
+            gap: 1rem;
+            transition: transform 320ms ease;
             will-change: transform;
         }
 
-        #about-gallery-track.is-shifting-left {
-            transform: translateX(-42px);
-        }
-
-        #about-gallery-track.is-shifting-right {
-            transform: translateX(42px);
+        .about-gallery-item {
+            flex: 0 0 100%;
+            min-width: 0;
         }
     </style>
 
@@ -66,9 +65,9 @@
                     @endif
 
                     <div id="about-gallery-viewport">
-                        <div id="about-gallery-track" class="grid gap-4 md:grid-cols-3">
+                        <div id="about-gallery-track">
                             @foreach ($aboutGalleryImages as $image)
-                                <figure class="about-gallery-item overflow-hidden rounded-xl border border-gray-200 bg-slate-900/40" data-about-gallery-item @if($loop->index >= 3) style="display:none;" @endif>
+                                <figure class="about-gallery-item overflow-hidden rounded-xl border border-gray-200 bg-slate-900/40" data-about-gallery-item>
                                     <img src="{{ $image->publicUrl() }}" alt="{{ $image->caption ?: 'Zdjęcie serwisu' }}" class="h-56 w-full object-cover">
                                     @if ($image->caption)
                                         <figcaption class="border-t border-gray-200 px-4 py-3 text-sm text-slate-200">{{ $image->caption }}</figcaption>
@@ -85,12 +84,17 @@
     @if ($aboutGalleryImages->count() > 3)
         <script>
             document.addEventListener('DOMContentLoaded', () => {
-                const items = Array.from(document.querySelectorAll('[data-about-gallery-item]'));
+                const originalItems = Array.from(document.querySelectorAll('[data-about-gallery-item]'));
                 const prev = document.getElementById('about-gallery-prev');
                 const next = document.getElementById('about-gallery-next');
                 const track = document.getElementById('about-gallery-track');
-                let start = 0;
-                const total = items.length;
+                if (!track || originalItems.length === 0) {
+                    return;
+                }
+
+                const total = originalItems.length;
+                let currentIndex = 0;
+                let cloneCount = 0;
                 let isAnimating = false;
 
                 const pageSize = () => {
@@ -99,59 +103,78 @@
                     return 1;
                 };
 
-                const visibleIndexes = () => {
-                    const size = Math.min(pageSize(), total);
-                    return Array.from({ length: size }, (_, offset) => (start + offset) % total);
+                const itemStep = () => {
+                    const first = track.querySelector('[data-about-gallery-item]');
+                    if (!first) return 0;
+                    const gap = parseFloat(window.getComputedStyle(track).columnGap || window.getComputedStyle(track).gap || '0') || 0;
+                    return first.getBoundingClientRect().width + gap;
                 };
 
-                const render = () => {
-                    const visible = visibleIndexes();
-
-                    items.forEach((item, index) => {
-                        const position = visible.indexOf(index);
-                        const isVisible = position !== -1;
-                        item.style.display = isVisible ? '' : 'none';
-                        item.style.order = isVisible ? String(position) : '';
+                const setWidths = () => {
+                    const visible = Math.min(pageSize(), total);
+                    const width = `calc((100% - ${(visible - 1)}rem) / ${visible})`;
+                    track.querySelectorAll('[data-about-gallery-item]').forEach((item) => {
+                        item.style.flex = `0 0 ${width}`;
                     });
                 };
 
+                const applyTransform = () => {
+                    track.style.transform = `translateX(${-currentIndex * itemStep()}px)`;
+                };
+
+                const setTransition = (enabled) => {
+                    track.style.transition = enabled ? 'transform 320ms ease' : 'none';
+                };
+
+                const rebuildTrack = () => {
+                    const visible = Math.min(pageSize(), total);
+                    cloneCount = visible;
+                    const beforeClones = originalItems.slice(-cloneCount).map((item) => item.cloneNode(true));
+                    const afterClones = originalItems.slice(0, cloneCount).map((item) => item.cloneNode(true));
+
+                    track.innerHTML = '';
+                    [...beforeClones, ...originalItems, ...afterClones].forEach((item) => track.appendChild(item.cloneNode(true)));
+
+                    setWidths();
+                    currentIndex = cloneCount;
+                    setTransition(false);
+                    applyTransform();
+                });
+
                 const shift = (direction) => {
-                    if (!track || isAnimating) {
-                        return;
+                    if (isAnimating) return;
+                    isAnimating = true;
+                    setTransition(true);
+                    currentIndex += direction;
+                    applyTransform();
+                };
+
+                track.addEventListener('transitionend', () => {
+                    if (!isAnimating) return;
+
+                    if (currentIndex >= total + cloneCount) {
+                        currentIndex -= total;
+                        setTransition(false);
+                        applyTransform();
+                    } else if (currentIndex < cloneCount) {
+                        currentIndex += total;
+                        setTransition(false);
+                        applyTransform();
                     }
 
-                    isAnimating = true;
-                    track.classList.add(direction > 0 ? 'is-shifting-left' : 'is-shifting-right');
-
-                    window.setTimeout(() => {
-                        start = (start + direction + total) % total;
-                        render();
-                        track.classList.remove('is-shifting-left', 'is-shifting-right');
+                    requestAnimationFrame(() => {
                         isAnimating = false;
-                    }, 220);
-                };
-
-                const shiftInstant = (direction) => {
-                    start = (start + direction + total) % total;
-                    render();
-                };
-
-                prev?.addEventListener('click', () => {
-                    shift(-1);
+                    });
                 });
 
-                next?.addEventListener('click', () => {
-                    shift(1);
-                });
+                prev?.addEventListener('click', () => shift(-1));
+                next?.addEventListener('click', () => shift(1));
 
-                render();
+                rebuildTrack();
 
                 window.addEventListener('resize', () => {
-                    if (isAnimating) {
-                        return;
-                    }
-
-                    shiftInstant(0);
+                    if (isAnimating) return;
+                    rebuildTrack();
                 });
             });
         </script>
