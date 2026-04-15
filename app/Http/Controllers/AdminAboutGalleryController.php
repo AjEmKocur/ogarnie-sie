@@ -27,10 +27,11 @@ class AdminAboutGalleryController extends Controller
             'caption' => ['nullable', 'string', 'max:255'],
         ]);
 
-        $path = $validated['image']->store('about-gallery', 'public');
+        $disk = (string) config('filesystems.about_gallery_disk', 'public');
+        $path = $validated['image']->store('about-gallery', $disk);
 
         AboutGalleryImage::create([
-            'disk' => 'public',
+            'disk' => $disk,
             'path' => $path,
             'caption' => $validated['caption'] ?? null,
             'sort_order' => (int) AboutGalleryImage::max('sort_order') + 10,

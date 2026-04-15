@@ -17,6 +17,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Custom Disk Mapping
+    |--------------------------------------------------------------------------
+    |
+    | "about_gallery_disk" lets us store About page gallery photos on a
+    | separate disk (for example S3/R2) without forcing other uploads to
+    | use the same storage backend.
+    |
+    */
+    'about_gallery_disk' => env('ABOUT_GALLERY_DISK', 'public'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Filesystem Disks
     |--------------------------------------------------------------------------
     |
