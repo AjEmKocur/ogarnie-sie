@@ -50,4 +50,12 @@ return [
         'timeout_seconds' => (int) env('OPENAI_TIMEOUT_SECONDS', 12),
     ],
 
+    'news_analytics' => [
+        'enabled' => filter_var(env('NEWS_ANALYTICS_ENABLED', true), FILTER_VALIDATE_BOOL),
+        'python_url' => env('NEWS_ANALYTICS_PYTHON_URL', 'http://moderation-api:8001'),
+        'timeout_seconds' => (float) env('NEWS_ANALYTICS_TIMEOUT_SECONDS', 2.5),
+        'popular_days' => (int) env('NEWS_ANALYTICS_POPULAR_DAYS', 30),
+        'popular_limit' => (int) env('NEWS_ANALYTICS_POPULAR_LIMIT', 5),
+    ],
+
 ];

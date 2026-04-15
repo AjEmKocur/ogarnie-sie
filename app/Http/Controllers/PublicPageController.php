@@ -8,6 +8,8 @@ use App\Models\Service;
 use App\Models\Testimonial;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class PublicPageController extends Controller
@@ -79,6 +81,7 @@ class PublicPageController extends Controller
                 ->whereNotNull('published_at')
                 ->orderByDesc('published_at')
                 ->get(),
+            'popularNews' => $this->fetchPopularNews(),
         ]);
     }
 
@@ -88,8 +91,11 @@ class PublicPageController extends Controller
             abort(Response::HTTP_NOT_FOUND);
         }
 
+        $this->trackNewsView($blogPost);
+
         return view('public.news-show', [
             'post' => $blogPost,
+            'popularNews' => $this->fetchPopularNews($blogPost->slug),
         ]);
     }
 
@@ -102,5 +108,87 @@ class PublicPageController extends Controller
                 ->latest()
                 ->get(),
         ]);
+    }
+
+    private function fetchPopularNews(?string $excludeSlug = null): array
+    {
+        $settings = config('services.news_analytics');
+        if (! ($settings['enabled'] ?? false)) {
+            return [];
+        }
+
+        $baseUrl = rtrim((string) ($settings['python_url'] ?? ''), '/');
+        if ($baseUrl === '') {
+            return [];
+        }
+
+        try {
+            $response = Http::timeout((float) ($settings['timeout_seconds'] ?? 2.5))
+                ->acceptJson()
+                ->get($baseUrl.'/news/popular', [
+                    'days' => (int) ($settings['popular_days'] ?? 30),
+                    'limit' => (int) ($settings['popular_limit'] ?? 5),
+                ]);
+
+            if (! $response->ok()) {
+                return [];
+            }
+
+            $items = $response->json('items');
+            if (! is_array($items)) {
+                return [];
+            }
+
+            $mapped = array_values(array_filter(array_map(static function ($item) use ($excludeSlug) {
+                if (! is_array($item)) {
+                    return null;
+                }
+                $slug = (string) ($item['slug'] ?? '');
+                $title = (string) ($item['title'] ?? '');
+                $views = (int) ($item['views'] ?? 0);
+
+                if ($slug === '' || $title === '') {
+                    return null;
+                }
+                if ($excludeSlug && $slug === $excludeSlug) {
+                    return null;
+                }
+
+                return [
+                    'slug' => $slug,
+                    'title' => $title,
+                    'views' => max(0, $views),
+                ];
+            }, $items)));
+
+            return $mapped;
+        } catch (\Throwable $e) {
+            Log::warning('News analytics popular fetch failed', ['error' => $e->getMessage()]);
+            return [];
+        }
+    }
+
+    private function trackNewsView(BlogPost $blogPost): void
+    {
+        $settings = config('services.news_analytics');
+        if (! ($settings['enabled'] ?? false)) {
+            return;
+        }
+
+        $baseUrl = rtrim((string) ($settings['python_url'] ?? ''), '/');
+        if ($baseUrl === '') {
+            return;
+        }
+
+        try {
+            Http::timeout((float) ($settings['timeout_seconds'] ?? 2.5))
+                ->acceptJson()
+                ->post($baseUrl.'/news/track-view', [
+                    'slug' => $blogPost->slug,
+                    'session_id' => session()->getId(),
+                ]);
+        } catch (\Throwable $e) {
+            Log::warning('News analytics track failed', ['error' => $e->getMessage()]);
+        }
     }
 }
