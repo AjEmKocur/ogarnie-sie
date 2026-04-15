@@ -141,7 +141,7 @@
                     currentIndex = cloneCount;
                     setTransition(false);
                     applyTransform();
-                });
+                };
 
                 const shift = (direction) => {
                     if (isAnimating) return;
