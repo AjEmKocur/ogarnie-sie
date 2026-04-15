@@ -85,8 +85,10 @@
                     const visible = visibleIndexes();
 
                     items.forEach((item, index) => {
-                        const isVisible = visible.includes(index);
+                        const position = visible.indexOf(index);
+                        const isVisible = position !== -1;
                         item.style.display = isVisible ? '' : 'none';
+                        item.style.order = isVisible ? String(position) : '';
                     });
                 };
 
