@@ -44,7 +44,7 @@ class AdminBlogPostController extends Controller
             'published_at' => $isPublished ? Carbon::now() : null,
         ]);
 
-        return redirect()->route('admin.cms.blog.index')->with('status', 'Wpis blogowy dodany.');
+        return redirect()->route('admin.cms.blog.index')->with('status', 'Aktualność została dodana.');
     }
 
     public function update(Request $request, BlogPost $blogPost): RedirectResponse
@@ -88,7 +88,7 @@ class AdminBlogPostController extends Controller
             'published_at' => $isPublished ? ($blogPost->published_at ?? Carbon::now()) : null,
         ]);
 
-        return redirect()->route('admin.cms.blog.index')->with('status', 'Wpis blogowy zaktualizowany.');
+        return redirect()->route('admin.cms.blog.index')->with('status', 'Aktualność została zaktualizowana.');
     }
 
     public function destroy(BlogPost $blogPost): RedirectResponse
@@ -99,9 +99,8 @@ class AdminBlogPostController extends Controller
 
         $blogPost->delete();
 
-        return redirect()->route('admin.cms.blog.index')->with('status', 'Wpis blogowy usunięty.');
+        return redirect()->route('admin.cms.blog.index')->with('status', 'Aktualność została usunięta.');
     }
 }
-
 
 

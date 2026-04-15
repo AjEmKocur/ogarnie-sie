@@ -9,7 +9,16 @@
                 <div class="rounded-lg border border-green-200 bg-green-50 p-4 text-green-700">{{ session('status') }}</div>
             @endif
 
-            <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+            <div class="flex flex-wrap items-center gap-2">
+                <a href="#dodaj-usluge" class="inline-flex items-center rounded-md border border-blue-300/60 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-blue-200 hover:bg-blue-500/10">
+                    Dodaj usługę
+                </a>
+                <a href="#lista-uslug" class="inline-flex items-center rounded-md border border-gray-300 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-slate-200 hover:bg-slate-800">
+                    Lista usług
+                </a>
+            </div>
+
+            <div id="dodaj-usluge" class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
                 <h3 class="text-lg font-semibold">Dodaj usługę</h3>
                 <form method="POST" action="{{ route('admin.cms.services.store') }}" class="mt-4 grid gap-4 md:grid-cols-2">
                     @csrf
@@ -55,63 +64,83 @@
             </div>
 
             @if ($services->isNotEmpty())
-                <form method="POST" action="{{ route('admin.cms.services.bulk-update') }}" class="space-y-4">
+                <form id="services-bulk-update-form" method="POST" action="{{ route('admin.cms.services.bulk-update') }}" class="space-y-4">
                     @csrf
                     @method('PATCH')
 
-                    <div class="flex justify-end">
+                    <div id="lista-uslug" class="flex items-center justify-between gap-3">
+                        <h3 class="text-lg font-semibold">Edytuj usługi</h3>
                         <x-primary-button>Zapisz wszystkie zmiany</x-primary-button>
                     </div>
 
                     @foreach ($services as $service)
-                        <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-                            <div class="grid gap-4 md:grid-cols-2">
-                                <input
-                                    name="services[{{ $service->id }}][name]"
-                                    value="{{ $service->name }}"
-                                    class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2"
-                                    required
-                                >
-                                <input
-                                    name="services[{{ $service->id }}][price_from]"
-                                    type="number"
-                                    step="0.01"
-                                    value="{{ $service->price_from }}"
-                                    class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2"
-                                >
-                                <textarea
-                                    name="services[{{ $service->id }}][description]"
-                                    rows="3"
-                                    class="md:col-span-2 rounded-md border border-gray-300 bg-slate-900 px-3 py-2"
-                                >{{ $service->description }}</textarea>
-                                <textarea
-                                    name="services[{{ $service->id }}][long_description]"
-                                    rows="6"
-                                    class="md:col-span-2 rounded-md border border-gray-300 bg-slate-900 px-3 py-2"
-                                >{{ $service->long_description }}</textarea>
-                                <input
-                                    name="services[{{ $service->id }}][sort_order]"
-                                    type="number"
-                                    value="{{ $service->sort_order }}"
-                                    class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2"
-                                >
-                                <label class="flex items-center gap-2 text-sm">
-                                    <input type="hidden" name="services[{{ $service->id }}][is_active]" value="0">
-                                    <input type="checkbox" name="services[{{ $service->id }}][is_active]" value="1" @checked($service->is_active)>
-                                    Aktywna
-                                </label>
-                            </div>
+                        <details class="rounded-xl border border-gray-200 bg-white shadow-sm">
+                            <summary class="cursor-pointer list-none px-5 py-4">
+                                <div class="flex flex-wrap items-center justify-between gap-2">
+                                    <p class="font-semibold">{{ $service->name }}</p>
+                                    <div class="flex items-center gap-3 text-xs">
+                                        <span class="text-slate-400">Sort: {{ $service->sort_order }}</span>
+                                        @if ($service->price_from !== null)
+                                            <span class="text-blue-300">Od {{ number_format($service->price_from, 2, ',', ' ') }} PLN</span>
+                                        @else
+                                            <span class="text-slate-400">Bez ceny</span>
+                                        @endif
+                                        <span class="{{ $service->is_active ? 'text-green-400' : 'text-amber-300' }}">
+                                            {{ $service->is_active ? 'Aktywna' : 'Nieaktywna' }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </summary>
 
-                            <div class="mt-3">
-                                <button
-                                    type="submit"
-                                    form="delete-service-{{ $service->id }}"
-                                    class="text-sm text-red-600"
-                                >
-                                    Usuń
-                                </button>
+                            <div class="border-t border-gray-200 p-5">
+                                <div class="grid gap-4 md:grid-cols-2">
+                                    <input
+                                        name="services[{{ $service->id }}][name]"
+                                        value="{{ $service->name }}"
+                                        class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2"
+                                        required
+                                    >
+                                    <input
+                                        name="services[{{ $service->id }}][price_from]"
+                                        type="number"
+                                        step="0.01"
+                                        value="{{ $service->price_from }}"
+                                        class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2"
+                                    >
+                                    <textarea
+                                        name="services[{{ $service->id }}][description]"
+                                        rows="3"
+                                        class="md:col-span-2 rounded-md border border-gray-300 bg-slate-900 px-3 py-2"
+                                    >{{ $service->description }}</textarea>
+                                    <textarea
+                                        name="services[{{ $service->id }}][long_description]"
+                                        rows="6"
+                                        class="md:col-span-2 rounded-md border border-gray-300 bg-slate-900 px-3 py-2"
+                                    >{{ $service->long_description }}</textarea>
+                                    <input
+                                        name="services[{{ $service->id }}][sort_order]"
+                                        type="number"
+                                        value="{{ $service->sort_order }}"
+                                        class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2"
+                                    >
+                                    <label class="flex items-center gap-2 text-sm">
+                                        <input type="hidden" name="services[{{ $service->id }}][is_active]" value="0">
+                                        <input type="checkbox" name="services[{{ $service->id }}][is_active]" value="1" @checked($service->is_active)>
+                                        Aktywna
+                                    </label>
+                                </div>
+
+                                <div class="mt-3">
+                                    <button
+                                        type="submit"
+                                        form="delete-service-{{ $service->id }}"
+                                        class="text-sm text-red-600"
+                                    >
+                                        Usuń
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        </details>
                     @endforeach
 
                     <div class="flex justify-end">
@@ -135,4 +164,3 @@
         </div>
     </div>
 </x-app-layout>
-
