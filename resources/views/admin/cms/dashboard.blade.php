@@ -5,6 +5,13 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto space-y-6 sm:px-6 lg:px-8">
+            @include('admin.partials.breadcrumbs', [
+                'items' => [
+                    ['label' => 'Strona główna', 'url' => route('admin.dashboard')],
+                    ['label' => 'Centrum CMS'],
+                ],
+            ])
+
             <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 @if (auth()->user()->hasAdminPermission('tickets'))
                     <a href="{{ route('admin.tickets.index') }}" class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm hover:border-blue-500/60">

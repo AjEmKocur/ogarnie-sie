@@ -7,6 +7,14 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            @include('admin.partials.breadcrumbs', [
+                'items' => [
+                    ['label' => 'Strona główna', 'url' => route('admin.dashboard')],
+                    ['label' => 'Centrum CMS', 'url' => route('admin.cms.dashboard')],
+                    ['label' => 'Wiadomości kontaktowe'],
+                ],
+            ])
+
             @if (session('status'))
                 <div class="mb-4 rounded-lg border border-green-200 bg-green-50 p-4 text-green-700">
                     {{ session('status') }}

@@ -8,6 +8,13 @@
 
     <div class="py-12">
         <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
+            @include('admin.partials.breadcrumbs', [
+                'items' => [
+                    ['label' => 'Strona główna', 'url' => route('admin.dashboard')],
+                    ['label' => 'Operatorzy'],
+                ],
+            ])
+
             <div class="rounded-xl border border-blue-400/30 bg-slate-900/70 p-6 shadow-sm">
                 <h3 class="text-lg font-semibold text-slate-100">Dodaj konto operatora</h3>
                 <p class="mt-1 text-sm text-slate-300">Operator obsługuje stronę i zgłoszenia zgodnie z przydzielonymi uprawnieniami.</p>
@@ -133,4 +140,3 @@
         </div>
     </div>
 </x-app-layout>
-

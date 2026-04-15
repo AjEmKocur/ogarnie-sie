@@ -14,6 +14,12 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto space-y-6 sm:px-6 lg:px-8">
+            @include('admin.partials.breadcrumbs', [
+                'items' => [
+                    ['label' => 'Strona główna'],
+                ],
+            ])
+
             <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                 <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
                     <p class="text-sm text-gray-500">Wszystkie zgłoszenia</p>

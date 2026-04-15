@@ -5,6 +5,14 @@
 
     <div class="py-12">
         <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
+            @include('admin.partials.breadcrumbs', [
+                'items' => [
+                    ['label' => 'Strona główna', 'url' => route('admin.dashboard')],
+                    ['label' => 'Centrum CMS', 'url' => route('admin.cms.dashboard')],
+                    ['label' => 'Usługi (z cenami)'],
+                ],
+            ])
+
             @if (session('status'))
                 <div class="rounded-lg border border-green-200 bg-green-50 p-4 text-green-700">{{ session('status') }}</div>
             @endif
