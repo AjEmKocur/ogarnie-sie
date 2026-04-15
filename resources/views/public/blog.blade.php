@@ -51,9 +51,24 @@
 
                 <div class="mt-4 space-y-3">
                     @forelse (($popularNews ?? []) as $item)
-                        <a href="{{ route('public.news.show', $item['slug']) }}" class="block rounded-lg border border-gray-200 bg-slate-900/40 p-3 hover:border-blue-300/60">
-                            <p class="text-sm font-semibold leading-snug">{{ $item['title'] }}</p>
-                            <p class="mt-1 text-xs text-slate-400">Wyświetlenia: {{ $item['views'] }}</p>
+                        <a href="{{ route('public.news.show', $item['slug']) }}" class="block overflow-hidden rounded-lg border border-gray-200 bg-slate-900/40 hover:border-blue-300/60">
+                            <div class="relative h-24 w-full overflow-hidden">
+                                @if (!empty($item['cover_image_url']))
+                                    <img
+                                        src="{{ $item['cover_image_url'] }}"
+                                        alt="{{ $item['title'] }}"
+                                        class="h-24 w-full object-cover"
+                                        onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');"
+                                    >
+                                    <div class="hidden h-24 w-full flex items-center justify-center bg-slate-900/70 text-xs text-slate-300">Brak zdjęcia</div>
+                                @else
+                                    <div class="flex h-24 w-full items-center justify-center bg-slate-900/70 text-xs text-slate-300">Brak zdjęcia</div>
+                                @endif
+                            </div>
+                            <div class="p-3">
+                                <p class="text-sm font-semibold leading-snug">{{ $item['title'] }}</p>
+                                <p class="mt-1 text-xs text-slate-400">Wyświetlenia: {{ $item['views'] }}</p>
+                            </div>
                         </a>
                     @empty
                         <p class="text-sm text-slate-400">Brak danych popularności jeszcze.</p>

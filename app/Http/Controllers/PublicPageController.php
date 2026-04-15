@@ -161,6 +161,22 @@ class PublicPageController extends Controller
                 ];
             }, $items)));
 
+            if ($mapped === []) {
+                return [];
+            }
+
+            $slugs = array_values(array_unique(array_map(static fn ($item) => $item['slug'], $mapped)));
+            $postsBySlug = BlogPost::query()
+                ->whereIn('slug', $slugs)
+                ->get()
+                ->keyBy('slug');
+
+            foreach ($mapped as &$item) {
+                $post = $postsBySlug->get($item['slug']);
+                $item['cover_image_url'] = $post?->coverImageUrl();
+            }
+            unset($item);
+
             return $mapped;
         } catch (\Throwable $e) {
             Log::warning('News analytics popular fetch failed', ['error' => $e->getMessage()]);
