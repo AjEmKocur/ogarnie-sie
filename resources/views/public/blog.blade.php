@@ -70,7 +70,6 @@
                             </div>
                             <div class="min-w-0">
                                 <p class="text-sm font-semibold leading-snug group-hover:text-blue-300">{{ \Illuminate\Support\Str::limit($item['title'], 72) }}</p>
-                                <p class="mt-1 text-xs text-slate-400">Wyświetlenia: {{ $item['views'] }}</p>
                             </div>
                         </a>
                     @empty
