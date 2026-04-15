@@ -88,7 +88,8 @@
                 const prev = document.getElementById('about-gallery-prev');
                 const next = document.getElementById('about-gallery-next');
                 const track = document.getElementById('about-gallery-track');
-                if (!track || originalItems.length === 0) {
+                const viewport = document.getElementById('about-gallery-viewport');
+                if (!track || !viewport || originalItems.length === 0) {
                     return;
                 }
 
@@ -112,9 +113,10 @@
 
                 const setWidths = () => {
                     const visible = Math.min(pageSize(), total);
-                    const width = `calc((100% - ${(visible - 1)}rem) / ${visible})`;
+                    const gap = parseFloat(window.getComputedStyle(track).columnGap || window.getComputedStyle(track).gap || '0') || 0;
+                    const widthPx = Math.max(120, (viewport.clientWidth - (gap * (visible - 1))) / visible);
                     track.querySelectorAll('[data-about-gallery-item]').forEach((item) => {
-                        item.style.flex = `0 0 ${width}`;
+                        item.style.flex = `0 0 ${widthPx}px`;
                     });
                 };
 
