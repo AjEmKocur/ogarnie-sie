@@ -7,18 +7,16 @@
         }
 
         #about-gallery-track {
-            transition: transform 220ms ease, opacity 220ms ease;
-            will-change: transform, opacity;
+            transition: transform 220ms ease;
+            will-change: transform;
         }
 
         #about-gallery-track.is-shifting-left {
             transform: translateX(-42px);
-            opacity: 0.45;
         }
 
         #about-gallery-track.is-shifting-right {
             transform: translateX(42px);
-            opacity: 0.45;
         }
     </style>
 
