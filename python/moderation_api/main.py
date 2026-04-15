@@ -12,6 +12,9 @@ from fastapi import FastAPI
 from pydantic import BaseModel, Field
 
 
+# ============================================================
+# 1) MODELE DANYCH: MODERACJA OPINII (OpenAI)
+# ============================================================
 class ModerateRequest(BaseModel):
     content: str = Field(min_length=1, max_length=5000)
 
@@ -22,6 +25,9 @@ class ModerateResponse(BaseModel):
     reasons: List[str]
 
 
+# ============================================================
+# 2) MODELE DANYCH: POPULARNOSC AKTUALNOSCI (track + ranking)
+# ============================================================
 class TrackNewsViewRequest(BaseModel):
     slug: str = Field(min_length=1, max_length=255)
     session_id: str | None = Field(default=None, max_length=120)
@@ -54,6 +60,9 @@ def env_flag(name: str, default: str = "false") -> bool:
     return os.getenv(name, default).strip().lower() in {"1", "true", "yes", "y", "on"}
 
 
+# ============================================================
+# 3) KONFIGURACJA ENV: MODERACJA + ANALITYKA AKTUALNOSCI
+# ============================================================
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "").strip()
 OPENAI_ENABLED = env_flag("OPENAI_MODERATION_ENABLED", "false")
 OPENAI_TIMEOUT = int(os.getenv("OPENAI_TIMEOUT_SECONDS", "12"))
@@ -71,6 +80,7 @@ else:
     OPENAI_MODEL = "gpt-4.1-mini"
 
 
+# Prompt systemowy dla klasyfikatora OpenAI (moderacja opinii).
 SYSTEM_PROMPT = """Jesteś klasyfikatorem moderacji opinii użytkowników po polsku.
 Zwracaj WYŁĄCZNIE poprawny JSON o strukturze:
 {
@@ -100,7 +110,11 @@ Nie dodawaj żadnego tekstu poza JSON.
 """
 
 
+# ============================================================
+# 4) MODERACJA OPINII: LOGIKA OPENAI + ENDPOINT /moderate
+# ============================================================
 def moderate_with_openai_classifier(content: str) -> ModerateResponse | None:
+    # Jeśli moderacja OpenAI jest wyłączona lub brak klucza, zwracamy None.
     if not (OPENAI_ENABLED and OPENAI_API_KEY):
         return None
 
@@ -159,11 +173,13 @@ def moderate_with_openai_classifier(content: str) -> ModerateResponse | None:
 
 @app.get("/health")
 def health() -> dict[str, str]:
+    # Endpoint techniczny dla monitoringu.
     return {"status": "ok"}
 
 
 @app.post("/moderate", response_model=ModerateResponse)
 def moderate(payload: ModerateRequest) -> ModerateResponse:
+    # Główny endpoint moderacji opinii.
     result = moderate_with_openai_classifier(payload.content)
 
     if result is None:
@@ -176,11 +192,16 @@ def moderate(payload: ModerateRequest) -> ModerateResponse:
     return result
 
 
+# ============================================================
+# 5) POPULARNOSC AKTUALNOSCI: POMOCNICZE FUNKCJE
+# ============================================================
 def db_ready() -> bool:
+    # Analityka działa tylko, gdy jest włączona i mamy DATABASE_URL.
     return NEWS_ANALYTICS_ENABLED and bool(DATABASE_URL)
 
 
 def normalize_session_id(value: str | None) -> str | None:
+    # Czyścimy i skracamy session_id, by nie zapisać śmieci.
     if not value:
         return None
     cleaned = value.strip()
@@ -189,8 +210,12 @@ def normalize_session_id(value: str | None) -> str | None:
     return cleaned[:120]
 
 
+# ============================================================
+# 6) POPULARNOSC AKTUALNOSCI: ENDPOINT /news/track-view
+# ============================================================
 @app.post("/news/track-view", response_model=TrackNewsViewResponse)
 def track_news_view(payload: TrackNewsViewRequest) -> TrackNewsViewResponse:
+    # Zapis pojedynczego wyświetlenia aktualności.
     if not db_ready():
         return TrackNewsViewResponse(tracked=False, reason="analytics_disabled")
 
@@ -220,6 +245,7 @@ def track_news_view(payload: TrackNewsViewRequest) -> TrackNewsViewResponse:
 
                 blog_post_id = int(post_row[0])
 
+                # Cooldown: nie nabijamy wielu view od tej samej sesji co chwilę.
                 if session_id and NEWS_TRACK_COOLDOWN_SECONDS > 0:
                     cur.execute(
                         """
@@ -251,8 +277,12 @@ def track_news_view(payload: TrackNewsViewRequest) -> TrackNewsViewResponse:
     return TrackNewsViewResponse(tracked=True, reason="ok")
 
 
+# ============================================================
+# 7) POPULARNOSC AKTUALNOSCI: ENDPOINT /news/popular
+# ============================================================
 @app.get("/news/popular", response_model=PopularNewsResponse)
 def popular_news(days: int = 30, limit: int = 5) -> PopularNewsResponse:
+    # Zwraca ranking najpopularniejszych aktualności w zadanym oknie czasu.
     if not db_ready():
         return PopularNewsResponse(items=[])
 
