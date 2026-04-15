@@ -1,6 +1,27 @@
 @extends('layouts.public')
 
 @section('content')
+    <style>
+        #about-gallery-viewport {
+            overflow: hidden;
+        }
+
+        #about-gallery-track {
+            transition: transform 220ms ease, opacity 220ms ease;
+            will-change: transform, opacity;
+        }
+
+        #about-gallery-track.is-shifting-left {
+            transform: translateX(-42px);
+            opacity: 0.45;
+        }
+
+        #about-gallery-track.is-shifting-right {
+            transform: translateX(42px);
+            opacity: 0.45;
+        }
+    </style>
+
     <section class="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
         <h1 class="text-4xl font-bold">O nas</h1>
         <p class="mt-6 max-w-3xl text-lg text-slate-300">
@@ -46,15 +67,17 @@
                         </button>
                     @endif
 
-                    <div id="about-gallery-track" class="grid gap-4 md:grid-cols-3">
-                        @foreach ($aboutGalleryImages as $image)
-                            <figure class="about-gallery-item overflow-hidden rounded-xl border border-gray-200 bg-slate-900/40" data-about-gallery-item @if($loop->index >= 3) style="display:none;" @endif>
-                                <img src="{{ $image->publicUrl() }}" alt="{{ $image->caption ?: 'Zdjęcie serwisu' }}" class="h-56 w-full object-cover">
-                                @if ($image->caption)
-                                    <figcaption class="border-t border-gray-200 px-4 py-3 text-sm text-slate-200">{{ $image->caption }}</figcaption>
-                                @endif
-                            </figure>
-                        @endforeach
+                    <div id="about-gallery-viewport">
+                        <div id="about-gallery-track" class="grid gap-4 md:grid-cols-3">
+                            @foreach ($aboutGalleryImages as $image)
+                                <figure class="about-gallery-item overflow-hidden rounded-xl border border-gray-200 bg-slate-900/40" data-about-gallery-item @if($loop->index >= 3) style="display:none;" @endif>
+                                    <img src="{{ $image->publicUrl() }}" alt="{{ $image->caption ?: 'Zdjęcie serwisu' }}" class="h-56 w-full object-cover">
+                                    @if ($image->caption)
+                                        <figcaption class="border-t border-gray-200 px-4 py-3 text-sm text-slate-200">{{ $image->caption }}</figcaption>
+                                    @endif
+                                </figure>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             @endif
@@ -67,8 +90,10 @@
                 const items = Array.from(document.querySelectorAll('[data-about-gallery-item]'));
                 const prev = document.getElementById('about-gallery-prev');
                 const next = document.getElementById('about-gallery-next');
+                const track = document.getElementById('about-gallery-track');
                 let start = 0;
                 const total = items.length;
+                let isAnimating = false;
 
                 const pageSize = () => {
                     if (window.matchMedia('(min-width: 768px)').matches) return 3;
@@ -93,6 +118,22 @@
                 };
 
                 const shift = (direction) => {
+                    if (!track || isAnimating) {
+                        return;
+                    }
+
+                    isAnimating = true;
+                    track.classList.add(direction > 0 ? 'is-shifting-left' : 'is-shifting-right');
+
+                    window.setTimeout(() => {
+                        start = (start + direction + total) % total;
+                        render();
+                        track.classList.remove('is-shifting-left', 'is-shifting-right');
+                        isAnimating = false;
+                    }, 220);
+                };
+
+                const shiftInstant = (direction) => {
                     start = (start + direction + total) % total;
                     render();
                 };
@@ -108,7 +149,11 @@
                 render();
 
                 window.addEventListener('resize', () => {
-                    render();
+                    if (isAnimating) {
+                        return;
+                    }
+
+                    shiftInstant(0);
                 });
             });
         </script>
