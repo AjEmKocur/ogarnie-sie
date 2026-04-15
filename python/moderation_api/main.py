@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import json
 import logging
@@ -54,6 +54,7 @@ Zwracaj WYŁĄCZNIE poprawny JSON o strukturze:
 
 Reguły decyzji:
 - Jeśli tekst zawiera wulgaryzmy/profanity/obelgi (np. kurwa, chuj i odmiany, maskowane formy) => status="reject", score >= 60.
+  Dotyczy to także skrótów obraźliwych i ich wariantów z separatorami, np. "jprdl", "j.p.r.d.l", "chwdp", "c.h.w.d.p", "hwdp", "h.w.d.p".
 - Jeśli tekst zawiera dane kontaktowe (telefon, email, link, social handle) => status="reject", score >= 60.
   Traktuj jako dane kontaktowe także formy maskowane/obfuskowane, np.:
   - numery z separatorami: 5.4.3-0-9-9.3.2.1, 5 4 3 0 9 9 3 2 1, 543-099-321
