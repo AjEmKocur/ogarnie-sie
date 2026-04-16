@@ -36,8 +36,8 @@
 
                         <div>
                             <x-input-label for="attachments" :value="__('Załączniki (opcjonalnie)')" />
-                            <input id="attachments" name="attachments[]" type="file" multiple class="mt-1 block w-full rounded-md border border-gray-300 bg-white text-sm file:mr-4 file:rounded-md file:border-0 file:bg-gray-100 file:px-3 file:py-2 file:text-sm file:font-semibold" />
-                            <p class="mt-2 text-xs text-gray-500">{{ __('Dozwolone: jpg, jpeg, png, pdf, txt, doc, docx. Maks. 10 MB na plik.') }}</p>
+                            <input id="attachments" name="attachments[]" type="file" multiple accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" class="mt-1 block w-full rounded-md border border-gray-300 bg-white text-sm file:mr-4 file:rounded-md file:border-0 file:bg-gray-100 file:px-3 file:py-2 file:text-sm file:font-semibold" />
+                            <p class="mt-2 text-xs text-gray-500">{{ __('Możesz dodać do 5 zdjęć. Dozwolone: jpg, jpeg, png, webp. Maks. 10 MB na zdjęcie.') }}</p>
                             <x-input-error :messages="$errors->get('attachments')" class="mt-2" />
                             <x-input-error :messages="$errors->get('attachments.*')" class="mt-2" />
                         </div>
@@ -54,4 +54,3 @@
         </div>
     </div>
 </x-app-layout>
-

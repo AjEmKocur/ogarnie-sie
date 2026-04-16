@@ -42,13 +42,21 @@ class ClientTicketController extends Controller
     {
         $this->abortIfAdmin($request);
 
-        $validated = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'max:5000'],
-            'custom_request' => ['nullable', 'string', 'max:5000'],
-            'attachments' => ['nullable', 'array'],
-            'attachments.*' => ['file', 'max:10240', 'mimes:jpg,jpeg,png,pdf,txt,doc,docx'],
-        ]);
+        $validated = $request->validate(
+            [
+                'title' => ['required', 'string', 'max:255'],
+                'description' => ['required', 'string', 'max:5000'],
+                'custom_request' => ['nullable', 'string', 'max:5000'],
+                'attachments' => ['nullable', 'array', 'max:5'],
+                'attachments.*' => ['file', 'image', 'max:10240', 'mimes:jpg,jpeg,png,webp'],
+            ],
+            [
+                'attachments.max' => 'Możesz dodać maksymalnie 5 zdjęć.',
+                'attachments.*.image' => 'Każdy załącznik musi być obrazem.',
+                'attachments.*.mimes' => 'Dozwolone formaty zdjęć: jpg, jpeg, png, webp.',
+                'attachments.*.max' => 'Maksymalny rozmiar jednego zdjęcia to 10 MB.',
+            ]
+        );
 
         $customRequest = trim((string) ($validated['custom_request'] ?? ''));
 
