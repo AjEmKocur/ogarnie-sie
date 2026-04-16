@@ -39,6 +39,7 @@ Route::middleware(['auth', 'verified', 'password.change.required', 'admin'])->gr
     Route::view('/admin/dashboard', 'admin.dashboard')->name('admin.dashboard');
     Route::view('/admin/cms', 'admin.cms.dashboard')->name('admin.cms.dashboard');
     Route::get('/admin/tickets', [AdminTicketController::class, 'index'])->middleware('admin.permission:tickets')->name('admin.tickets.index');
+    Route::get('/admin/tickets/{ticket}', [AdminTicketController::class, 'show'])->middleware('admin.permission:tickets')->name('admin.tickets.show');
     Route::patch('/admin/tickets/{ticket}', [AdminTicketController::class, 'update'])->middleware('admin.permission:tickets')->name('admin.tickets.update');
     Route::get('/admin/contact', [AdminContactMessageController::class, 'index'])->middleware('admin.permission:contact_messages')->name('admin.contact.index');
     Route::patch('/admin/contact/{contactMessage}', [AdminContactMessageController::class, 'update'])->middleware('admin.permission:contact_messages')->name('admin.contact.update');

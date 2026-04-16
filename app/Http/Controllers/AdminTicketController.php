@@ -17,7 +17,10 @@ class AdminTicketController extends Controller
         $statuses = Ticket::statuses();
         $statusFilter = (string) $request->query('status', 'all');
 
-        $query = Ticket::with(['user', 'attachments', 'services', 'messages.user'])->latest();
+        $query = Ticket::query()
+            ->with(['user'])
+            ->withCount(['attachments', 'messages'])
+            ->latest();
 
         if ($statusFilter === Ticket::STATUS_CANCELLED) {
             $statusFilter = Ticket::STATUS_CLOSED;
@@ -35,14 +38,30 @@ class AdminTicketController extends Controller
             $query->whereNotIn('status', [Ticket::STATUS_CLOSED, Ticket::STATUS_CANCELLED]);
         }
 
-        $tickets = $query->get();
+        $tickets = $query->paginate(20)->withQueryString();
 
         return view('admin.tickets.index', [
             'tickets' => $tickets,
             'statuses' => $statuses,
-            'paymentModes' => Ticket::paymentModes(),
             'paymentStatuses' => Ticket::paymentStatuses(),
             'statusFilter' => $statusFilter,
+        ]);
+    }
+
+    public function show(Ticket $ticket): View
+    {
+        $ticket->load([
+            'user',
+            'services',
+            'attachments',
+            'messages.user',
+            'statusHistories.changedByUser',
+        ]);
+
+        return view('admin.tickets.show', [
+            'ticket' => $ticket,
+            'statuses' => Ticket::statuses(),
+            'paymentStatuses' => Ticket::paymentStatuses(),
         ]);
     }
 
@@ -139,7 +158,7 @@ class AdminTicketController extends Controller
         }
 
         return redirect()
-            ->back()
+            ->route('admin.tickets.show', $ticket)
             ->with('status', 'Zgłoszenie zostało zaktualizowane.');
     }
 }
