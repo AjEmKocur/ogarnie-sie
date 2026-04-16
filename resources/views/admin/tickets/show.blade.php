@@ -202,12 +202,8 @@
                             @method('PATCH')
 
                             <div>
-                                <x-input-label :value="'Status'" />
-                                <select name="status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    @foreach ($statuses as $value => $label)
-                                        <option value="{{ $value }}" @selected(old('status', $ticket->status) === $value)>{{ $label }}</option>
-                                    @endforeach
-                                </select>
+                                <x-input-label :value="'Notatka wewnętrzna (tylko admin/operator)'" />
+                                <textarea name="admin_note" rows="5" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ old('admin_note', $ticket->admin_note) }}</textarea>
                             </div>
 
                             <div>
@@ -234,9 +230,13 @@
                                 Oznacz jako opłacone
                             </label>
 
-                            <div>
-                                <x-input-label :value="'Notatka wewnętrzna (tylko admin/operator)'" />
-                                <textarea name="admin_note" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ old('admin_note', $ticket->admin_note) }}</textarea>
+                            <div class="rounded-md border border-gray-200 p-3">
+                                <p class="text-[11px] uppercase tracking-wider text-slate-400">Status (szybka zmiana)</p>
+                                <select name="status" class="mt-2 block w-full rounded-md border-gray-300 bg-slate-900 px-2 py-1.5 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                    @foreach ($statuses as $value => $label)
+                                        <option value="{{ $value }}" @selected(old('status', $ticket->status) === $value)>{{ $label }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="flex justify-end">
