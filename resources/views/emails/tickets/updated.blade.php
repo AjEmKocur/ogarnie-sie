@@ -18,11 +18,6 @@
             @endif
         </p>
 
-        @if ($ticket->admin_note)
-            <p><strong>Notatka od serwisu:</strong></p>
-            <p style="white-space: pre-line;">{{ $ticket->admin_note }}</p>
-        @endif
-
         @if ($ticket->payment_note)
             <p><strong>Notatka dotycząca płatności:</strong></p>
             <p style="white-space: pre-line;">{{ $ticket->payment_note }}</p>
@@ -33,4 +28,3 @@
         </p>
     </body>
 </html>
-

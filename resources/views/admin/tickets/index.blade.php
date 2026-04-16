@@ -273,7 +273,7 @@
                                             </label>
 
                                             <div>
-                                                <x-input-label :value="'Komentarz do kroku'" />
+                                                <x-input-label :value="'Notatka wewnętrzna (tylko admin/operator)'" />
                                                 <textarea name="admin_note" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ old('admin_note', $ticket->admin_note) }}</textarea>
                                             </div>
 

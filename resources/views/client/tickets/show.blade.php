@@ -137,9 +137,6 @@
                                         <p class="mt-1 text-xs text-slate-400">
                                             Zmienił: {{ $history->changedByUser?->name ?? 'System' }}
                                         </p>
-                                        @if ($history->admin_note)
-                                            <p class="mt-2 whitespace-pre-line text-sm">{{ $history->admin_note }}</p>
-                                        @endif
                                     </li>
                                 @endforeach
                             </ol>
