@@ -69,6 +69,7 @@
                         Wszystkie aktywne
                     </a>
                     @foreach ($statuses as $value => $label)
+                        @continue($value === \App\Models\Ticket::STATUS_CANCELLED)
                         <a href="{{ route('admin.tickets.index', ['status' => $value]) }}"
                            class="rounded-md px-3 py-2 text-xs font-semibold uppercase tracking-wider {{ $statusFilter === $value ? 'bg-blue-600 text-white' : 'border border-gray-300 text-slate-300 hover:bg-slate-800' }}">
                             {{ $label }}
@@ -99,6 +100,11 @@
                                                 <span class="rounded-full px-3 py-1 text-xs font-semibold {{ $badgeClasses[$ticket->status] ?? 'bg-gray-500/20 text-gray-200 border border-gray-400/30' }}">
                                                     {{ $statuses[$ticket->status] ?? $ticket->status }}
                                                 </span>
+                                                @if ($ticket->status === \App\Models\Ticket::STATUS_CANCELLED)
+                                                    <span class="rounded-full px-3 py-1 text-xs font-semibold bg-slate-500/20 text-slate-200 border border-slate-400/30">
+                                                        Zamknięte (anulowane)
+                                                    </span>
+                                                @endif
                                                 <span class="rounded-full px-3 py-1 text-xs font-semibold {{ $paymentBadgeClasses[$ticket->payment_status] ?? 'bg-gray-500/20 text-gray-200 border border-gray-400/30' }}">
                                                     {{ $paymentStatuses[$ticket->payment_status] ?? $ticket->payment_status }}
                                                 </span>

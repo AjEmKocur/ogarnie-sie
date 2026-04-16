@@ -154,6 +154,11 @@ class ClientTicketController extends Controller
 
         $ticket->update([
             'status' => Ticket::STATUS_CANCELLED,
+            'payment_mode' => Ticket::PAYMENT_MODE_NONE,
+            'payment_status' => Ticket::PAYMENT_STATUS_NOT_REQUIRED,
+            'payment_amount' => null,
+            'payment_requested_at' => null,
+            'paid_at' => null,
         ]);
 
         $ticket->statusHistories()->create([

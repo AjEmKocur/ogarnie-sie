@@ -20,15 +20,20 @@ class AdminTicketController extends Controller
 
         $query = Ticket::with(['user', 'attachments', 'services', 'messages.user'])->latest();
 
-        if ($statusFilter === 'all') {
-            // W "Wszystkie" pokazujemy zgłoszenia aktywne (bez zamkniętych),
-            // a status "Zamknięte" ma własną zakładkę.
-            $query->where('status', '!=', Ticket::STATUS_CLOSED);
+        if ($statusFilter === Ticket::STATUS_CANCELLED) {
+            $statusFilter = Ticket::STATUS_CLOSED;
+            $query->whereIn('status', [Ticket::STATUS_CLOSED, Ticket::STATUS_CANCELLED]);
+        } elseif ($statusFilter === 'all') {
+            // W "Wszystkie aktywne" pokazujemy zgłoszenia bez zamkniętych i anulowanych.
+            $query->whereNotIn('status', [Ticket::STATUS_CLOSED, Ticket::STATUS_CANCELLED]);
+        } elseif ($statusFilter === Ticket::STATUS_CLOSED) {
+            // Zakładka "Zamknięte" zbiera także anulowane.
+            $query->whereIn('status', [Ticket::STATUS_CLOSED, Ticket::STATUS_CANCELLED]);
         } elseif (array_key_exists($statusFilter, $statuses)) {
             $query->where('status', $statusFilter);
         } else {
             $statusFilter = 'all';
-            $query->where('status', '!=', Ticket::STATUS_CLOSED);
+            $query->whereNotIn('status', [Ticket::STATUS_CLOSED, Ticket::STATUS_CANCELLED]);
         }
 
         $tickets = $query->get();
@@ -81,7 +86,14 @@ class AdminTicketController extends Controller
             ? (float) $validated['payment_amount']
             : null;
 
-        if ($paymentMode === Ticket::PAYMENT_MODE_NONE) {
+        if ($validated['status'] === Ticket::STATUS_CANCELLED) {
+            // Anulowane zgłoszenie nie powinno oczekiwać na płatność.
+            $paymentMode = Ticket::PAYMENT_MODE_NONE;
+            $paymentStatus = Ticket::PAYMENT_STATUS_NOT_REQUIRED;
+            $paymentAmount = null;
+            $paymentRequestedAt = null;
+            $paidAt = null;
+        } elseif ($paymentMode === Ticket::PAYMENT_MODE_NONE) {
             $paymentStatus = Ticket::PAYMENT_STATUS_NOT_REQUIRED;
             $paymentAmount = null;
             $paymentRequestedAt = null;
