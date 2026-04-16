@@ -47,7 +47,7 @@
                 @endforelse
             </div>
 
-            <aside class="rounded-xl border border-gray-200 bg-white/5 p-5">
+            <aside class="h-fit self-start rounded-xl border border-gray-200 bg-white/5 p-5">
                 <div class="flex items-center gap-2">
                     <span class="h-2.5 w-2.5 rounded-full bg-yellow-400"></span>
                     <h2 class="text-lg font-semibold">Najpopularniejsze</h2>
