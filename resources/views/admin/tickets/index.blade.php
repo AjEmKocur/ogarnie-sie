@@ -119,165 +119,165 @@
                                         </div>
                                     </summary>
 
-                                    <div class="border-t border-gray-200 p-4">
-                                        <div class="mb-3 text-sm">
-                                            <p class="font-medium">Usługi:</p>
-                                            @if ($ticket->services->isEmpty())
-                                                <p>-</p>
-                                            @else
-                                                <ul class="list-disc pl-5">
-                                                    @foreach ($ticket->services as $service)
-                                                        <li>{{ $service->name }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            @endif
-                                        </div>
+                                    <div class="border-t border-gray-200 p-4 space-y-4">
+                                        <div class="grid gap-4 xl:grid-cols-3">
+                                            <section class="xl:col-span-2 space-y-4">
+                                                <div class="rounded-md border border-gray-200 p-3">
+                                                    <p class="mb-3 text-sm font-semibold text-gray-700">Treść zgłoszenia</p>
 
-                                        <p class="mb-2 text-sm">
-                                            <strong>Orientacyjna cena od:</strong>
-                                            {{ $ticket->estimated_price_from !== null ? number_format($ticket->estimated_price_from, 2, ',', ' ') . ' PLN' : 'Wycena po diagnozie' }}
-                                        </p>
-
-                                        <p class="mb-2 text-sm">
-                                            <strong>Płatność:</strong>
-                                            <span class="rounded-full px-2 py-1 text-xs font-semibold {{ $paymentBadgeClasses[$ticket->payment_status] ?? 'bg-gray-500/20 text-gray-200 border border-gray-400/30' }}">
-                                                {{ $paymentStatuses[$ticket->payment_status] ?? $ticket->payment_status }}
-                                            </span>
-                                            @if ($ticket->payment_amount !== null)
-                                                <span class="ml-2">{{ number_format((float) $ticket->payment_amount, 2, ',', ' ') }} PLN</span>
-                                            @endif
-                                            @if ($ticket->paid_at)
-                                                <span class="ml-2 text-gray-500">(opłacono: {{ $ticket->paid_at->format('Y-m-d H:i') }})</span>
-                                            @endif
-                                        </p>
-
-                                        @if ($ticket->custom_request)
-                                            <div class="mb-2 text-sm">
-                                                <p class="font-medium">Dodatkowe informacje:</p>
-                                                <p class="whitespace-pre-line">{{ $ticket->custom_request }}</p>
-                                            </div>
-                                        @endif
-
-                                        <p class="mb-4 whitespace-pre-line text-sm text-gray-700">{{ $ticket->description }}</p>
-
-                                        <div class="mb-4 rounded-md border border-gray-200 p-3">
-                                            <p class="mb-2 text-sm font-medium text-gray-700">Załączniki</p>
-
-                                            <form method="POST" action="{{ route('tickets.attachments.store', $ticket) }}" enctype="multipart/form-data" class="mb-3 flex flex-wrap items-center gap-3">
-                                                @csrf
-                                                <input type="file" name="attachment" required class="block rounded-md border border-gray-300 bg-white text-sm file:mr-4 file:rounded-md file:border-0 file:bg-gray-100 file:px-3 file:py-2 file:text-sm file:font-semibold" />
-                                                <x-primary-button>Dodaj plik</x-primary-button>
-                                            </form>
-
-                                            @if ($ticket->attachments->isEmpty())
-                                                <p class="text-sm text-gray-500">Brak załączników.</p>
-                                            @else
-                                                <ul class="space-y-1">
-                                                    @foreach ($ticket->attachments as $attachment)
-                                                        <li class="flex items-center justify-between rounded-md border border-gray-200 px-3 py-2 text-sm">
-                                                            <span>{{ $attachment->original_name }}</span>
-                                                            <div class="flex items-center gap-3">
-                                                                <a href="{{ route('tickets.attachments.download', $attachment) }}" class="text-indigo-600 hover:text-indigo-800">Pobierz</a>
-                                                                <form method="POST" action="{{ route('tickets.attachments.destroy', $attachment) }}" onsubmit="return confirm('Usunąć ten plik?');">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <button type="submit" class="text-red-600 hover:text-red-800">Usuń</button>
-                                                                </form>
-                                                            </div>
-                                                        </li>
-                                                    @endforeach
-                                                </ul>
-                                            @endif
-                                        </div>
-
-                                        <div class="mb-4 rounded-md border border-gray-200 p-3">
-                                            <p class="mb-2 text-sm font-medium text-gray-700">Wiadomości w zgłoszeniu</p>
-
-                                            @if ($ticket->messages->isEmpty())
-                                                <p class="text-sm text-gray-500">Brak wiadomości.</p>
-                                            @else
-                                                <div class="mb-3 space-y-2">
-                                                    @foreach ($ticket->messages as $message)
-                                                        <div class="rounded-md border border-gray-200 px-3 py-2 text-sm">
-                                                            <div class="mb-1 flex flex-wrap items-center justify-between gap-2 text-xs text-gray-500">
-                                                                <span>{{ $message->user?->name ?? 'Użytkownik' }}</span>
-                                                                <span>{{ $message->created_at?->format('Y-m-d H:i') }}</span>
-                                                            </div>
-                                                            <p class="whitespace-pre-line">{{ $message->message }}</p>
+                                                    <div class="grid gap-3 md:grid-cols-2 text-sm">
+                                                        <div>
+                                                            <p class="text-xs uppercase tracking-wider text-slate-400">Usługi</p>
+                                                            @if ($ticket->services->isEmpty())
+                                                                <p class="mt-1">-</p>
+                                                            @else
+                                                                <ul class="mt-1 list-disc pl-5">
+                                                                    @foreach ($ticket->services as $service)
+                                                                        <li>{{ $service->name }}</li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            @endif
                                                         </div>
-                                                    @endforeach
-                                                </div>
-                                            @endif
 
-                                            <form method="POST" action="{{ route('tickets.messages.store', $ticket) }}" class="space-y-2">
-                                                @csrf
-                                                <textarea name="message" rows="2" class="w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2" placeholder="Napisz wiadomość do klienta..." required></textarea>
-                                                <div class="flex justify-end">
-                                                    <x-primary-button>Wyślij wiadomość</x-primary-button>
+                                                        <div>
+                                                            <p class="text-xs uppercase tracking-wider text-slate-400">Podsumowanie</p>
+                                                            <p class="mt-1">
+                                                                Orientacyjna cena od:
+                                                                {{ $ticket->estimated_price_from !== null ? number_format($ticket->estimated_price_from, 2, ',', ' ') . ' PLN' : 'Wycena po diagnozie' }}
+                                                            </p>
+                                                            <p class="mt-2">
+                                                                Płatność:
+                                                                <span class="rounded-full px-2 py-1 text-xs font-semibold {{ $paymentBadgeClasses[$ticket->payment_status] ?? 'bg-gray-500/20 text-gray-200 border border-gray-400/30' }}">
+                                                                    {{ $paymentStatuses[$ticket->payment_status] ?? $ticket->payment_status }}
+                                                                </span>
+                                                                @if ($ticket->payment_amount !== null)
+                                                                    <span class="ml-2">{{ number_format((float) $ticket->payment_amount, 2, ',', ' ') }} PLN</span>
+                                                                @endif
+                                                            </p>
+                                                            @if ($ticket->paid_at)
+                                                                <p class="mt-1 text-xs text-slate-400">Opłacono: {{ $ticket->paid_at->format('Y-m-d H:i') }}</p>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+
+                                                    @if ($ticket->custom_request)
+                                                        <div class="mt-3">
+                                                            <p class="text-xs uppercase tracking-wider text-slate-400">Dodatkowe informacje</p>
+                                                            <p class="mt-1 whitespace-pre-line text-sm">{{ $ticket->custom_request }}</p>
+                                                        </div>
+                                                    @endif
+
+                                                    <div class="mt-3">
+                                                        <p class="text-xs uppercase tracking-wider text-slate-400">Opis problemu</p>
+                                                        <p class="mt-1 whitespace-pre-line text-sm text-gray-700">{{ $ticket->description }}</p>
+                                                    </div>
                                                 </div>
-                                            </form>
+
+                                                <div class="rounded-md border border-gray-200 p-3">
+                                                    <p class="mb-2 text-sm font-semibold text-gray-700">Załączniki</p>
+
+                                                    <form method="POST" action="{{ route('tickets.attachments.store', $ticket) }}" enctype="multipart/form-data" class="mb-3 flex flex-wrap items-center gap-3">
+                                                        @csrf
+                                                        <input type="file" name="attachment" required class="block rounded-md border border-gray-300 bg-white text-sm file:mr-4 file:rounded-md file:border-0 file:bg-gray-100 file:px-3 file:py-2 file:text-sm file:font-semibold" />
+                                                        <x-primary-button>Dodaj plik</x-primary-button>
+                                                    </form>
+
+                                                    @if ($ticket->attachments->isEmpty())
+                                                        <p class="text-sm text-gray-500">Brak załączników.</p>
+                                                    @else
+                                                        <ul class="space-y-1">
+                                                            @foreach ($ticket->attachments as $attachment)
+                                                                <li class="flex items-center justify-between rounded-md border border-gray-200 px-3 py-2 text-sm">
+                                                                    <span>{{ $attachment->original_name }}</span>
+                                                                    <div class="flex items-center gap-3">
+                                                                        <a href="{{ route('tickets.attachments.download', $attachment) }}" class="text-indigo-600 hover:text-indigo-800">Pobierz</a>
+                                                                        <form method="POST" action="{{ route('tickets.attachments.destroy', $attachment) }}" onsubmit="return confirm('Usunąć ten plik?');">
+                                                                            @csrf
+                                                                            @method('DELETE')
+                                                                            <button type="submit" class="text-red-600 hover:text-red-800">Usuń</button>
+                                                                        </form>
+                                                                    </div>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @endif
+                                                </div>
+                                            </section>
+
+                                            <section class="rounded-md border border-gray-200 p-3 flex flex-col">
+                                                <p class="mb-2 text-sm font-semibold text-gray-700">Wiadomości</p>
+
+                                                <div class="mb-3 max-h-80 overflow-y-auto space-y-2 pr-1">
+                                                    @if ($ticket->messages->isEmpty())
+                                                        <p class="text-sm text-gray-500">Brak wiadomości.</p>
+                                                    @else
+                                                        @foreach ($ticket->messages as $message)
+                                                            <div class="rounded-md border border-gray-200 px-3 py-2 text-sm">
+                                                                <div class="mb-1 flex flex-wrap items-center justify-between gap-2 text-xs text-gray-500">
+                                                                    <span>{{ $message->user?->name ?? 'Użytkownik' }}</span>
+                                                                    <span>{{ $message->created_at?->format('Y-m-d H:i') }}</span>
+                                                                </div>
+                                                                <p class="whitespace-pre-line">{{ $message->message }}</p>
+                                                            </div>
+                                                        @endforeach
+                                                    @endif
+                                                </div>
+
+                                                <form method="POST" action="{{ route('tickets.messages.store', $ticket) }}" class="mt-auto space-y-2">
+                                                    @csrf
+                                                    <textarea name="message" rows="4" class="w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2" placeholder="Napisz wiadomość do klienta..." required></textarea>
+                                                    <div class="flex justify-end">
+                                                        <x-primary-button>Wyślij wiadomość</x-primary-button>
+                                                    </div>
+                                                </form>
+                                            </section>
                                         </div>
 
-                                        <form method="POST" action="{{ route('admin.tickets.update', $ticket) }}" class="grid gap-4 md:grid-cols-2">
+                                        <form method="POST" action="{{ route('admin.tickets.update', $ticket) }}" class="rounded-md border border-gray-200 p-4 space-y-4">
                                             @csrf
                                             @method('PATCH')
 
-                                            <div>
-                                                <x-input-label :value="'Status'" />
-                                                <select name="status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                                    @foreach ($statuses as $value => $label)
-                                                        <option value="{{ $value }}" @selected(old('status', $ticket->status) === $value)>{{ $label }}</option>
-                                                    @endforeach
-                                                </select>
+                                            <div class="grid gap-4 md:grid-cols-2">
+                                                <div>
+                                                    <x-input-label :value="'Status'" />
+                                                    <select name="status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                                        @foreach ($statuses as $value => $label)
+                                                            <option value="{{ $value }}" @selected(old('status', $ticket->status) === $value)>{{ $label }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+
+                                                <div>
+                                                    <x-input-label :value="'Płatność na miejscu (kwota w PLN)'" />
+                                                    <input
+                                                        name="payment_amount"
+                                                        type="number"
+                                                        min="0"
+                                                        step="0.01"
+                                                        class="mt-1 block w-full rounded-md border-gray-300 bg-slate-900 text-slate-100 placeholder-slate-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                                        value="{{ old('payment_amount', $ticket->payment_amount) }}"
+                                                        placeholder="Zostaw puste = brak płatności"
+                                                    />
+                                                </div>
                                             </div>
 
-                                            <div class="md:col-span-2">
+                                            <label class="inline-flex items-center gap-2 text-sm text-slate-200">
+                                                <input
+                                                    type="checkbox"
+                                                    name="payment_mark_paid"
+                                                    value="1"
+                                                    @checked((bool) old('payment_mark_paid', $ticket->payment_status === \App\Models\Ticket::PAYMENT_STATUS_PAID))
+                                                    class="rounded border-gray-300 bg-slate-900 text-blue-500"
+                                                >
+                                                Oznacz jako opłacone
+                                            </label>
+
+                                            <div>
                                                 <x-input-label :value="'Komentarz do kroku'" />
                                                 <textarea name="admin_note" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ old('admin_note', $ticket->admin_note) }}</textarea>
                                             </div>
 
-                                            <div class="md:col-span-2 rounded-md border border-gray-200 p-3">
-                                                <p class="mb-3 text-sm font-semibold text-gray-700">Płatność</p>
-                                                <div class="grid gap-4 md:grid-cols-2">
-                                                    <div>
-                                                        <x-input-label :value="'Tryb płatności'" />
-                                                        <select name="payment_mode" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                                            @foreach ($paymentModes as $value => $label)
-                                                                <option value="{{ $value }}" @selected(old('payment_mode', $ticket->payment_mode) === $value)>{{ $label }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-
-                                                    <div>
-                                                        <x-input-label :value="'Kwota do zapłaty (PLN)'" />
-                                                        <input
-                                                            name="payment_amount"
-                                                            type="number"
-                                                            min="0"
-                                                            step="0.01"
-                                                            class="mt-1 block w-full rounded-md border-gray-300 bg-slate-900 text-slate-100 placeholder-slate-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                                            value="{{ old('payment_amount', $ticket->payment_amount) }}"
-                                                            placeholder="Np. 199.99"
-                                                        />
-                                                    </div>
-
-                                                    <div>
-                                                        <x-input-label :value="'Status płatności'" />
-                                                        <select name="payment_status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                                            @foreach ($paymentStatuses as $value => $label)
-                                                                <option value="{{ $value }}" @selected(old('payment_status', $ticket->payment_status) === $value)>{{ $label }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-
-                                                    <div>
-                                                        <x-input-label :value="'Notatka do płatności (dla klienta)'" />
-                                                        <textarea name="payment_note" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ old('payment_note', $ticket->payment_note) }}</textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="md:col-span-2 flex justify-end">
+                                            <div class="flex justify-end">
                                                 <x-primary-button>Zapisz zmiany</x-primary-button>
                                             </div>
                                         </form>
