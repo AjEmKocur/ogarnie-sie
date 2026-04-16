@@ -20,10 +20,15 @@ class AdminTicketController extends Controller
 
         $query = Ticket::with(['user', 'attachments', 'services', 'messages.user'])->latest();
 
-        if ($statusFilter !== 'all' && array_key_exists($statusFilter, $statuses)) {
+        if ($statusFilter === 'all') {
+            // W "Wszystkie" pokazujemy zgłoszenia aktywne (bez zamkniętych),
+            // a status "Zamknięte" ma własną zakładkę.
+            $query->where('status', '!=', Ticket::STATUS_CLOSED);
+        } elseif (array_key_exists($statusFilter, $statuses)) {
             $query->where('status', $statusFilter);
         } else {
             $statusFilter = 'all';
+            $query->where('status', '!=', Ticket::STATUS_CLOSED);
         }
 
         $tickets = $query->get();

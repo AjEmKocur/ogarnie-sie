@@ -66,7 +66,7 @@
                 <div class="flex flex-wrap gap-2">
                     <a href="{{ route('admin.tickets.index', ['status' => 'all']) }}"
                        class="rounded-md px-3 py-2 text-xs font-semibold uppercase tracking-wider {{ $statusFilter === 'all' ? 'bg-blue-600 text-white' : 'border border-gray-300 text-slate-300 hover:bg-slate-800' }}">
-                        Wszystkie
+                        Wszystkie aktywne
                     </a>
                     @foreach ($statuses as $value => $label)
                         <a href="{{ route('admin.tickets.index', ['status' => $value]) }}"
