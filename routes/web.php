@@ -12,6 +12,7 @@ use App\Http\Controllers\ClientTestimonialController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicContactController;
 use App\Http\Controllers\PublicPageController;
+use App\Http\Controllers\TicketNotificationController;
 use App\Http\Controllers\TicketMessageController;
 use App\Http\Controllers\TicketAttachmentController;
 use Illuminate\Support\Facades\Route;
@@ -85,6 +86,7 @@ Route::middleware(['auth', 'verified', 'password.change.required', 'client'])->g
 });
 
 Route::middleware(['auth', 'verified', 'password.change.required'])->group(function () {
+    Route::get('/notifications/tickets', [TicketNotificationController::class, 'index'])->name('notifications.tickets');
     Route::post('/tickets/{ticket}/messages', [TicketMessageController::class, 'store'])->name('tickets.messages.store');
     Route::post('/tickets/{ticket}/attachments', [TicketAttachmentController::class, 'store'])->name('tickets.attachments.store');
     Route::get('/attachments/{attachment}/download', [TicketAttachmentController::class, 'download'])->name('tickets.attachments.download');

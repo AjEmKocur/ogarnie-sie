@@ -62,6 +62,95 @@
 
         <script>
             document.addEventListener('DOMContentLoaded', () => {
+                const roots = document.querySelectorAll('[data-ticket-notifications-root]');
+                if (!roots.length) {
+                    return;
+                }
+
+                const itemClass = 'block w-full px-4 py-2 text-start text-sm leading-5 text-gray-200 hover:bg-slate-800 focus:outline-none focus:bg-slate-800 transition duration-150 ease-in-out';
+
+                const renderRoot = (root, payload) => {
+                    const badge = root.querySelector('[data-ticket-notifications-badge]');
+                    const list = root.querySelector('[data-ticket-notifications-list]');
+                    if (!badge || !list) return;
+
+                    const total = Number(payload?.total || 0);
+                    if (total > 0) {
+                        badge.textContent = String(Math.min(99, total));
+                        badge.classList.remove('hidden');
+                        badge.classList.add('inline-flex');
+                    } else {
+                        badge.textContent = '0';
+                        badge.classList.add('hidden');
+                        badge.classList.remove('inline-flex');
+                    }
+
+                    list.innerHTML = '';
+                    const items = Array.isArray(payload?.items) ? payload.items : [];
+                    if (!items.length) {
+                        const empty = document.createElement('div');
+                        empty.className = 'px-4 py-2 text-sm text-slate-400';
+                        empty.textContent = 'Brak nowych powiadomień.';
+                        list.appendChild(empty);
+                        return;
+                    }
+
+                    items.forEach((item) => {
+                        const link = document.createElement('a');
+                        link.href = item.url || '#';
+                        link.className = itemClass;
+
+                        const wrap = document.createElement('div');
+                        wrap.className = 'flex flex-col gap-1';
+
+                        const title = document.createElement('span');
+                        title.className = 'font-semibold';
+                        title.textContent = item.title || 'Powiadomienie';
+                        wrap.appendChild(title);
+
+                        if (item.time) {
+                            const time = document.createElement('span');
+                            time.className = 'text-xs text-slate-400';
+                            time.textContent = item.time;
+                            wrap.appendChild(time);
+                        }
+
+                        link.appendChild(wrap);
+                        list.appendChild(link);
+                    });
+                };
+
+                const refreshRoot = async (root) => {
+                    const url = root.getAttribute('data-url');
+                    if (!url) return;
+
+                    try {
+                        const response = await fetch(url, {
+                            method: 'GET',
+                            headers: { 'Accept': 'application/json' },
+                            credentials: 'same-origin',
+                        });
+                        if (!response.ok) return;
+                        const data = await response.json();
+                        renderRoot(root, data);
+                    } catch (error) {
+                        // Cicho pomijamy chwilowe błędy sieci.
+                    }
+                };
+
+                const refreshAll = () => roots.forEach((root) => void refreshRoot(root));
+
+                setInterval(refreshAll, 15000);
+                document.addEventListener('visibilitychange', () => {
+                    if (!document.hidden) {
+                        refreshAll();
+                    }
+                });
+            });
+        </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
                 const modal = document.getElementById('confirm-modal');
                 const titleEl = document.getElementById('confirm-modal-title');
                 const messageEl = document.getElementById('confirm-modal-message');

@@ -31,14 +31,17 @@
                             $ticketNotifications = \App\Support\TicketNotificationCenter::forUser(auth()->user());
                         @endphp
 
+                        <div data-ticket-notifications-root data-url="{{ route('notifications.tickets') }}">
                         <x-dropdown align="right" width="72">
                             <x-slot name="trigger">
                                 <button class="relative inline-flex items-center rounded-md border border-gray-300 px-3 py-2 text-sm font-semibold text-slate-200 hover:bg-slate-800" title="Powiadomienia">
                                     <span class="text-base leading-none">🔔</span>
                                     @if (($ticketNotifications['total'] ?? 0) > 0)
-                                        <span class="absolute -right-2 -top-2 inline-flex min-h-[18px] min-w-[18px] items-center justify-center rounded-full bg-amber-500 px-1 text-[10px] font-bold text-slate-950">
+                                        <span data-ticket-notifications-badge class="absolute -right-2 -top-2 inline-flex min-h-[18px] min-w-[18px] items-center justify-center rounded-full bg-amber-500 px-1 text-[10px] font-bold text-slate-950">
                                             {{ min(99, (int) $ticketNotifications['total']) }}
                                         </span>
+                                    @else
+                                        <span data-ticket-notifications-badge class="absolute -right-2 -top-2 hidden min-h-[18px] min-w-[18px] items-center justify-center rounded-full bg-amber-500 px-1 text-[10px] font-bold text-slate-950">0</span>
                                     @endif
                                 </button>
                             </x-slot>
@@ -47,22 +50,23 @@
                                 <div class="px-4 py-2 text-xs uppercase tracking-wider text-slate-400">
                                     Powiadomienia
                                 </div>
-                                @forelse (($ticketNotifications['items'] ?? []) as $item)
-                                    <x-dropdown-link :href="$item['url']">
-                                        <div class="flex flex-col gap-1">
-                                            <span class="font-semibold">{{ $item['title'] }}</span>
-                                            @if (!empty($item['time']))
-                                                <span class="text-xs text-slate-400">{{ $item['time'] }}</span>
-                                            @endif
-                                        </div>
-                                    </x-dropdown-link>
-                                @empty
-                                    <div class="px-4 py-2 text-sm text-slate-400">
-                                        Brak nowych powiadomień.
-                                    </div>
-                                @endforelse
+                                <div data-ticket-notifications-list>
+                                    @forelse (($ticketNotifications['items'] ?? []) as $item)
+                                        <x-dropdown-link :href="$item['url']">
+                                            <div class="flex flex-col gap-1">
+                                                <span class="font-semibold">{{ $item['title'] }}</span>
+                                                @if (!empty($item['time']))
+                                                    <span class="text-xs text-slate-400">{{ $item['time'] }}</span>
+                                                @endif
+                                            </div>
+                                        </x-dropdown-link>
+                                    @empty
+                                        <div class="px-4 py-2 text-sm text-slate-400">Brak nowych powiadomień.</div>
+                                    @endforelse
+                                </div>
                             </x-slot>
                         </x-dropdown>
+                        </div>
 
                         <x-dropdown align="right" width="56">
                             <x-slot name="trigger">
@@ -134,5 +138,94 @@
             </div>
         </footer>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const roots = document.querySelectorAll('[data-ticket-notifications-root]');
+            if (!roots.length) {
+                return;
+            }
+
+            const itemClass = 'block w-full px-4 py-2 text-start text-sm leading-5 text-gray-200 hover:bg-slate-800 focus:outline-none focus:bg-slate-800 transition duration-150 ease-in-out';
+
+            const renderRoot = (root, payload) => {
+                const badge = root.querySelector('[data-ticket-notifications-badge]');
+                const list = root.querySelector('[data-ticket-notifications-list]');
+                if (!badge || !list) return;
+
+                const total = Number(payload?.total || 0);
+                if (total > 0) {
+                    badge.textContent = String(Math.min(99, total));
+                    badge.classList.remove('hidden');
+                    badge.classList.add('inline-flex');
+                } else {
+                    badge.textContent = '0';
+                    badge.classList.add('hidden');
+                    badge.classList.remove('inline-flex');
+                }
+
+                list.innerHTML = '';
+                const items = Array.isArray(payload?.items) ? payload.items : [];
+                if (!items.length) {
+                    const empty = document.createElement('div');
+                    empty.className = 'px-4 py-2 text-sm text-slate-400';
+                    empty.textContent = 'Brak nowych powiadomień.';
+                    list.appendChild(empty);
+                    return;
+                }
+
+                items.forEach((item) => {
+                    const link = document.createElement('a');
+                    link.href = item.url || '#';
+                    link.className = itemClass;
+
+                    const wrap = document.createElement('div');
+                    wrap.className = 'flex flex-col gap-1';
+
+                    const title = document.createElement('span');
+                    title.className = 'font-semibold';
+                    title.textContent = item.title || 'Powiadomienie';
+                    wrap.appendChild(title);
+
+                    if (item.time) {
+                        const time = document.createElement('span');
+                        time.className = 'text-xs text-slate-400';
+                        time.textContent = item.time;
+                        wrap.appendChild(time);
+                    }
+
+                    link.appendChild(wrap);
+                    list.appendChild(link);
+                });
+            };
+
+            const refreshRoot = async (root) => {
+                const url = root.getAttribute('data-url');
+                if (!url) return;
+
+                try {
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        headers: { 'Accept': 'application/json' },
+                        credentials: 'same-origin',
+                    });
+                    if (!response.ok) return;
+                    const data = await response.json();
+                    renderRoot(root, data);
+                } catch (error) {
+                    // Cicho pomijamy chwilowe błędy sieci.
+                }
+            };
+
+            const refreshAll = () => roots.forEach((root) => void refreshRoot(root));
+
+            setInterval(refreshAll, 15000);
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) {
+                    refreshAll();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
