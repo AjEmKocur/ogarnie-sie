@@ -111,6 +111,10 @@ class ClientTicketController extends Controller
 
         abort_unless($ticket->user_id === $request->user()->id, 403);
 
+        $ticket->forceFill([
+            'client_last_seen_at' => now(),
+        ])->saveQuietly();
+
         $ticket->load(['attachments', 'services', 'statusHistories.changedByUser', 'messages.user']);
 
         return view('client.tickets.show', [

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\TicketUpdated;
 use App\Models\Ticket;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -20,6 +21,13 @@ class AdminTicketController extends Controller
         $query = Ticket::query()
             ->with(['user'])
             ->withCount(['attachments', 'messages'])
+            ->selectSub(function ($q): void {
+                $q->from('ticket_messages')
+                    ->join('users', 'users.id', '=', 'ticket_messages.user_id')
+                    ->whereColumn('ticket_messages.ticket_id', 'tickets.id')
+                    ->where('users.role', User::ROLE_CLIENT)
+                    ->selectRaw('max(ticket_messages.created_at)');
+            }, 'last_client_message_at')
             ->latest();
 
         if ($statusFilter === Ticket::STATUS_CANCELLED) {
@@ -50,6 +58,10 @@ class AdminTicketController extends Controller
 
     public function show(Ticket $ticket): View
     {
+        $ticket->forceFill([
+            'admin_last_seen_at' => now(),
+        ])->saveQuietly();
+
         $ticket->load([
             'user',
             'services',
@@ -89,6 +101,10 @@ class AdminTicketController extends Controller
             ? (float) $validated['payment_amount']
             : null;
         $paymentMarkedPaid = $request->boolean('payment_mark_paid');
+        $adminNote = $request->has('admin_note')
+            ? ($validated['admin_note'] ?? null)
+            : $ticket->admin_note;
+        $hasPaymentInput = $request->has('payment_amount') || $request->has('payment_mark_paid');
 
         if ($validated['status'] === Ticket::STATUS_CANCELLED) {
             // Anulowane zgłoszenie nie powinno oczekiwać na płatność.
@@ -97,6 +113,12 @@ class AdminTicketController extends Controller
             $paymentAmount = null;
             $paymentRequestedAt = null;
             $paidAt = null;
+        } elseif (! $hasPaymentInput) {
+            $paymentMode = $ticket->payment_mode;
+            $paymentStatus = $ticket->payment_status;
+            $paymentAmount = $ticket->payment_amount !== null ? (float) $ticket->payment_amount : null;
+            $paymentRequestedAt = $ticket->payment_requested_at;
+            $paidAt = $ticket->paid_at;
         } elseif ($paymentAmount === null) {
             $paymentMode = Ticket::PAYMENT_MODE_NONE;
             $paymentStatus = Ticket::PAYMENT_STATUS_NOT_REQUIRED;
@@ -113,7 +135,7 @@ class AdminTicketController extends Controller
 
         $ticket->update([
             'status' => $validated['status'],
-            'admin_note' => $validated['admin_note'] ?? null,
+            'admin_note' => $adminNote,
             'payment_mode' => $paymentMode,
             'payment_status' => $paymentStatus,
             'payment_amount' => $paymentAmount,

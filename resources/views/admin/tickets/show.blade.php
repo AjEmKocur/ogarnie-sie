@@ -82,7 +82,8 @@
             <div class="grid gap-4 xl:grid-cols-[minmax(0,1fr)_360px]">
                 <div class="space-y-4">
                     <section class="rounded-xl border border-gray-200 bg-white p-5">
-                        <h3 class="text-base font-semibold">Treść zgłoszenia</h3>
+                        <h3 class="text-base font-semibold">Treść i załączniki</h3>
+
                         <div class="mt-4 grid gap-4 md:grid-cols-2 text-sm">
                             <div>
                                 <p class="text-xs uppercase tracking-wider text-slate-400">Usługi</p>
@@ -113,36 +114,53 @@
                             <p class="text-xs uppercase tracking-wider text-slate-400">Opis problemu</p>
                             <p class="mt-1 whitespace-pre-line text-sm">{{ $ticket->description }}</p>
                         </div>
+
+                        <div class="mt-5 border-t border-gray-200 pt-4">
+                            <p class="text-sm font-semibold">Załączniki</p>
+
+                            <form method="POST" action="{{ route('tickets.attachments.store', $ticket) }}" enctype="multipart/form-data" class="mt-3 flex flex-wrap items-center gap-3">
+                                @csrf
+                                <input type="file" name="attachment" required class="block rounded-md border border-gray-300 bg-white text-sm file:mr-4 file:rounded-md file:border-0 file:bg-gray-100 file:px-3 file:py-2 file:text-sm file:font-semibold" />
+                                <x-primary-button>Dodaj plik</x-primary-button>
+                            </form>
+
+                            @if ($ticket->attachments->isEmpty())
+                                <p class="mt-3 text-sm text-slate-400">Brak załączników.</p>
+                            @else
+                                <ul class="mt-3 space-y-1">
+                                    @foreach ($ticket->attachments as $attachment)
+                                        <li class="flex items-center justify-between rounded-md border border-gray-200 px-3 py-2 text-sm">
+                                            <span>{{ $attachment->original_name }}</span>
+                                            <div class="flex items-center gap-3">
+                                                <a href="{{ route('tickets.attachments.download', $attachment) }}" class="text-indigo-600 hover:text-indigo-800">Pobierz</a>
+                                                <form method="POST" action="{{ route('tickets.attachments.destroy', $attachment) }}" onsubmit="return confirm('Usunąć ten plik?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="text-red-600 hover:text-red-800">Usuń</button>
+                                                </form>
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </div>
                     </section>
 
                     <section class="rounded-xl border border-gray-200 bg-white p-5">
-                        <h3 class="text-base font-semibold">Załączniki</h3>
+                        <h3 class="text-base font-semibold">Notatka wewnętrzna</h3>
+                        <p class="mt-1 text-xs text-slate-400">Widoczne tylko dla admina i operatorów.</p>
 
-                        <form method="POST" action="{{ route('tickets.attachments.store', $ticket) }}" enctype="multipart/form-data" class="mt-3 flex flex-wrap items-center gap-3">
+                        <form method="POST" action="{{ route('admin.tickets.update', $ticket) }}" class="mt-3 space-y-3">
                             @csrf
-                            <input type="file" name="attachment" required class="block rounded-md border border-gray-300 bg-white text-sm file:mr-4 file:rounded-md file:border-0 file:bg-gray-100 file:px-3 file:py-2 file:text-sm file:font-semibold" />
-                            <x-primary-button>Dodaj plik</x-primary-button>
-                        </form>
+                            @method('PATCH')
+                            <input type="hidden" name="status" value="{{ $ticket->status }}">
 
-                        @if ($ticket->attachments->isEmpty())
-                            <p class="mt-3 text-sm text-slate-400">Brak załączników.</p>
-                        @else
-                            <ul class="mt-3 space-y-1">
-                                @foreach ($ticket->attachments as $attachment)
-                                    <li class="flex items-center justify-between rounded-md border border-gray-200 px-3 py-2 text-sm">
-                                        <span>{{ $attachment->original_name }}</span>
-                                        <div class="flex items-center gap-3">
-                                            <a href="{{ route('tickets.attachments.download', $attachment) }}" class="text-indigo-600 hover:text-indigo-800">Pobierz</a>
-                                            <form method="POST" action="{{ route('tickets.attachments.destroy', $attachment) }}" onsubmit="return confirm('Usunąć ten plik?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="text-red-600 hover:text-red-800">Usuń</button>
-                                            </form>
-                                        </div>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        @endif
+                            <textarea name="admin_note" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ old('admin_note', $ticket->admin_note) }}</textarea>
+
+                            <div class="flex justify-end">
+                                <x-primary-button>Zapisz notatkę</x-primary-button>
+                            </div>
+                        </form>
                     </section>
 
                     <section class="rounded-xl border border-gray-200 bg-white p-5">
@@ -195,16 +213,11 @@
                     </section>
 
                     <section class="rounded-xl border border-gray-200 bg-white p-5">
-                        <h3 class="text-base font-semibold">Aktualizacja zgłoszenia</h3>
+                        <h3 class="text-base font-semibold">Status i płatność</h3>
 
                         <form method="POST" action="{{ route('admin.tickets.update', $ticket) }}" class="mt-3 space-y-4">
                             @csrf
                             @method('PATCH')
-
-                            <div>
-                                <x-input-label :value="'Notatka wewnętrzna (tylko admin/operator)'" />
-                                <textarea name="admin_note" rows="5" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ old('admin_note', $ticket->admin_note) }}</textarea>
-                            </div>
 
                             <div>
                                 <x-input-label :value="'Płatność na miejscu (kwota PLN)'" />

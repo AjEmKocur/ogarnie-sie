@@ -41,6 +41,8 @@ class Ticket extends Model
         'payment_note',
         'payment_requested_at',
         'paid_at',
+        'client_last_seen_at',
+        'admin_last_seen_at',
     ];
 
     protected $casts = [
@@ -48,6 +50,8 @@ class Ticket extends Model
         'payment_amount' => 'decimal:2',
         'payment_requested_at' => 'datetime',
         'paid_at' => 'datetime',
+        'client_last_seen_at' => 'datetime',
+        'admin_last_seen_at' => 'datetime',
     ];
 
     protected static function booted(): void

@@ -1,3 +1,7 @@
+@php
+    $ticketNotifications = \App\Support\TicketNotificationCenter::forUser(Auth::user());
+@endphp
+
 <nav class="og-topbar sticky top-0 z-40 border-b border-gray-200 bg-slate-950/90 backdrop-blur">
     <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 sm:px-6 lg:px-8">
         <a href="{{ route('public.home') }}" class="flex items-center">
@@ -14,6 +18,39 @@
         </div>
 
         <div class="flex items-center gap-2">
+            <x-dropdown align="right" width="72">
+                <x-slot name="trigger">
+                    <button class="relative inline-flex items-center rounded-md border border-gray-300 px-3 py-2 text-sm font-semibold text-slate-200 hover:bg-slate-800" title="Powiadomienia">
+                        <span class="text-base leading-none">🔔</span>
+                        @if (($ticketNotifications['total'] ?? 0) > 0)
+                            <span class="absolute -right-2 -top-2 inline-flex min-h-[18px] min-w-[18px] items-center justify-center rounded-full bg-amber-500 px-1 text-[10px] font-bold text-slate-950">
+                                {{ min(99, (int) $ticketNotifications['total']) }}
+                            </span>
+                        @endif
+                    </button>
+                </x-slot>
+
+                <x-slot name="content">
+                    <div class="px-4 py-2 text-xs uppercase tracking-wider text-slate-400">
+                        Powiadomienia
+                    </div>
+                    @forelse (($ticketNotifications['items'] ?? []) as $item)
+                        <x-dropdown-link :href="$item['url']">
+                            <div class="flex flex-col gap-1">
+                                <span class="font-semibold">{{ $item['title'] }}</span>
+                                @if (!empty($item['time']))
+                                    <span class="text-xs text-slate-400">{{ $item['time'] }}</span>
+                                @endif
+                            </div>
+                        </x-dropdown-link>
+                    @empty
+                        <div class="px-4 py-2 text-sm text-slate-400">
+                            Brak nowych powiadomień.
+                        </div>
+                    @endforelse
+                </x-slot>
+            </x-dropdown>
+
             <x-dropdown align="right" width="56">
                 <x-slot name="trigger">
                     <button class="inline-flex items-center rounded-md border border-gray-300 px-3 py-2 text-sm font-semibold text-slate-200 hover:bg-slate-800">

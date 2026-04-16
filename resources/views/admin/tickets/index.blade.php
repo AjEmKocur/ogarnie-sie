@@ -59,6 +59,13 @@
                     @else
                         <div class="space-y-3">
                             @foreach ($tickets as $ticket)
+                                @php
+                                    $hasAdminUnread = $ticket->last_client_message_at
+                                        && (
+                                            ! $ticket->admin_last_seen_at
+                                            || strtotime((string) $ticket->last_client_message_at) > strtotime((string) $ticket->admin_last_seen_at)
+                                        );
+                                @endphp
                                 <article class="rounded-xl border border-gray-200 bg-slate-900/40 p-4">
                                     <div class="flex flex-wrap items-start justify-between gap-4">
                                         <div>
@@ -66,6 +73,11 @@
                                             <p class="mt-1 text-lg font-semibold">{{ $ticket->title }}</p>
                                             <p class="text-sm text-slate-400">Klient: {{ $ticket->user->name }} ({{ $ticket->user->email }})</p>
                                             <p class="mt-2 text-xs text-slate-400">Załączniki: {{ $ticket->attachments_count }} · Wiadomości: {{ $ticket->messages_count }}</p>
+                                            @if ($hasAdminUnread)
+                                                <p class="mt-1 inline-flex items-center rounded-full border border-amber-400/40 bg-amber-500/10 px-2 py-0.5 text-[11px] font-semibold text-amber-200">
+                                                    Nowa wiadomość od klienta
+                                                </p>
+                                            @endif
                                         </div>
 
                                         <div class="flex flex-wrap items-center gap-2">
