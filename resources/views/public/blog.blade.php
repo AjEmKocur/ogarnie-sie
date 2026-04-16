@@ -16,6 +16,8 @@
                                         src="{{ $post->coverImageUrl() }}"
                                         alt="{{ $post->title }}"
                                         class="h-36 w-full object-cover"
+                                        loading="lazy"
+                                        decoding="async"
                                         onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');"
                                     >
                                     <div class="hidden h-36 w-full flex items-center justify-center bg-slate-900/70 text-sm text-slate-300">Brak zdjęcia</div>
@@ -61,6 +63,8 @@
                                         src="{{ $item['cover_image_url'] }}"
                                         alt="{{ $item['title'] }}"
                                         class="h-16 w-24 object-cover"
+                                        loading="lazy"
+                                        decoding="async"
                                         onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');"
                                     >
                                     <div class="hidden h-16 w-24 items-center justify-center bg-slate-900/70 text-[10px] text-slate-300">Brak</div>

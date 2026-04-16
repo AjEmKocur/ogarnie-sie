@@ -56,6 +56,7 @@ return [
         'timeout_seconds' => (float) env('NEWS_ANALYTICS_TIMEOUT_SECONDS', 2.5),
         'popular_days' => (int) env('NEWS_ANALYTICS_POPULAR_DAYS', 30),
         'popular_limit' => (int) env('NEWS_ANALYTICS_POPULAR_LIMIT', 5),
+        'cache_seconds' => (int) env('NEWS_ANALYTICS_CACHE_SECONDS', 120),
     ],
 
 ];

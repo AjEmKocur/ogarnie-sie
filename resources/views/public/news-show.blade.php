@@ -16,7 +16,7 @@
                 <p class="mt-3 text-sm text-slate-300">Opublikowano: {{ $post->published_at?->format('Y-m-d H:i') }}</p>
 
                 @if ($post->coverImageUrl())
-                    <img src="{{ $post->coverImageUrl() }}" alt="{{ $post->title }}" class="mt-6 h-auto w-full rounded-xl border border-gray-200 object-cover">
+                    <img src="{{ $post->coverImageUrl() }}" alt="{{ $post->title }}" class="mt-6 h-auto w-full rounded-xl border border-gray-200 object-cover" loading="eager" fetchpriority="high">
                 @endif
 
                 @if ($post->excerpt)
@@ -44,6 +44,8 @@
                                         src="{{ $item['cover_image_url'] }}"
                                         alt="{{ $item['title'] }}"
                                         class="h-16 w-24 object-cover"
+                                        loading="lazy"
+                                        decoding="async"
                                         onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');"
                                     >
                                     <div class="hidden h-16 w-24 items-center justify-center bg-slate-900/70 text-[10px] text-slate-300">Brak</div>

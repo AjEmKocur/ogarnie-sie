@@ -8,6 +8,7 @@ use App\Models\Service;
 use App\Models\Testimonial;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
@@ -122,66 +123,81 @@ class PublicPageController extends Controller
             return [];
         }
 
+        $days = (int) ($settings['popular_days'] ?? 30);
+        $limit = (int) ($settings['popular_limit'] ?? 5);
+        $cacheSeconds = max(0, (int) ($settings['cache_seconds'] ?? 120));
+        $cacheKey = sprintf('news_analytics.popular.v1.%d.%d', $days, $limit);
+
         try {
-            $response = Http::timeout((float) ($settings['timeout_seconds'] ?? 2.5))
-                ->acceptJson()
-                ->get($baseUrl.'/news/popular', [
-                    'days' => (int) ($settings['popular_days'] ?? 30),
-                    'limit' => (int) ($settings['popular_limit'] ?? 5),
-                ]);
+            $mapped = $cacheSeconds > 0
+                ? Cache::remember($cacheKey, now()->addSeconds($cacheSeconds), fn () => $this->fetchPopularNewsFromApi($baseUrl, $settings))
+                : $this->fetchPopularNewsFromApi($baseUrl, $settings);
 
-            if (! $response->ok()) {
-                return [];
+            if ($excludeSlug) {
+                $mapped = array_values(array_filter($mapped, static fn ($item) => ($item['slug'] ?? null) !== $excludeSlug));
             }
-
-            $items = $response->json('items');
-            if (! is_array($items)) {
-                return [];
-            }
-
-            $mapped = array_values(array_filter(array_map(static function ($item) use ($excludeSlug) {
-                if (! is_array($item)) {
-                    return null;
-                }
-                $slug = (string) ($item['slug'] ?? '');
-                $title = (string) ($item['title'] ?? '');
-                $views = (int) ($item['views'] ?? 0);
-
-                if ($slug === '' || $title === '') {
-                    return null;
-                }
-                if ($excludeSlug && $slug === $excludeSlug) {
-                    return null;
-                }
-
-                return [
-                    'slug' => $slug,
-                    'title' => $title,
-                    'views' => max(0, $views),
-                ];
-            }, $items)));
-
-            if ($mapped === []) {
-                return [];
-            }
-
-            $slugs = array_values(array_unique(array_map(static fn ($item) => $item['slug'], $mapped)));
-            $postsBySlug = BlogPost::query()
-                ->whereIn('slug', $slugs)
-                ->get()
-                ->keyBy('slug');
-
-            foreach ($mapped as &$item) {
-                $post = $postsBySlug->get($item['slug']);
-                $item['cover_image_url'] = $post?->coverImageUrl();
-            }
-            unset($item);
 
             return $mapped;
         } catch (\Throwable $e) {
             Log::warning('News analytics popular fetch failed', ['error' => $e->getMessage()]);
             return [];
         }
+    }
+
+    private function fetchPopularNewsFromApi(string $baseUrl, array $settings): array
+    {
+        $response = Http::timeout((float) ($settings['timeout_seconds'] ?? 2.5))
+            ->acceptJson()
+            ->get($baseUrl.'/news/popular', [
+                'days' => (int) ($settings['popular_days'] ?? 30),
+                'limit' => (int) ($settings['popular_limit'] ?? 5),
+            ]);
+
+        if (! $response->ok()) {
+            return [];
+        }
+
+        $items = $response->json('items');
+        if (! is_array($items)) {
+            return [];
+        }
+
+        $mapped = array_values(array_filter(array_map(static function ($item) {
+            if (! is_array($item)) {
+                return null;
+            }
+            $slug = (string) ($item['slug'] ?? '');
+            $title = (string) ($item['title'] ?? '');
+            $views = (int) ($item['views'] ?? 0);
+
+            if ($slug === '' || $title === '') {
+                return null;
+            }
+
+            return [
+                'slug' => $slug,
+                'title' => $title,
+                'views' => max(0, $views),
+            ];
+        }, $items)));
+
+        if ($mapped === []) {
+            return [];
+        }
+
+        $slugs = array_values(array_unique(array_map(static fn ($item) => $item['slug'], $mapped)));
+        $postsBySlug = BlogPost::query()
+            ->whereIn('slug', $slugs)
+            ->get()
+            ->keyBy('slug');
+
+        foreach ($mapped as &$item) {
+            $post = $postsBySlug->get($item['slug']);
+            $item['cover_image_url'] = $post?->coverImageUrl();
+        }
+        unset($item);
+
+        return $mapped;
     }
 
     private function trackNewsView(BlogPost $blogPost): void
