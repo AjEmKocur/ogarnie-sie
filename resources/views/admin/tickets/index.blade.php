@@ -52,8 +52,24 @@
                             action="{{ route('admin.maintenance.purge-tickets-testimonials') }}"
                             data-confirm-title="Wyczyszczenie danych"
                             data-confirm-message="Na pewno usunąć WSZYSTKIE zgłoszenia i opinie? Tej operacji nie da się cofnąć."
+                            class="flex items-end gap-2"
                         >
                             @csrf
+                            <div>
+                                <label for="purge-password" class="mb-1 block text-[11px] uppercase tracking-wider text-red-200">Hasło admina</label>
+                                <input
+                                    id="purge-password"
+                                    name="password"
+                                    type="password"
+                                    autocomplete="current-password"
+                                    required
+                                    class="w-52 rounded-md border border-red-300/50 bg-slate-900/60 px-3 py-2 text-xs text-slate-100 placeholder:text-slate-400 focus:border-red-300 focus:outline-none focus:ring-0"
+                                    placeholder="Wpisz hasło"
+                                >
+                                @error('password')
+                                    <p class="mt-1 text-xs text-red-200">{{ $message }}</p>
+                                @enderror
+                            </div>
                             <button
                                 type="submit"
                                 class="inline-flex items-center rounded-md border border-red-300/60 bg-red-500/20 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-red-100 transition hover:bg-red-500/30"
