@@ -21,7 +21,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public const ADMIN_PERMISSIONS = [
         'tickets',
         'cms_services',
-        'cms_blog',
+        'cms_news',
         'contact_messages',
         'testimonials_moderation',
     ];
@@ -89,7 +89,22 @@ class User extends Authenticatable implements MustVerifyEmail
             return true;
         }
 
-        return in_array($permission, $this->admin_permissions ?? [], true);
+        $permissions = $this->admin_permissions ?? [];
+
+        if (in_array($permission, $permissions, true)) {
+            return true;
+        }
+
+        // Kompatybilność wsteczna po zmianie nazwy cms_blog -> cms_news.
+        if ($permission === 'cms_news' && in_array('cms_blog', $permissions, true)) {
+            return true;
+        }
+
+        if ($permission === 'cms_blog' && in_array('cms_news', $permissions, true)) {
+            return true;
+        }
+
+        return false;
     }
 
     public function tickets(): HasMany

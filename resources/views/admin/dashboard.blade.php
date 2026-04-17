@@ -3,7 +3,7 @@
         $allTicketsCount = \App\Models\Ticket::count();
         $activeTicketsCount = \App\Models\Ticket::whereIn('status', ['new', 'in_progress', 'waiting_parts'])->count();
         $servicesCount = \App\Models\Service::count();
-        $publishedPostsCount = \App\Models\BlogPost::where('is_published', true)->count();
+        $publishedPostsCount = \App\Models\NewsPost::where('is_published', true)->count();
     @endphp
 
     <x-slot name="header">

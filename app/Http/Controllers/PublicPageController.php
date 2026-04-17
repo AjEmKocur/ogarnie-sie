@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AboutGalleryImage;
-use App\Models\BlogPost;
+use App\Models\NewsPost;
 use App\Models\Service;
 use App\Models\Testimonial;
 use Illuminate\Http\Response;
@@ -78,7 +78,7 @@ class PublicPageController extends Controller
     public function news(): View
     {
         return view('public.news', [
-            'posts' => BlogPost::where('is_published', true)
+            'posts' => NewsPost::where('is_published', true)
                 ->whereNotNull('published_at')
                 ->orderByDesc('published_at')
                 ->get(),
@@ -86,17 +86,17 @@ class PublicPageController extends Controller
         ]);
     }
 
-    public function newsShow(BlogPost $blogPost): View
+    public function newsShow(NewsPost $newsPost): View
     {
-        if (! $blogPost->is_published || ! $blogPost->published_at instanceof Carbon) {
+        if (! $newsPost->is_published || ! $newsPost->published_at instanceof Carbon) {
             abort(Response::HTTP_NOT_FOUND);
         }
 
-        $this->trackNewsView($blogPost);
+        $this->trackNewsView($newsPost);
 
         return view('public.news-show', [
-            'post' => $blogPost,
-            'popularNews' => $this->fetchPopularNews($blogPost->slug),
+            'post' => $newsPost,
+            'popularNews' => $this->fetchPopularNews($newsPost->slug),
         ]);
     }
 
@@ -186,7 +186,7 @@ class PublicPageController extends Controller
         }
 
         $slugs = array_values(array_unique(array_map(static fn ($item) => $item['slug'], $mapped)));
-        $postsBySlug = BlogPost::query()
+        $postsBySlug = NewsPost::query()
             ->whereIn('slug', $slugs)
             ->get()
             ->keyBy('slug');
@@ -200,7 +200,7 @@ class PublicPageController extends Controller
         return $mapped;
     }
 
-    private function trackNewsView(BlogPost $blogPost): void
+    private function trackNewsView(NewsPost $newsPost): void
     {
         $settings = config('services.news_analytics');
         if (! ($settings['enabled'] ?? false)) {
@@ -216,7 +216,7 @@ class PublicPageController extends Controller
             Http::timeout((float) ($settings['timeout_seconds'] ?? 2.5))
                 ->acceptJson()
                 ->post($baseUrl.'/news/track-view', [
-                    'slug' => $blogPost->slug,
+                    'slug' => $newsPost->slug,
                     'session_id' => session()->getId(),
                 ]);
         } catch (\Throwable $e) {
