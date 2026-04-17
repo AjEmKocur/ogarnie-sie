@@ -17,7 +17,7 @@
 
     <x-slot name="header">
         <div class="flex flex-wrap items-center justify-between gap-3">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Zgłoszenie #{{ $ticket->id }}</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">🧾 Zgłoszenie #{{ $ticket->id }}</h2>
             <a href="{{ route('admin.tickets.index') }}" class="inline-flex items-center rounded-md border border-gray-300 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-slate-200 hover:bg-slate-800">
                 Wróć do listy
             </a>
@@ -82,7 +82,7 @@
             <div class="grid gap-4 xl:grid-cols-[minmax(0,1fr)_360px]">
                 <div class="space-y-4">
                     <section class="rounded-xl border border-gray-200 bg-white p-5">
-                        <h3 class="text-base font-semibold">Treść i załączniki</h3>
+                        <h3 class="text-base font-semibold">📝 Treść i załączniki</h3>
 
                         <div class="mt-4 grid gap-4 md:grid-cols-2 text-sm">
                             <div>
@@ -116,7 +116,7 @@
                         </div>
 
                         <div class="mt-5 border-t border-gray-200 pt-4">
-                            <p class="text-sm font-semibold">Załączniki</p>
+                            <p class="text-sm font-semibold">📎 Załączniki</p>
 
                             <form method="POST" action="{{ route('tickets.attachments.store', $ticket) }}" enctype="multipart/form-data" class="mt-3 flex flex-wrap items-center gap-3">
                                 @csrf
@@ -147,7 +147,7 @@
                     </section>
 
                     <section class="rounded-xl border border-gray-200 bg-white p-5">
-                        <h3 class="text-base font-semibold">Notatka wewnętrzna</h3>
+                        <h3 class="text-base font-semibold">🗒️ Notatka wewnętrzna</h3>
                         <p class="mt-1 text-xs text-slate-400">Widoczne tylko dla admina i operatorów.</p>
 
                         <form method="POST" action="{{ route('admin.tickets.update', $ticket) }}" class="mt-3 space-y-3">
@@ -164,7 +164,7 @@
                     </section>
 
                     <section class="rounded-xl border border-gray-200 bg-white p-5">
-                        <h3 class="text-base font-semibold">Historia statusów</h3>
+                        <h3 class="text-base font-semibold">🕒 Historia statusów</h3>
                         @if ($ticket->statusHistories->isEmpty())
                             <p class="mt-3 text-sm text-slate-400">Brak historii zmian.</p>
                         @else
@@ -185,7 +185,7 @@
 
                 <aside class="space-y-4">
                     <section class="rounded-xl border border-gray-200 bg-white p-5">
-                        <h3 class="text-base font-semibold">Wiadomości</h3>
+                        <h3 class="text-base font-semibold">💬 Wiadomości</h3>
 
                         <div class="mt-3 max-h-96 overflow-y-auto space-y-2 pr-1">
                             @if ($ticket->messages->isEmpty())
@@ -213,7 +213,7 @@
                     </section>
 
                     <section class="rounded-xl border border-gray-200 bg-white p-5">
-                        <h3 class="text-base font-semibold">Status i płatność</h3>
+                        <h3 class="text-base font-semibold">💳 Status i płatność</h3>
 
                         <form method="POST" action="{{ route('admin.tickets.update', $ticket) }}" class="mt-3 space-y-4">
                             @csrf
