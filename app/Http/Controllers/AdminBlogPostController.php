@@ -15,7 +15,20 @@ class AdminBlogPostController extends Controller
     public function index(): View
     {
         return view('admin.cms.blog', [
-            'posts' => BlogPost::orderByDesc('created_at')->get(),
+            'posts' => BlogPost::query()
+                ->select('blog_posts.*')
+                ->selectSub(function ($q): void {
+                    $q->from('news_view_events')
+                        ->whereColumn('news_view_events.blog_post_id', 'blog_posts.id')
+                        ->selectRaw('COUNT(*)');
+                }, 'views_count')
+                ->selectSub(function ($q): void {
+                    $q->from('news_view_events')
+                        ->whereColumn('news_view_events.blog_post_id', 'blog_posts.id')
+                        ->selectRaw('MAX(viewed_at)');
+                }, 'last_viewed_at')
+                ->orderByDesc('created_at')
+                ->get(),
         ]);
     }
 
@@ -102,5 +115,3 @@ class AdminBlogPostController extends Controller
         return redirect()->route('admin.cms.blog.index')->with('status', 'Aktualność została usunięta.');
     }
 }
-
-
