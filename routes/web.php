@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminTicketController;
 use App\Http\Controllers\AdminBlogPostController;
 use App\Http\Controllers\AdminContactMessageController;
+use App\Http\Controllers\AdminMaintenanceController;
 use App\Http\Controllers\AdminOperatorController;
 use App\Http\Controllers\AdminServiceController;
 use App\Http\Controllers\AdminAboutGalleryController;
@@ -70,6 +71,7 @@ Route::middleware(['auth', 'verified', 'password.change.required', 'admin'])->gr
         Route::patch('/admin/team/{user}/permissions', [AdminOperatorController::class, 'updatePermissions'])->name('admin.team.permissions');
         Route::patch('/admin/team/{user}/toggle', [AdminOperatorController::class, 'toggle'])->name('admin.team.toggle');
         Route::patch('/admin/team/{user}/reset-password', [AdminOperatorController::class, 'resetPassword'])->name('admin.team.reset-password');
+        Route::post('/admin/maintenance/purge-tickets-testimonials', [AdminMaintenanceController::class, 'purgeTicketsAndTestimonials'])->name('admin.maintenance.purge-tickets-testimonials');
     });
 });
 

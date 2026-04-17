@@ -34,6 +34,36 @@
                     {{ session('status') }}
                 </div>
             @endif
+            @if (session('error'))
+                <div class="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            @if (auth()->user()?->isMainAdmin())
+                <div class="rounded-xl border border-red-400/40 bg-red-500/10 p-4 shadow-sm">
+                    <div class="flex flex-wrap items-center justify-between gap-3">
+                        <div>
+                            <p class="text-sm font-semibold text-red-100">Strefa serwisowa (tylko główny admin)</p>
+                            <p class="text-xs text-red-200/90">Czyści wszystkie zgłoszenia i opinie klientów. Operacja jest nieodwracalna.</p>
+                        </div>
+                        <form
+                            method="POST"
+                            action="{{ route('admin.maintenance.purge-tickets-testimonials') }}"
+                            data-confirm-title="Wyczyszczenie danych"
+                            data-confirm-message="Na pewno usunąć WSZYSTKIE zgłoszenia i opinie? Tej operacji nie da się cofnąć."
+                        >
+                            @csrf
+                            <button
+                                type="submit"
+                                class="inline-flex items-center rounded-md border border-red-300/60 bg-red-500/20 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-red-100 transition hover:bg-red-500/30"
+                            >
+                                Wyczyść zgłoszenia i opinie
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            @endif
 
             <div class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
                 <p class="mb-3 text-xs uppercase tracking-wider text-slate-400">Filtr statusu</p>
