@@ -75,9 +75,9 @@ class PublicPageController extends Controller
         ]);
     }
 
-    public function blog(): View
+    public function news(): View
     {
-        return view('public.blog', [
+        return view('public.news', [
             'posts' => BlogPost::where('is_published', true)
                 ->whereNotNull('published_at')
                 ->orderByDesc('published_at')
@@ -86,7 +86,7 @@ class PublicPageController extends Controller
         ]);
     }
 
-    public function blogShow(BlogPost $blogPost): View
+    public function newsShow(BlogPost $blogPost): View
     {
         if (! $blogPost->is_published || ! $blogPost->published_at instanceof Carbon) {
             abort(Response::HTTP_NOT_FOUND);

@@ -14,7 +14,7 @@ class AdminBlogPostController extends Controller
 {
     public function index(): View
     {
-        return view('admin.cms.blog', [
+        return view('admin.cms.news', [
             'posts' => BlogPost::query()
                 ->select('blog_posts.*')
                 ->selectSub(function ($q): void {
@@ -52,12 +52,12 @@ class AdminBlogPostController extends Controller
             'published_at' => $isPublished ? Carbon::now() : null,
         ]);
 
-        return redirect()->route('admin.cms.blog.index')->with('status', 'Aktualność została dodana.');
+        return redirect()->route('admin.cms.news.index')->with('status', 'Aktualność została dodana.');
     }
 
     public function edit(BlogPost $blogPost): View
     {
-        return view('admin.cms.blog-edit', [
+        return view('admin.cms.news-edit', [
             'post' => $blogPost,
         ]);
     }
@@ -103,7 +103,7 @@ class AdminBlogPostController extends Controller
             'published_at' => $isPublished ? ($blogPost->published_at ?? Carbon::now()) : null,
         ]);
 
-        return redirect()->route('admin.cms.blog.edit', $blogPost)->with('status', 'Aktualność została zaktualizowana.');
+        return redirect()->route('admin.cms.news.edit', $blogPost)->with('status', 'Aktualność została zaktualizowana.');
     }
 
     public function destroy(BlogPost $blogPost): RedirectResponse
@@ -114,6 +114,6 @@ class AdminBlogPostController extends Controller
 
         $blogPost->delete();
 
-        return redirect()->route('admin.cms.blog.index')->with('status', 'Aktualność została usunięta.');
+        return redirect()->route('admin.cms.news.index')->with('status', 'Aktualność została usunięta.');
     }
 }

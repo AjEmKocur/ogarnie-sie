@@ -9,7 +9,7 @@
                 'items' => [
                     ['label' => 'Strona główna', 'url' => route('admin.dashboard')],
                     ['label' => 'Centrum CMS', 'url' => route('admin.cms.dashboard')],
-                    ['label' => 'Aktualności', 'url' => route('admin.cms.blog.index')],
+                    ['label' => 'Aktualności', 'url' => route('admin.cms.news.index')],
                     ['label' => 'Edycja'],
                 ],
             ])
@@ -24,13 +24,13 @@
                         <p class="text-xs uppercase tracking-wider text-slate-400">Edytujesz wpis</p>
                         <h3 class="text-lg font-semibold">{{ $post->title }}</h3>
                     </div>
-                    <a href="{{ route('admin.cms.blog.index') }}" class="inline-flex items-center rounded-md border border-gray-300 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-slate-200 hover:bg-slate-800">
+                    <a href="{{ route('admin.cms.news.index') }}" class="inline-flex items-center rounded-md border border-gray-300 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-slate-200 hover:bg-slate-800">
                         Wróć do listy
                     </a>
                 </div>
 
                 <div class="px-5 py-4">
-                    <form method="POST" action="{{ route('admin.cms.blog.update', $post) }}" enctype="multipart/form-data" class="grid gap-4">
+                    <form method="POST" action="{{ route('admin.cms.news.update', $post) }}" enctype="multipart/form-data" class="grid gap-4">
                         @csrf
                         @method('PATCH')
 
@@ -89,7 +89,7 @@
                     <form
                         id="delete-post-{{ $post->id }}"
                         method="POST"
-                        action="{{ route('admin.cms.blog.destroy', $post) }}"
+                        action="{{ route('admin.cms.news.destroy', $post) }}"
                         class="hidden"
                     >
                         @csrf

@@ -25,9 +25,9 @@ Route::get('/uslugi/{service}', [PublicPageController::class, 'service'])->name(
 Route::get('/cennik', [PublicPageController::class, 'pricing'])->name('public.pricing');
 Route::view('/kontakt', 'public.contact')->name('public.contact');
 Route::get('/opinie', [PublicPageController::class, 'testimonials'])->name('public.testimonials');
-Route::redirect('/blog', '/aktualnosci', 301)->name('public.blog');
-Route::get('/aktualnosci', [PublicPageController::class, 'blog'])->name('public.news');
-Route::get('/aktualnosci/{blogPost:slug}', [PublicPageController::class, 'blogShow'])->name('public.news.show');
+Route::redirect('/blog', '/aktualnosci', 301);
+Route::get('/aktualnosci', [PublicPageController::class, 'news'])->name('public.news');
+Route::get('/aktualnosci/{blogPost:slug}', [PublicPageController::class, 'newsShow'])->name('public.news.show');
 
 Route::get('/dashboard', function () {
     if (auth()->user()->isAdmin()) {
@@ -60,11 +60,11 @@ Route::middleware(['auth', 'verified', 'password.change.required', 'admin'])->gr
     Route::patch('/admin/cms/about-gallery/{aboutGalleryImage}', [AdminAboutGalleryController::class, 'update'])->middleware('admin.permission:cms_services')->name('admin.cms.about-gallery.update');
     Route::delete('/admin/cms/about-gallery/{aboutGalleryImage}', [AdminAboutGalleryController::class, 'destroy'])->middleware('admin.permission:cms_services')->name('admin.cms.about-gallery.destroy');
 
-    Route::get('/admin/cms/aktualnosci', [AdminBlogPostController::class, 'index'])->middleware('admin.permission:cms_blog')->name('admin.cms.blog.index');
-    Route::post('/admin/cms/aktualnosci', [AdminBlogPostController::class, 'store'])->middleware('admin.permission:cms_blog')->name('admin.cms.blog.store');
-    Route::get('/admin/cms/aktualnosci/{blogPost}/edit', [AdminBlogPostController::class, 'edit'])->middleware('admin.permission:cms_blog')->name('admin.cms.blog.edit');
-    Route::patch('/admin/cms/aktualnosci/{blogPost}', [AdminBlogPostController::class, 'update'])->middleware('admin.permission:cms_blog')->name('admin.cms.blog.update');
-    Route::delete('/admin/cms/aktualnosci/{blogPost}', [AdminBlogPostController::class, 'destroy'])->middleware('admin.permission:cms_blog')->name('admin.cms.blog.destroy');
+    Route::get('/admin/cms/aktualnosci', [AdminBlogPostController::class, 'index'])->middleware('admin.permission:cms_blog')->name('admin.cms.news.index');
+    Route::post('/admin/cms/aktualnosci', [AdminBlogPostController::class, 'store'])->middleware('admin.permission:cms_blog')->name('admin.cms.news.store');
+    Route::get('/admin/cms/aktualnosci/{blogPost}/edit', [AdminBlogPostController::class, 'edit'])->middleware('admin.permission:cms_blog')->name('admin.cms.news.edit');
+    Route::patch('/admin/cms/aktualnosci/{blogPost}', [AdminBlogPostController::class, 'update'])->middleware('admin.permission:cms_blog')->name('admin.cms.news.update');
+    Route::delete('/admin/cms/aktualnosci/{blogPost}', [AdminBlogPostController::class, 'destroy'])->middleware('admin.permission:cms_blog')->name('admin.cms.news.destroy');
 
     Route::middleware('main_admin')->group(function () {
         Route::get('/admin/team', [AdminOperatorController::class, 'index'])->name('admin.team.index');

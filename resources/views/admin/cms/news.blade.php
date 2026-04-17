@@ -31,7 +31,7 @@
                 </summary>
 
                 <div class="border-t border-gray-200 px-5 py-4">
-                    <form method="POST" action="{{ route('admin.cms.blog.store') }}" enctype="multipart/form-data" class="grid gap-4">
+                    <form method="POST" action="{{ route('admin.cms.news.store') }}" enctype="multipart/form-data" class="grid gap-4">
                         @csrf
                         <input name="title" placeholder="Tytuł" class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2">
                         <textarea name="excerpt" rows="2" placeholder="Skrót" class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2"></textarea>
@@ -64,7 +64,7 @@
 
                             <div class="flex items-center gap-2">
                                 <a
-                                    href="{{ route('admin.cms.blog.edit', $post) }}"
+                                    href="{{ route('admin.cms.news.edit', $post) }}"
                                     target="_blank"
                                     rel="noopener"
                                     class="inline-flex items-center rounded-md border border-blue-300/60 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-blue-200 hover:bg-blue-500/10"
@@ -72,7 +72,7 @@
                                     Edytuj
                                 </a>
 
-                                <form method="POST" action="{{ route('admin.cms.blog.destroy', $post) }}" onsubmit="return confirm('Usunąć wpis?');">
+                                <form method="POST" action="{{ route('admin.cms.news.destroy', $post) }}" onsubmit="return confirm('Usunąć wpis?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="inline-flex items-center rounded-md border border-rose-300/60 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-rose-200 hover:bg-rose-500/10">
