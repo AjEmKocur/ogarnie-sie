@@ -59,7 +59,6 @@
                                     </span>
                                     <span class="text-slate-400">Publikacja: {{ $post->published_at?->format('Y-m-d H:i') ?? 'brak' }}</span>
                                     <span class="text-blue-300">Wyświetlenia: {{ (int) ($post->views_count ?? 0) }}</span>
-                                    <span class="text-slate-500">Ostatnio: {{ $post->last_viewed_at ? \Illuminate\Support\Carbon::parse($post->last_viewed_at)->format('Y-m-d H:i') : 'brak' }}</span>
                                 </div>
                             </div>
                         </summary>

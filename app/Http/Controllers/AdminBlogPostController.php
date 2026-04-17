@@ -22,11 +22,6 @@ class AdminBlogPostController extends Controller
                         ->whereColumn('news_view_events.blog_post_id', 'blog_posts.id')
                         ->selectRaw('COUNT(*)');
                 }, 'views_count')
-                ->selectSub(function ($q): void {
-                    $q->from('news_view_events')
-                        ->whereColumn('news_view_events.blog_post_id', 'blog_posts.id')
-                        ->selectRaw('MAX(viewed_at)');
-                }, 'last_viewed_at')
                 ->orderByDesc('created_at')
                 ->get(),
         ]);
