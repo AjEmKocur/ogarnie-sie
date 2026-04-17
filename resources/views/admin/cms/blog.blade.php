@@ -69,7 +69,7 @@
                                     rel="noopener"
                                     class="inline-flex items-center rounded-md border border-blue-300/60 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-blue-200 hover:bg-blue-500/10"
                                 >
-                                    Edytuj (nowa karta)
+                                    Edytuj
                                 </a>
 
                                 <form method="POST" action="{{ route('admin.cms.blog.destroy', $post) }}" onsubmit="return confirm('Usunąć wpis?');">
