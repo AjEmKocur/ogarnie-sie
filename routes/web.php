@@ -62,6 +62,7 @@ Route::middleware(['auth', 'verified', 'password.change.required', 'admin'])->gr
 
     Route::get('/admin/cms/blog', [AdminBlogPostController::class, 'index'])->middleware('admin.permission:cms_blog')->name('admin.cms.blog.index');
     Route::post('/admin/cms/blog', [AdminBlogPostController::class, 'store'])->middleware('admin.permission:cms_blog')->name('admin.cms.blog.store');
+    Route::get('/admin/cms/blog/{blogPost}/edit', [AdminBlogPostController::class, 'edit'])->middleware('admin.permission:cms_blog')->name('admin.cms.blog.edit');
     Route::patch('/admin/cms/blog/{blogPost}', [AdminBlogPostController::class, 'update'])->middleware('admin.permission:cms_blog')->name('admin.cms.blog.update');
     Route::delete('/admin/cms/blog/{blogPost}', [AdminBlogPostController::class, 'destroy'])->middleware('admin.permission:cms_blog')->name('admin.cms.blog.destroy');
 

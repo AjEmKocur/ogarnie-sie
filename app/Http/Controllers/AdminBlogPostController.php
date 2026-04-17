@@ -55,6 +55,13 @@ class AdminBlogPostController extends Controller
         return redirect()->route('admin.cms.blog.index')->with('status', 'Aktualność została dodana.');
     }
 
+    public function edit(BlogPost $blogPost): View
+    {
+        return view('admin.cms.blog-edit', [
+            'post' => $blogPost,
+        ]);
+    }
+
     public function update(Request $request, BlogPost $blogPost): RedirectResponse
     {
         $validated = $request->validate([
@@ -96,7 +103,7 @@ class AdminBlogPostController extends Controller
             'published_at' => $isPublished ? ($blogPost->published_at ?? Carbon::now()) : null,
         ]);
 
-        return redirect()->route('admin.cms.blog.index')->with('status', 'Aktualność została zaktualizowana.');
+        return redirect()->route('admin.cms.blog.edit', $blogPost)->with('status', 'Aktualność została zaktualizowana.');
     }
 
     public function destroy(BlogPost $blogPost): RedirectResponse
