@@ -25,7 +25,6 @@ Route::get('/uslugi/{service}', [PublicPageController::class, 'service'])->name(
 Route::get('/cennik', [PublicPageController::class, 'pricing'])->name('public.pricing');
 Route::view('/kontakt', 'public.contact')->name('public.contact');
 Route::get('/opinie', [PublicPageController::class, 'testimonials'])->name('public.testimonials');
-Route::redirect('/blog', '/aktualnosci', 301);
 Route::get('/aktualnosci', [PublicPageController::class, 'news'])->name('public.news');
 Route::get('/aktualnosci/{newsPost:slug}', [PublicPageController::class, 'newsShow'])->name('public.news.show');
 

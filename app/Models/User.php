@@ -95,15 +95,6 @@ class User extends Authenticatable implements MustVerifyEmail
             return true;
         }
 
-        // Kompatybilność wsteczna po zmianie nazwy cms_blog -> cms_news.
-        if ($permission === 'cms_news' && in_array('cms_blog', $permissions, true)) {
-            return true;
-        }
-
-        if ($permission === 'cms_blog' && in_array('cms_news', $permissions, true)) {
-            return true;
-        }
-
         return false;
     }
 

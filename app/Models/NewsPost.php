@@ -10,7 +10,7 @@ class NewsPost extends Model
 {
     use HasFactory;
 
-    protected $table = 'blog_posts';
+    protected $table = 'news_posts';
 
     protected $fillable = [
         'title',

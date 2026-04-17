@@ -16,10 +16,10 @@ class AdminNewsPostController extends Controller
     {
         return view('admin.cms.news', [
             'posts' => NewsPost::query()
-                ->select('blog_posts.*')
+                ->select('news_posts.*')
                 ->selectSub(function ($q): void {
                     $q->from('news_view_events')
-                        ->whereColumn('news_view_events.blog_post_id', 'blog_posts.id')
+                        ->whereColumn('news_view_events.news_post_id', 'news_posts.id')
                         ->selectRaw('COUNT(*)');
                 }, 'views_count')
                 ->orderByDesc('created_at')

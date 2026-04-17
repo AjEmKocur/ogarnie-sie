@@ -231,7 +231,7 @@ def track_news_view(payload: TrackNewsViewRequest) -> TrackNewsViewResponse:
                 cur.execute(
                     """
                     SELECT id
-                    FROM blog_posts
+                    FROM news_posts
                     WHERE slug = %s
                       AND is_published = TRUE
                       AND published_at IS NOT NULL
@@ -243,7 +243,7 @@ def track_news_view(payload: TrackNewsViewRequest) -> TrackNewsViewResponse:
                 if not post_row:
                     return TrackNewsViewResponse(tracked=False, reason="post_not_found")
 
-                blog_post_id = int(post_row[0])
+                news_post_id = int(post_row[0])
 
                 # Cooldown: nie nabijamy wielu view od tej samej sesji co chwilę.
                 if session_id and NEWS_TRACK_COOLDOWN_SECONDS > 0:
@@ -251,22 +251,22 @@ def track_news_view(payload: TrackNewsViewRequest) -> TrackNewsViewResponse:
                         """
                         SELECT 1
                         FROM news_view_events
-                        WHERE blog_post_id = %s
+                        WHERE news_post_id = %s
                           AND session_id = %s
                           AND viewed_at >= NOW() - (%s || ' seconds')::interval
                         LIMIT 1
                         """,
-                        (blog_post_id, session_id, NEWS_TRACK_COOLDOWN_SECONDS),
+                        (news_post_id, session_id, NEWS_TRACK_COOLDOWN_SECONDS),
                     )
                     if cur.fetchone():
                         return TrackNewsViewResponse(tracked=False, reason="cooldown")
 
                 cur.execute(
                     """
-                    INSERT INTO news_view_events (blog_post_id, session_id, viewed_at)
+                    INSERT INTO news_view_events (news_post_id, session_id, viewed_at)
                     VALUES (%s, %s, NOW())
                     """,
-                    (blog_post_id, session_id),
+                    (news_post_id, session_id),
                 )
 
             conn.commit()
@@ -301,7 +301,7 @@ def popular_news(days: int = 30, limit: int = 5) -> PopularNewsResponse:
                         MAX(v.viewed_at) AS last_viewed_at,
                         COUNT(*)::int AS views
                     FROM news_view_events v
-                    JOIN blog_posts p ON p.id = v.blog_post_id
+                    JOIN news_posts p ON p.id = v.news_post_id
                     WHERE p.is_published = TRUE
                       AND p.published_at IS NOT NULL
                       AND v.viewed_at >= NOW() - (%s || ' days')::interval
