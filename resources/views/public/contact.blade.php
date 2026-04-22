@@ -57,6 +57,14 @@
                         <x-input-error :messages="$errors->get('message')" class="mt-2" />
                     </div>
 
+                    @if (config('services.turnstile.enabled') && config('services.turnstile.site_key'))
+                        <div>
+                            <div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.site_key') }}" data-theme="dark"></div>
+                            <x-input-error :messages="$errors->get('captcha')" class="mt-2" />
+                            <x-input-error :messages="$errors->get('cf-turnstile-response')" class="mt-2" />
+                        </div>
+                    @endif
+
                     <button type="submit" class="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-500">
                         Wyślij
                     </button>
@@ -64,5 +72,8 @@
             </div>
         </div>
     </section>
-@endsection
 
+    @if (config('services.turnstile.enabled') && config('services.turnstile.site_key'))
+        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    @endif
+@endsection

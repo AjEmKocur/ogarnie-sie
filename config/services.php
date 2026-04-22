@@ -59,4 +59,12 @@ return [
         'cache_seconds' => (int) env('NEWS_ANALYTICS_CACHE_SECONDS', 120),
     ],
 
+    'turnstile' => [
+        'enabled' => filter_var(env('TURNSTILE_ENABLED', false), FILTER_VALIDATE_BOOL),
+        'site_key' => env('TURNSTILE_SITE_KEY'),
+        'secret_key' => env('TURNSTILE_SECRET_KEY'),
+        'verify_url' => env('TURNSTILE_VERIFY_URL', 'https://challenges.cloudflare.com/turnstile/v0/siteverify'),
+        'timeout_seconds' => (float) env('TURNSTILE_TIMEOUT_SECONDS', 5),
+    ],
+
 ];
