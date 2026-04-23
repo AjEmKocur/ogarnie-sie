@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use App\Models\ContactMessage;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Support\Carbon;
@@ -16,10 +17,6 @@ class TicketNotificationCenter
     public static function forUser(?User $user): array
     {
         if (! $user) {
-            return ['total' => 0, 'items' => []];
-        }
-
-        if ($user->isAdmin() && ! $user->hasAdminPermission('tickets')) {
             return ['total' => 0, 'items' => []];
         }
 
@@ -80,36 +77,79 @@ class TicketNotificationCenter
      */
     private static function forAdmin(User $user): array
     {
-        $rows = Ticket::query()
-            ->select(['id', 'title', 'admin_last_seen_at'])
-            ->selectSub(function ($q): void {
-                $q->from('ticket_messages')
-                    ->join('users', 'users.id', '=', 'ticket_messages.user_id')
-                    ->whereColumn('ticket_messages.ticket_id', 'tickets.id')
-                    ->where('users.role', User::ROLE_CLIENT)
-                    ->selectRaw('max(ticket_messages.created_at)');
-            }, 'last_client_message_at')
-            ->whereExists(function ($q): void {
-                $q->select(DB::raw(1))
-                    ->from('ticket_messages')
-                    ->join('users', 'users.id', '=', 'ticket_messages.user_id')
-                    ->whereColumn('ticket_messages.ticket_id', 'tickets.id')
-                    ->where('users.role', User::ROLE_CLIENT);
-            })
-            ->get();
+        $items = collect();
 
-        $unread = $rows->filter(function ($row): bool {
-            if (! $row->last_client_message_at) {
-                return false;
-            }
+        if ($user->hasAdminPermission('tickets')) {
+            $rows = Ticket::query()
+                ->select(['id', 'title', 'admin_last_seen_at'])
+                ->selectSub(function ($q): void {
+                    $q->from('ticket_messages')
+                        ->join('users', 'users.id', '=', 'ticket_messages.user_id')
+                        ->whereColumn('ticket_messages.ticket_id', 'tickets.id')
+                        ->where('users.role', User::ROLE_CLIENT)
+                        ->selectRaw('max(ticket_messages.created_at)');
+                }, 'last_client_message_at')
+                ->whereExists(function ($q): void {
+                    $q->select(DB::raw(1))
+                        ->from('ticket_messages')
+                        ->join('users', 'users.id', '=', 'ticket_messages.user_id')
+                        ->whereColumn('ticket_messages.ticket_id', 'tickets.id')
+                        ->where('users.role', User::ROLE_CLIENT);
+                })
+                ->get();
 
-            $seen = $row->admin_last_seen_at ? Carbon::parse($row->admin_last_seen_at) : null;
-            $lastClientMessage = Carbon::parse($row->last_client_message_at);
+            $ticketItems = $rows->filter(function ($row): bool {
+                if (! $row->last_client_message_at) {
+                    return false;
+                }
 
-            return ! $seen || $lastClientMessage->gt($seen);
-        })->sortByDesc(fn ($row) => Carbon::parse($row->last_client_message_at));
+                $seen = $row->admin_last_seen_at ? Carbon::parse($row->admin_last_seen_at) : null;
+                $lastClientMessage = Carbon::parse($row->last_client_message_at);
 
-        return self::buildPayload($unread, true);
+                return ! $seen || $lastClientMessage->gt($seen);
+            })->map(function ($row): array {
+                return [
+                    'title' => (string) $row->title,
+                    'url' => route('admin.tickets.show', $row->id),
+                    'time' => Carbon::parse($row->last_client_message_at)->format('Y-m-d H:i'),
+                    '_sort' => Carbon::parse($row->last_client_message_at),
+                ];
+            });
+
+            $items = $items->merge($ticketItems);
+        }
+
+        if ($user->hasAdminPermission('contact_messages')) {
+            $contactItems = ContactMessage::query()
+                ->where('status', ContactMessage::STATUS_NEW)
+                ->latest()
+                ->get()
+                ->map(function (ContactMessage $message): array {
+                    return [
+                        'title' => 'Kontakt: '.$message->subject,
+                        'url' => route('admin.contact.index').'#message-'.$message->id,
+                        'time' => $message->created_at?->format('Y-m-d H:i') ?? '',
+                        '_sort' => $message->created_at,
+                    ];
+                });
+
+            $items = $items->merge($contactItems);
+        }
+
+        $sorted = $items->sortByDesc(function (array $item) {
+            return $item['_sort'] ?? null;
+        })->values();
+
+        return [
+            'total' => $sorted->count(),
+            'items' => $sorted->take(8)->map(function (array $item): array {
+                return [
+                    'title' => $item['title'],
+                    'url' => $item['url'],
+                    'time' => $item['time'],
+                ];
+            })->all(),
+        ];
     }
 
     /**
