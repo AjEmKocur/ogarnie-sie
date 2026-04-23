@@ -11,8 +11,15 @@ use Illuminate\View\View;
 
 class AdminContactMessageController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
+        $user = $request->user();
+        if ($user && $user->isAdmin()) {
+            $user->forceFill([
+                'contact_messages_last_seen_at' => now(),
+            ])->saveQuietly();
+        }
+
         return view('admin.contact.index', [
             'messages' => ContactMessage::latest()->get(),
             'statuses' => ContactMessage::statuses(),

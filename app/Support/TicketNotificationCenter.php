@@ -120,8 +120,12 @@ class TicketNotificationCenter
         }
 
         if ($user->hasAdminPermission('contact_messages')) {
+            $contactSeenAt = $user->contact_messages_last_seen_at ? Carbon::parse($user->contact_messages_last_seen_at) : null;
             $contactItems = ContactMessage::query()
                 ->where('status', ContactMessage::STATUS_NEW)
+                ->when($contactSeenAt, function ($query) use ($contactSeenAt): void {
+                    $query->where('created_at', '>', $contactSeenAt);
+                })
                 ->latest()
                 ->get()
                 ->map(function (ContactMessage $message): array {
