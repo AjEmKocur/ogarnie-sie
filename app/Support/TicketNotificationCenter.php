@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class TicketNotificationCenter
 {
@@ -119,7 +120,7 @@ class TicketNotificationCenter
             $items = $items->merge($ticketItems);
         }
 
-        if ($user->hasAdminPermission('contact_messages')) {
+        if ($user->hasAdminPermission('contact_messages') && Schema::hasTable('contact_message_reads')) {
             $contactItems = ContactMessage::query()
                 ->where('status', ContactMessage::STATUS_NEW)
                 ->whereNotExists(function ($q) use ($user): void {

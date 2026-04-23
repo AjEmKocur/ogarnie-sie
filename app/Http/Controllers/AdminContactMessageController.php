@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\View\View;
 
 class AdminContactMessageController extends Controller
@@ -22,17 +23,19 @@ class AdminContactMessageController extends Controller
 
     public function show(Request $request, ContactMessage $contactMessage): View
     {
-        DB::table('contact_message_reads')->updateOrInsert(
-            [
-                'contact_message_id' => $contactMessage->id,
-                'user_id' => $request->user()->id,
-            ],
-            [
-                'read_at' => now(),
-                'updated_at' => now(),
-                'created_at' => now(),
-            ]
-        );
+        if (Schema::hasTable('contact_message_reads')) {
+            DB::table('contact_message_reads')->updateOrInsert(
+                [
+                    'contact_message_id' => $contactMessage->id,
+                    'user_id' => $request->user()->id,
+                ],
+                [
+                    'read_at' => now(),
+                    'updated_at' => now(),
+                    'created_at' => now(),
+                ]
+            );
+        }
 
         return view('admin.contact.show', [
             'message' => $contactMessage,
