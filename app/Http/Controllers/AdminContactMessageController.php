@@ -2,18 +2,45 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactMessageReply;
 use App\Models\ContactMessage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
+use Throwable;
 
 class AdminContactMessageController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
+        $statusFilter = (string) $request->query('status', 'all');
+        $statuses = ContactMessage::statuses();
+
+        $query = ContactMessage::query()->latest();
+
+        if ($statusFilter !== 'all' && array_key_exists($statusFilter, $statuses)) {
+            $query->where('status', $statusFilter);
+        } else {
+            $statusFilter = 'all';
+        }
+
         return view('admin.contact.index', [
-            'messages' => ContactMessage::latest()->get(),
+            'messages' => $query->paginate(20)->withQueryString(),
+            'statuses' => $statuses,
+            'statusFilter' => $statusFilter,
+            'badgeClasses' => ContactMessage::badgeClasses(),
+        ]);
+    }
+
+    public function show(ContactMessage $contactMessage): View
+    {
+        $contactMessage->load('repliedByUser');
+
+        return view('admin.contact.show', [
+            'message' => $contactMessage,
             'statuses' => ContactMessage::statuses(),
+            'badgeClasses' => ContactMessage::badgeClasses(),
         ]);
     }
 
@@ -26,7 +53,42 @@ class AdminContactMessageController extends Controller
         $contactMessage->update($validated);
 
         return redirect()
-            ->route('admin.contact.index')
+            ->back()
             ->with('status', 'Status wiadomości został zaktualizowany.');
+    }
+
+    public function reply(Request $request, ContactMessage $contactMessage): RedirectResponse
+    {
+        $validated = $request->validate([
+            'reply_subject' => ['required', 'string', 'max:255'],
+            'reply_message' => ['required', 'string', 'max:5000'],
+        ]);
+
+        try {
+            Mail::to($contactMessage->email)->send(new ContactMessageReply(
+                contactMessage: $contactMessage,
+                replySubject: $validated['reply_subject'],
+                replyMessage: $validated['reply_message'],
+                responderName: (string) ($request->user()?->name ?? config('app.name')),
+            ));
+        } catch (Throwable $e) {
+            report($e);
+
+            return redirect()
+                ->route('admin.contact.show', $contactMessage)
+                ->with('error', 'Nie udało się wysłać odpowiedzi. Spróbuj ponownie.');
+        }
+
+        $contactMessage->update([
+            'status' => ContactMessage::STATUS_REPLIED,
+            'reply_subject' => $validated['reply_subject'],
+            'reply_message' => $validated['reply_message'],
+            'replied_at' => now(),
+            'replied_by_user_id' => $request->user()?->id,
+        ]);
+
+        return redirect()
+            ->route('admin.contact.show', $contactMessage)
+            ->with('status', 'Odpowiedź została wysłana.');
     }
 }

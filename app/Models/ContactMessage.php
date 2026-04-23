@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 
 class ContactMessage extends Model
@@ -19,6 +20,14 @@ class ContactMessage extends Model
         'subject',
         'message',
         'status',
+        'reply_subject',
+        'reply_message',
+        'replied_at',
+        'replied_by_user_id',
+    ];
+
+    protected $casts = [
+        'replied_at' => 'datetime',
     ];
 
     /**
@@ -31,5 +40,20 @@ class ContactMessage extends Model
             self::STATUS_REPLIED => 'Odpowiedziano',
         ];
     }
-}
 
+    /**
+     * @return array<string, string>
+     */
+    public static function badgeClasses(): array
+    {
+        return [
+            self::STATUS_NEW => 'bg-blue-500/20 text-blue-300 border border-blue-400/30',
+            self::STATUS_REPLIED => 'bg-emerald-500/20 text-emerald-200 border border-emerald-400/30',
+        ];
+    }
+
+    public function repliedByUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'replied_by_user_id');
+    }
+}

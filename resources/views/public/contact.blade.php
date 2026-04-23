@@ -10,12 +10,6 @@
             Formularz kontaktowy działa dla gości. Nie musisz mieć konta.
         </p>
 
-        @if (session('status'))
-            <div class="mt-6 rounded-lg border border-green-200 bg-green-50 p-4 text-green-700">
-                {{ session('status') }}
-            </div>
-        @endif
-
         <div class="mt-10 grid gap-6 lg:grid-cols-2">
             <div class="rounded-xl border border-gray-200 bg-white p-6">
                 <h2 class="text-xl font-semibold">Dane kontaktowe</h2>
