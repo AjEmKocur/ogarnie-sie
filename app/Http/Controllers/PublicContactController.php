@@ -37,7 +37,7 @@ class PublicContactController extends Controller
         $contactMessage = ContactMessage::create($validated);
 
         try {
-            Mail::to(config('mail.from.address'))->send(new ContactMessageReceived($contactMessage));
+            Mail::to((string) config('mail.contact_inbox'))->send(new ContactMessageReceived($contactMessage));
         } catch (\Throwable $e) {
             Log::warning('Contact notification email failed.', [
                 'error' => $e->getMessage(),
