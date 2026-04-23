@@ -66,7 +66,6 @@ class User extends Authenticatable implements MustVerifyEmail
             'is_active' => 'boolean',
             'admin_permissions' => 'array',
             'force_password_change' => 'boolean',
-            'contact_messages_last_seen_at' => 'datetime',
         ];
     }
 

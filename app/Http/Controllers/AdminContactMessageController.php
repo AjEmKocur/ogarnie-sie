@@ -6,22 +6,36 @@ use App\Mail\ContactMessageReply;
 use App\Models\ContactMessage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class AdminContactMessageController extends Controller
 {
-    public function index(Request $request): View
+    public function index(): View
     {
-        $user = $request->user();
-        if ($user && $user->isAdmin()) {
-            $user->forceFill([
-                'contact_messages_last_seen_at' => now(),
-            ])->saveQuietly();
-        }
-
         return view('admin.contact.index', [
             'messages' => ContactMessage::latest()->get(),
+            'statuses' => ContactMessage::statuses(),
+        ]);
+    }
+
+    public function show(Request $request, ContactMessage $contactMessage): View
+    {
+        DB::table('contact_message_reads')->updateOrInsert(
+            [
+                'contact_message_id' => $contactMessage->id,
+                'user_id' => $request->user()->id,
+            ],
+            [
+                'read_at' => now(),
+                'updated_at' => now(),
+                'created_at' => now(),
+            ]
+        );
+
+        return view('admin.contact.show', [
+            'message' => $contactMessage,
             'statuses' => ContactMessage::statuses(),
         ]);
     }
