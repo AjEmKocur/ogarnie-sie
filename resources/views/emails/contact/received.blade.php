@@ -7,12 +7,12 @@
     <body style="font-family: Arial, sans-serif; color: #0f172a;">
         <h2>Nowa wiadomość z formularza kontaktowego</h2>
 
-        <p><strong>Imię i nazwisko:</strong> {{ $contactMessage->name }}</p>
-        <p><strong>Email:</strong> {{ $contactMessage->email }}</p>
-        <p><strong>Telefon:</strong> {{ $contactMessage->phone ?: 'Brak' }}</p>
-        <p><strong>Temat:</strong> {{ $contactMessage->subject }}</p>
+        <p><strong>Imię i nazwisko:</strong> {{ $name }}</p>
+        <p><strong>Email:</strong> {{ $email }}</p>
+        <p><strong>Telefon:</strong> {{ $phone !== '' ? $phone : 'Brak' }}</p>
+        <p><strong>Temat:</strong> {{ $subjectLine }}</p>
 
         <p><strong>Treść:</strong></p>
-        <p style="white-space: pre-line;">{{ $contactMessage->message }}</p>
+        <p style="white-space: pre-line;">{{ $messageBody }}</p>
     </body>
 </html>

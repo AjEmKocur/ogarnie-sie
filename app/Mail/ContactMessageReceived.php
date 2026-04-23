@@ -2,7 +2,6 @@
 
 namespace App\Mail;
 
-use App\Models\ContactMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
@@ -14,14 +13,18 @@ class ContactMessageReceived extends Mailable
     use Queueable, SerializesModels;
 
     public function __construct(
-        public ContactMessage $contactMessage
+        public string $name,
+        public string $email,
+        public string $phone,
+        public string $subjectLine,
+        public string $messageBody
     ) {
     }
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: '[Ogarnie się] Nowa wiadomość kontaktowa: '.$this->contactMessage->subject,
+            subject: '[Ogarnie się] Nowa wiadomość kontaktowa: '.$this->subjectLine,
         );
     }
 
@@ -40,6 +43,3 @@ class ContactMessageReceived extends Mailable
         return [];
     }
 }
-
-
-

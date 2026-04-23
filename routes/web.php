@@ -2,13 +2,11 @@
 
 use App\Http\Controllers\AdminTicketController;
 use App\Http\Controllers\AdminNewsPostController;
-use App\Http\Controllers\AdminContactMessageController;
 use App\Http\Controllers\AdminMaintenanceController;
 use App\Http\Controllers\AdminOperatorController;
 use App\Http\Controllers\AdminServiceController;
 use App\Http\Controllers\AdminAboutGalleryController;
 use App\Http\Controllers\AdminTestimonialController;
-use App\Http\Controllers\ClientContactMessageController;
 use App\Http\Controllers\ClientTicketController;
 use App\Http\Controllers\ClientTestimonialController;
 use App\Http\Controllers\ProfileController;
@@ -43,10 +41,6 @@ Route::middleware(['auth', 'verified', 'password.change.required', 'admin'])->gr
     Route::get('/admin/tickets', [AdminTicketController::class, 'index'])->middleware('admin.permission:tickets')->name('admin.tickets.index');
     Route::get('/admin/tickets/{ticket}', [AdminTicketController::class, 'show'])->middleware('admin.permission:tickets')->name('admin.tickets.show');
     Route::patch('/admin/tickets/{ticket}', [AdminTicketController::class, 'update'])->middleware('admin.permission:tickets')->name('admin.tickets.update');
-    Route::get('/admin/contact', [AdminContactMessageController::class, 'index'])->middleware('admin.permission:contact_messages')->name('admin.contact.index');
-    Route::get('/admin/contact/{contactMessage}', [AdminContactMessageController::class, 'show'])->middleware('admin.permission:contact_messages')->name('admin.contact.show');
-    Route::patch('/admin/contact/{contactMessage}', [AdminContactMessageController::class, 'update'])->middleware('admin.permission:contact_messages')->name('admin.contact.update');
-    Route::post('/admin/contact/{contactMessage}/reply', [AdminContactMessageController::class, 'reply'])->middleware('admin.permission:contact_messages')->name('admin.contact.reply');
     Route::get('/admin/testimonials', [AdminTestimonialController::class, 'index'])->middleware('admin.permission:testimonials_moderation')->name('admin.testimonials.index');
     Route::patch('/admin/testimonials/{testimonial}', [AdminTestimonialController::class, 'update'])->middleware('admin.permission:testimonials_moderation')->name('admin.testimonials.update');
     Route::delete('/admin/testimonials/{testimonial}', [AdminTestimonialController::class, 'destroy'])->middleware('admin.permission:testimonials_moderation')->name('admin.testimonials.destroy');
@@ -88,9 +82,6 @@ Route::middleware(['auth', 'verified', 'password.change.required', 'client'])->g
     Route::post('/client/tickets/{ticket}/pay', [ClientTicketController::class, 'pay'])->name('client.tickets.pay');
     Route::get('/client/testimonials/create', [ClientTestimonialController::class, 'create'])->name('client.testimonials.create');
     Route::post('/client/testimonials', [ClientTestimonialController::class, 'store'])->name('client.testimonials.store');
-    Route::get('/client/contact', [ClientContactMessageController::class, 'index'])->name('client.contact.index');
-    Route::get('/client/contact/{contactMessage}', [ClientContactMessageController::class, 'show'])->name('client.contact.show');
-    Route::post('/client/contact/{contactMessage}/messages', [ClientContactMessageController::class, 'storeEntry'])->name('client.contact.messages.store');
 });
 
 Route::middleware(['auth', 'verified', 'password.change.required'])->group(function () {

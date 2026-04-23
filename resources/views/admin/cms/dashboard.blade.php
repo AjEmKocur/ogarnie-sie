@@ -43,14 +43,6 @@
                     </a>
                 @endif
 
-                @if (auth()->user()->hasAdminPermission('contact_messages'))
-                    <a href="{{ route('admin.contact.index') }}" class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm hover:border-blue-500/60">
-                        <p class="text-xs uppercase tracking-wider text-gray-500">Kontakt</p>
-                        <h3 class="mt-2 text-lg font-semibold">Wiadomości kontaktowe</h3>
-                        <p class="mt-2 text-sm text-slate-300">Obsługa formularza kontaktowego i odpowiedzi.</p>
-                    </a>
-                @endif
-
                 @if (auth()->user()->hasAdminPermission('testimonials_moderation'))
                     <a href="{{ route('admin.testimonials.index') }}" class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm hover:border-blue-500/60">
                         <p class="text-xs uppercase tracking-wider text-gray-500">Treści</p>

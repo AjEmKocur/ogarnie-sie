@@ -106,7 +106,6 @@ class AdminOperatorController extends Controller
             'tickets' => 'Zgłoszenia serwisowe',
             'cms_services' => 'CMS: usługi i cennik',
             'cms_news' => 'CMS: aktualności',
-            'contact_messages' => 'Wiadomości kontaktowe',
             'testimonials_moderation' => 'Moderacja opinii',
         ];
     }

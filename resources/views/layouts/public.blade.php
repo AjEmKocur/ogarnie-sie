@@ -93,7 +93,6 @@
                                     @endif
                                 @else
                                     <x-dropdown-link :href="route('client.tickets.index')">Moje zgłoszenia</x-dropdown-link>
-                                    <x-dropdown-link :href="route('client.contact.index')">Wiadomosci kontaktowe</x-dropdown-link>
                                     @if (auth()->user()->hasClosedTicketsWithoutTestimonial())
                                         <x-dropdown-link :href="route('client.testimonials.create')">Wystaw opinię</x-dropdown-link>
                                     @endif
