@@ -15,7 +15,7 @@
                 <h2 class="text-xl font-semibold">Dane kontaktowe</h2>
                 <ul class="mt-4 space-y-2 text-sm text-slate-300">
                     <li>Telefon: +48 500 600 700</li>
-                    <li>Email: kontakt@ogarniesie.pl</li>
+                    <li>Email: kontakt.ogarnie.sie@gmail.com</li>
                     <li>Adres: ul. Serwisowa 12, 00-001 Miasto</li>
                     <li>Godziny: Pn-Pt 9:00-18:00</li>
                 </ul>
