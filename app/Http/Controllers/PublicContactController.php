@@ -41,6 +41,12 @@ class PublicContactController extends Controller
         } catch (\Throwable $e) {
             Log::warning('Contact notification email failed.', [
                 'error' => $e->getMessage(),
+                'mail_default' => (string) config('mail.default', ''),
+                'mail_host' => (string) config('mail.mailers.smtp.host', ''),
+                'mail_port' => (string) config('mail.mailers.smtp.port', ''),
+                'mail_username_set' => (string) config('mail.mailers.smtp.username', '') !== '',
+                'mail_password_set' => (string) config('mail.mailers.smtp.password', '') !== '',
+                'mail_contact_inbox' => (string) config('mail.contact_inbox', ''),
             ]);
         }
 
