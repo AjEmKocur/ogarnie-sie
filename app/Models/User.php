@@ -118,6 +118,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Testimonial::class);
     }
 
+    public function contactMessages(): HasMany
+    {
+        return $this->hasMany(ContactMessage::class);
+    }
+
+    public function contactMessageEntries(): HasMany
+    {
+        return $this->hasMany(ContactMessageEntry::class);
+    }
+
     public function hasClosedTicketsWithoutTestimonial(): bool
     {
         return $this->tickets()

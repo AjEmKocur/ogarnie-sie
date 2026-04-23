@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\ContactMessageReply;
 use App\Models\ContactMessage;
+use App\Models\ContactMessageEntry;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -46,7 +47,10 @@ class AdminContactMessageController extends Controller
 
     public function show(ContactMessage $contactMessage): View
     {
-        $contactMessage->load('repliedByUser');
+        $contactMessage->load([
+            'repliedByUser',
+            'entries.user',
+        ]);
 
         return view('admin.contact.show', [
             'message' => $contactMessage,
@@ -89,6 +93,12 @@ class AdminContactMessageController extends Controller
                 ->route('admin.contact.show', $contactMessage)
                 ->with('error', 'Nie udało się wysłać odpowiedzi. Spróbuj ponownie.');
         }
+
+        $contactMessage->entries()->create([
+            'user_id' => $request->user()?->id,
+            'sender_type' => ContactMessageEntry::SENDER_ADMIN,
+            'message' => $validated['reply_message'],
+        ]);
 
         $contactMessage->update([
             'status' => ContactMessage::STATUS_REPLIED,

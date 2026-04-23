@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminOperatorController;
 use App\Http\Controllers\AdminServiceController;
 use App\Http\Controllers\AdminAboutGalleryController;
 use App\Http\Controllers\AdminTestimonialController;
+use App\Http\Controllers\ClientContactMessageController;
 use App\Http\Controllers\ClientTicketController;
 use App\Http\Controllers\ClientTestimonialController;
 use App\Http\Controllers\ProfileController;
@@ -87,6 +88,9 @@ Route::middleware(['auth', 'verified', 'password.change.required', 'client'])->g
     Route::post('/client/tickets/{ticket}/pay', [ClientTicketController::class, 'pay'])->name('client.tickets.pay');
     Route::get('/client/testimonials/create', [ClientTestimonialController::class, 'create'])->name('client.testimonials.create');
     Route::post('/client/testimonials', [ClientTestimonialController::class, 'store'])->name('client.testimonials.store');
+    Route::get('/client/contact', [ClientContactMessageController::class, 'index'])->name('client.contact.index');
+    Route::get('/client/contact/{contactMessage}', [ClientContactMessageController::class, 'show'])->name('client.contact.show');
+    Route::post('/client/contact/{contactMessage}/messages', [ClientContactMessageController::class, 'storeEntry'])->name('client.contact.messages.store');
 });
 
 Route::middleware(['auth', 'verified', 'password.change.required'])->group(function () {

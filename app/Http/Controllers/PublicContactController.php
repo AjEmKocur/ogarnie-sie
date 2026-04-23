@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\ContactMessageReceived;
 use App\Models\ContactMessage;
+use App\Models\ContactMessageEntry;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -34,7 +35,16 @@ class PublicContactController extends Controller
         $this->verifyTurnstile($request);
         unset($validated['cf-turnstile-response']);
 
-        $contactMessage = ContactMessage::create($validated);
+        $contactMessage = ContactMessage::create([
+            ...$validated,
+            'user_id' => $request->user()?->id,
+        ]);
+
+        $contactMessage->entries()->create([
+            'user_id' => $request->user()?->id,
+            'sender_type' => ContactMessageEntry::SENDER_CLIENT,
+            'message' => (string) $validated['message'],
+        ]);
 
         Mail::to(config('mail.from.address'))->send(new ContactMessageReceived($contactMessage));
 

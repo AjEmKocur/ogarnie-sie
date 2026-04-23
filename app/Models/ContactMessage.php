@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 
 class ContactMessage extends Model
@@ -16,6 +17,7 @@ class ContactMessage extends Model
     protected $fillable = [
         'name',
         'email',
+        'user_id',
         'phone',
         'subject',
         'message',
@@ -55,5 +57,15 @@ class ContactMessage extends Model
     public function repliedByUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'replied_by_user_id');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function entries(): HasMany
+    {
+        return $this->hasMany(ContactMessageEntry::class)->orderBy('created_at');
     }
 }
