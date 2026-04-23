@@ -63,24 +63,13 @@
                                                     · {{ $message->phone }}
                                                 @endif
                                             </p>
-                                            <p class="mt-2 text-sm text-slate-200">{{ \Illuminate\Support\Str::limit($message->message, 180) }}</p>
+                                            <p class="mt-2 text-sm text-slate-200">{{ \Illuminate\Support\Str::limit((string) $message->message_preview, 180) }}</p>
                                         </div>
 
                                         <div class="flex flex-wrap items-center gap-2">
                                             <span class="rounded-full px-3 py-1 text-xs font-semibold {{ $badgeClasses[$message->status] ?? 'bg-gray-500/20 text-gray-200 border border-gray-400/30' }}">
                                                 {{ $statuses[$message->status] ?? $message->status }}
                                             </span>
-
-                                            <form method="POST" action="{{ route('admin.contact.update', $message) }}" class="flex items-center gap-2">
-                                                @csrf
-                                                @method('PATCH')
-                                                <select name="status" class="block rounded-md border-gray-300 bg-slate-900 px-2 py-1.5 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                                    @foreach ($statuses as $value => $label)
-                                                        <option value="{{ $value }}" @selected($message->status === $value)>{{ $label }}</option>
-                                                    @endforeach
-                                                </select>
-                                                <x-primary-button>Zapisz</x-primary-button>
-                                            </form>
 
                                             <a href="{{ route('admin.contact.show', $message) }}"
                                                class="inline-flex items-center rounded-md border border-blue-400/50 bg-blue-500/20 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-blue-100 transition hover:bg-blue-500/30">

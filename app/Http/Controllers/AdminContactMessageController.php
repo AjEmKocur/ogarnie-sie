@@ -17,7 +17,18 @@ class AdminContactMessageController extends Controller
         $statusFilter = (string) $request->query('status', 'all');
         $statuses = ContactMessage::statuses();
 
-        $query = ContactMessage::query()->latest();
+        $query = ContactMessage::query()
+            ->select([
+                'id',
+                'name',
+                'email',
+                'phone',
+                'subject',
+                'status',
+                'created_at',
+            ])
+            ->selectRaw('substr(message, 1, 220) as message_preview')
+            ->latest();
 
         if ($statusFilter !== 'all' && array_key_exists($statusFilter, $statuses)) {
             $query->where('status', $statusFilter);
