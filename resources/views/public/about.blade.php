@@ -67,8 +67,15 @@
                     <div id="about-gallery-viewport">
                         <div id="about-gallery-track">
                             @foreach ($aboutGalleryImages as $image)
+                                @php
+                                    $publicUrl = $image->publicUrl();
+                                @endphp
                                 <figure class="about-gallery-item overflow-hidden rounded-xl border border-gray-200 bg-slate-900/40" data-about-gallery-item>
-                                    <img src="{{ $image->publicUrl() }}" alt="{{ $image->caption ?: 'Zdjęcie serwisu' }}" class="h-56 w-full object-cover">
+                                    @if ($publicUrl)
+                                        <img src="{{ $publicUrl }}" alt="{{ $image->caption ?: 'Zdjęcie serwisu' }}" class="h-56 w-full object-cover" loading="lazy" decoding="async">
+                                    @else
+                                        <div class="flex h-56 w-full items-center justify-center bg-slate-900/70 text-sm text-slate-300">Brak zdjęcia</div>
+                                    @endif
                                     @if ($image->caption)
                                         <figcaption class="border-t border-gray-200 px-4 py-3 text-sm text-slate-200">{{ $image->caption }}</figcaption>
                                     @endif

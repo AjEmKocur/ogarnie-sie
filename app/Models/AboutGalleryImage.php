@@ -25,8 +25,12 @@ class AboutGalleryImage extends Model
         ];
     }
 
-    public function publicUrl(): string
+    public function publicUrl(): ?string
     {
-        return Storage::disk($this->disk)->url($this->path);
+        try {
+            return Storage::disk($this->disk)->url($this->path);
+        } catch (\Throwable) {
+            return null;
+        }
     }
 }

@@ -37,6 +37,10 @@ class NewsPost extends Model
             return null;
         }
 
-        return Storage::disk($this->cover_image_disk)->url($this->cover_image_path);
+        try {
+            return Storage::disk($this->cover_image_disk)->url($this->cover_image_path);
+        } catch (\Throwable) {
+            return null;
+        }
     }
 }
