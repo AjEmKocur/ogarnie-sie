@@ -36,22 +36,7 @@ class PublicContactController extends Controller
 
         $contactMessage = ContactMessage::create($validated);
 
-        try {
-            Mail::to((string) config('mail.contact_inbox'))->send(new ContactMessageReceived($contactMessage));
-        } catch (\Throwable $e) {
-            $apiFallbackSent = $this->sendViaSendGridApi($contactMessage);
-
-            Log::warning('Contact notification email failed.', [
-                'error' => $e->getMessage(),
-                'sendgrid_api_fallback_sent' => $apiFallbackSent,
-                'mail_default' => (string) config('mail.default', ''),
-                'mail_host' => (string) config('mail.mailers.smtp.host', ''),
-                'mail_port' => (string) config('mail.mailers.smtp.port', ''),
-                'mail_username_set' => (string) config('mail.mailers.smtp.username', '') !== '',
-                'mail_password_set' => (string) config('mail.mailers.smtp.password', '') !== '',
-                'mail_contact_inbox' => (string) config('mail.contact_inbox', ''),
-            ]);
-        }
+        Mail::to(config('mail.from.address'))->send(new ContactMessageReceived($contactMessage));
 
         return redirect()
             ->route('public.contact')
@@ -110,82 +95,5 @@ class PublicContactController extends Controller
                 'captcha' => 'Weryfikacja CAPTCHA nie powiodła się. Spróbuj ponownie.',
             ]);
         }
-    }
-
-    private function sendViaSendGridApi(ContactMessage $contactMessage): bool
-    {
-        $apiKey = $this->resolveSendGridApiKey();
-        $to = (string) config('mail.contact_inbox', '');
-        $fromAddress = (string) config('mail.from.address', '');
-        $fromName = (string) config('mail.from.name', 'Ogarnie Sie');
-
-        if ($apiKey === '' || $to === '' || $fromAddress === '') {
-            return false;
-        }
-
-        try {
-            $response = Http::timeout(12)
-                ->withToken($apiKey)
-                ->post('https://api.sendgrid.com/v3/mail/send', [
-                    'personalizations' => [[
-                        'to' => [[
-                            'email' => $to,
-                        ]],
-                        'subject' => '[Ogarnie się] Nowa wiadomość kontaktowa: '.$contactMessage->subject,
-                    ]],
-                    'from' => [
-                        'email' => $fromAddress,
-                        'name' => $fromName,
-                    ],
-                    'reply_to' => [
-                        'email' => $contactMessage->email,
-                        'name' => $contactMessage->name,
-                    ],
-                    'content' => [[
-                        'type' => 'text/plain',
-                        'value' => "Nowa wiadomość z formularza kontaktowego:\n\n"
-                            ."Imię i nazwisko: {$contactMessage->name}\n"
-                            ."Email: {$contactMessage->email}\n"
-                            .'Telefon: '.($contactMessage->phone ?: '-')."\n"
-                            ."Temat: {$contactMessage->subject}\n\n"
-                            ."Treść:\n{$contactMessage->message}\n",
-                    ]],
-                ]);
-        } catch (\Throwable $e) {
-            Log::warning('SendGrid API fallback failed.', [
-                'error' => $e->getMessage(),
-            ]);
-
-            return false;
-        }
-
-        if ($response->status() >= 200 && $response->status() < 300) {
-            return true;
-        }
-
-        Log::warning('SendGrid API fallback returned non-success status.', [
-            'status' => $response->status(),
-            'body' => $response->body(),
-        ]);
-
-        return false;
-    }
-
-    private function resolveSendGridApiKey(): string
-    {
-        $explicit = (string) config('services.sendgrid.api_key', '');
-        if ($explicit !== '') {
-            return $explicit;
-        }
-
-        $smtpHost = (string) config('mail.mailers.smtp.host', '');
-        $smtpUser = (string) config('mail.mailers.smtp.username', '');
-        $smtpPass = (string) config('mail.mailers.smtp.password', '');
-
-        if (str_contains(strtolower($smtpHost), 'sendgrid') && strtolower($smtpUser) === 'apikey' && $smtpPass !== '') {
-            return $smtpPass;
-        }
-
-        return '';
     }
 }

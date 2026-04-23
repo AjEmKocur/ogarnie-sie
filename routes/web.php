@@ -43,10 +43,7 @@ Route::middleware(['auth', 'verified', 'password.change.required', 'admin'])->gr
     Route::get('/admin/tickets/{ticket}', [AdminTicketController::class, 'show'])->middleware('admin.permission:tickets')->name('admin.tickets.show');
     Route::patch('/admin/tickets/{ticket}', [AdminTicketController::class, 'update'])->middleware('admin.permission:tickets')->name('admin.tickets.update');
     Route::get('/admin/contact', [AdminContactMessageController::class, 'index'])->middleware('admin.permission:contact_messages')->name('admin.contact.index');
-    Route::get('/admin/contact/{contactMessage}', [AdminContactMessageController::class, 'show'])->middleware('admin.permission:contact_messages')->name('admin.contact.show');
     Route::patch('/admin/contact/{contactMessage}', [AdminContactMessageController::class, 'update'])->middleware('admin.permission:contact_messages')->name('admin.contact.update');
-    Route::post('/admin/contact/{contactMessage}/reply', [AdminContactMessageController::class, 'reply'])->middleware('admin.permission:contact_messages')->name('admin.contact.reply');
-    Route::delete('/admin/contact/{contactMessage}', [AdminContactMessageController::class, 'destroy'])->middleware('admin.permission:contact_messages')->name('admin.contact.destroy');
     Route::get('/admin/testimonials', [AdminTestimonialController::class, 'index'])->middleware('admin.permission:testimonials_moderation')->name('admin.testimonials.index');
     Route::patch('/admin/testimonials/{testimonial}', [AdminTestimonialController::class, 'update'])->middleware('admin.permission:testimonials_moderation')->name('admin.testimonials.update');
     Route::delete('/admin/testimonials/{testimonial}', [AdminTestimonialController::class, 'destroy'])->middleware('admin.permission:testimonials_moderation')->name('admin.testimonials.destroy');
