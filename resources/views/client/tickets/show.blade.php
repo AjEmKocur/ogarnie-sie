@@ -204,14 +204,19 @@
                         @if ($ticket->messages->isEmpty())
                             <p class="mt-3 text-sm text-slate-400">Brak wiadomości.</p>
                         @else
-                            <div class="mt-3 space-y-3 max-h-96 overflow-y-auto pr-1">
+                            <div class="mt-3 h-96 overflow-y-auto pr-1 space-y-3">
                                 @foreach ($ticket->messages as $message)
-                                    <div class="rounded-lg border border-gray-200/20 bg-slate-900/50 p-4">
-                                        <div class="flex flex-wrap items-center justify-between gap-2">
-                                            <p class="text-sm font-semibold text-slate-100">{{ $message->user?->name ?? 'Użytkownik' }}</p>
-                                            <p class="text-xs text-slate-400">{{ $message->created_at?->format('Y-m-d H:i') }}</p>
+                                    @php
+                                        $isOwn = $message->user_id === auth()->id();
+                                    @endphp
+                                    <div class="flex {{ $isOwn ? 'justify-end' : 'justify-start' }}">
+                                        <div class="w-full max-w-[86%] rounded-lg border p-4 {{ $isOwn ? 'border-blue-400/30 bg-blue-500/10' : 'border-gray-200/20 bg-slate-900/50' }}">
+                                            <div class="flex flex-wrap items-center justify-between gap-2">
+                                                <p class="text-sm font-semibold text-slate-100">{{ $message->user?->name ?? 'Użytkownik' }}</p>
+                                                <p class="text-xs text-slate-400">{{ $message->created_at?->format('Y-m-d H:i') }}</p>
+                                            </div>
+                                            <p class="mt-2 whitespace-pre-line text-sm text-slate-100">{{ $message->message }}</p>
                                         </div>
-                                        <p class="mt-2 whitespace-pre-line text-sm text-slate-100">{{ $message->message }}</p>
                                     </div>
                                 @endforeach
                             </div>
