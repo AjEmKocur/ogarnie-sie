@@ -111,6 +111,8 @@
                                             ! $ticket->admin_last_seen_at
                                             || strtotime((string) $ticket->last_client_message_at) > strtotime((string) $ticket->admin_last_seen_at)
                                         );
+                                    $hasAdminNewTicket = ! $ticket->last_client_message_at
+                                        && ! $ticket->admin_last_seen_at;
                                 @endphp
                                 <article class="rounded-xl border border-gray-200 bg-slate-900/40 p-4">
                                     <div class="flex flex-wrap items-start justify-between gap-4">
@@ -122,6 +124,10 @@
                                             @if ($hasAdminUnread)
                                                 <p class="mt-1 inline-flex items-center rounded-full border border-amber-400/40 bg-amber-500/10 px-2 py-0.5 text-[11px] font-semibold text-amber-200">
                                                     Nowa wiadomość od klienta
+                                                </p>
+                                            @elseif ($hasAdminNewTicket)
+                                                <p class="mt-1 inline-flex items-center rounded-full border border-blue-400/40 bg-blue-500/10 px-2 py-0.5 text-[11px] font-semibold text-blue-200">
+                                                    Nowe zgłoszenie
                                                 </p>
                                             @endif
                                         </div>

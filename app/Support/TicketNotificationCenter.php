@@ -6,7 +6,6 @@ use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 
 class TicketNotificationCenter
 {
@@ -81,7 +80,7 @@ class TicketNotificationCenter
     private static function forAdmin(User $user): array
     {
         $rows = Ticket::query()
-            ->select(['id', 'title', 'admin_last_seen_at'])
+            ->select(['id', 'title', 'admin_last_seen_at', 'created_at'])
             ->selectSub(function ($q): void {
                 $q->from('ticket_messages')
                     ->join('users', 'users.id', '=', 'ticket_messages.user_id')
@@ -89,25 +88,26 @@ class TicketNotificationCenter
                     ->where('users.role', User::ROLE_CLIENT)
                     ->selectRaw('max(ticket_messages.created_at)');
             }, 'last_client_message_at')
-            ->whereExists(function ($q): void {
-                $q->select(DB::raw(1))
-                    ->from('ticket_messages')
-                    ->join('users', 'users.id', '=', 'ticket_messages.user_id')
-                    ->whereColumn('ticket_messages.ticket_id', 'tickets.id')
-                    ->where('users.role', User::ROLE_CLIENT);
-            })
             ->get();
 
         $unread = $rows->filter(function ($row): bool {
-            if (! $row->last_client_message_at) {
-                return false;
+            $seen = $row->admin_last_seen_at ? Carbon::parse($row->admin_last_seen_at) : null;
+            $lastClientMessage = $row->last_client_message_at ? Carbon::parse($row->last_client_message_at) : null;
+            $createdAt = Carbon::parse($row->created_at);
+
+            // Jeśli są wiadomości klienta, działamy jak dotychczas.
+            if ($lastClientMessage) {
+                return ! $seen || $lastClientMessage->gt($seen);
             }
 
-            $seen = $row->admin_last_seen_at ? Carbon::parse($row->admin_last_seen_at) : null;
-            $lastClientMessage = Carbon::parse($row->last_client_message_at);
+            // Dla nowego zgłoszenia bez wiadomości klienta:
+            // pokazujemy je jako nieprzeczytane do momentu wejścia w szczegóły.
+            return ! $seen || $createdAt->gt($seen);
+        })->sortByDesc(function ($row) {
+            $latest = $row->last_client_message_at ?? $row->created_at;
 
-            return ! $seen || $lastClientMessage->gt($seen);
-        })->sortByDesc(fn ($row) => Carbon::parse($row->last_client_message_at));
+            return Carbon::parse($latest);
+        });
 
         return self::buildPayload($unread, true);
     }
@@ -123,10 +123,13 @@ class TicketNotificationCenter
                 $row->last_client_message_at ?? null,
                 $row->last_admin_message_at ?? null,
                 $row->last_admin_status_at ?? null,
+                $admin ? ($row->created_at ?? null) : null,
             ])->filter()->max();
 
             return [
-                'title' => (string) $row->title,
+                'title' => $admin && empty($row->last_client_message_at)
+                    ? 'Nowe zgłoszenie: '.(string) $row->title
+                    : (string) $row->title,
                 'url' => $admin
                     ? route('admin.tickets.show', $row->id)
                     : route('client.tickets.show', $row->id),
