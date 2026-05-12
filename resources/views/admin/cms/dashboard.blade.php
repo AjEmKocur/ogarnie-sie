@@ -14,7 +14,7 @@
 
             <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 @if (auth()->user()->hasAdminPermission('tickets'))
-                    <a href="{{ route('admin.tickets.index') }}" class="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:border-blue-400/80 hover:bg-slate-800/80 hover:shadow-[0_18px_46px_rgba(25,145,255,0.20)] hover:-translate-y-0.5 transition-all duration-200 min-h-[220px] flex flex-col">
+                    <a href="{{ route('admin.tickets.index') }}" class="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:border-blue-400/80 hover:bg-slate-800/80 transition-all duration-200 min-h-[220px] flex flex-col">
                         <p class="text-sm uppercase tracking-wider text-gray-500">Obsługa</p>
                         <h3 class="mt-2 text-xl font-semibold">Zgłoszenia serwisowe</h3>
                         <p class="mt-2 text-base text-slate-300">Statusy, notatki, płatności i komunikacja z klientem.</p>
@@ -27,7 +27,7 @@
                 @endif
 
                 @if (auth()->user()->hasAdminPermission('cms_services'))
-                    <a href="{{ route('admin.cms.services.index') }}" class="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:border-blue-400/80 hover:bg-slate-800/80 hover:shadow-[0_18px_46px_rgba(25,145,255,0.20)] hover:-translate-y-0.5 transition-all duration-200 min-h-[220px] flex flex-col">
+                    <a href="{{ route('admin.cms.services.index') }}" class="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:border-blue-400/80 hover:bg-slate-800/80 transition-all duration-200 min-h-[220px] flex flex-col">
                         <p class="text-sm uppercase tracking-wider text-gray-500">Oferta</p>
                         <h3 class="mt-2 text-xl font-semibold">Usługi (z cenami)</h3>
                         <p class="mt-2 text-base text-slate-300">Dodawanie i edycja usług wraz z ceną od widoczną na stronie.</p>
@@ -38,7 +38,7 @@
                         </div>
                     </a>
 
-                    <a href="{{ route('admin.cms.about-gallery.index') }}" class="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:border-blue-400/80 hover:bg-slate-800/80 hover:shadow-[0_18px_46px_rgba(25,145,255,0.20)] hover:-translate-y-0.5 transition-all duration-200 min-h-[220px] flex flex-col">
+                    <a href="{{ route('admin.cms.about-gallery.index') }}" class="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:border-blue-400/80 hover:bg-slate-800/80 transition-all duration-200 min-h-[220px] flex flex-col">
                         <p class="text-sm uppercase tracking-wider text-gray-500">Treści</p>
                         <h3 class="mt-2 text-xl font-semibold">Galeria O nas</h3>
                         <p class="mt-2 text-base text-slate-300">Dodawanie zdjęć serwisu do sekcji O nas (slider publiczny).</p>
@@ -53,7 +53,7 @@
                 @endif
 
                 @if (auth()->user()->hasAdminPermission('cms_news'))
-                    <a href="{{ route('admin.cms.news.index') }}" class="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:border-blue-400/80 hover:bg-slate-800/80 hover:shadow-[0_18px_46px_rgba(25,145,255,0.20)] hover:-translate-y-0.5 transition-all duration-200 min-h-[220px] flex flex-col">
+                    <a href="{{ route('admin.cms.news.index') }}" class="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:border-blue-400/80 hover:bg-slate-800/80 transition-all duration-200 min-h-[220px] flex flex-col">
                         <p class="text-sm uppercase tracking-wider text-gray-500">Treści</p>
                         <h3 class="mt-2 text-xl font-semibold">Aktualności</h3>
                         <p class="mt-2 text-base text-slate-300">Publikowanie wpisów i nowości technicznych.</p>
@@ -67,7 +67,7 @@
                 @endif
 
                 @if (auth()->user()->hasAdminPermission('testimonials_moderation'))
-                    <a href="{{ route('admin.testimonials.index') }}" class="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:border-blue-400/80 hover:bg-slate-800/80 hover:shadow-[0_18px_46px_rgba(25,145,255,0.20)] hover:-translate-y-0.5 transition-all duration-200 min-h-[220px] flex flex-col">
+                    <a href="{{ route('admin.testimonials.index') }}" class="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:border-blue-400/80 hover:bg-slate-800/80 transition-all duration-200 min-h-[220px] flex flex-col">
                         <p class="text-sm uppercase tracking-wider text-gray-500">Treści</p>
                         <h3 class="mt-2 text-xl font-semibold">Opinie klientów</h3>
                         <p class="mt-2 text-base text-slate-300">Moderacja i publikacja opinii po realizacji.</p>
@@ -80,7 +80,7 @@
                 @endif
 
                 @if (auth()->user()->isMainAdmin())
-                    <a href="{{ route('admin.team.index') }}" class="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:border-blue-400/80 hover:bg-slate-800/80 hover:shadow-[0_18px_46px_rgba(25,145,255,0.20)] hover:-translate-y-0.5 transition-all duration-200 min-h-[220px] flex flex-col">
+                    <a href="{{ route('admin.team.index') }}" class="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:border-blue-400/80 hover:bg-slate-800/80 transition-all duration-200 min-h-[220px] flex flex-col">
                         <p class="text-sm uppercase tracking-wider text-gray-500">Zarządzanie</p>
                         <h3 class="mt-2 text-xl font-semibold">Operatorzy</h3>
                         <p class="mt-2 text-base text-slate-300">Tworzenie kont operatorów i przypisywanie uprawnień.</p>
@@ -97,3 +97,4 @@
         </div>
     </div>
 </x-app-layout>
+

@@ -70,16 +70,21 @@
                 const itemClass = 'block w-full px-4 py-2 text-start text-sm leading-5 text-gray-200 hover:bg-slate-800 focus:outline-none focus:bg-slate-800 transition duration-150 ease-in-out';
 
                 const renderRoot = (root, payload) => {
+                    const bell = root.querySelector('[data-ticket-bell]');
                     const badge = root.querySelector('[data-ticket-notifications-badge]');
                     const list = root.querySelector('[data-ticket-notifications-list]');
-                    if (!badge || !list) return;
+                    if (!bell || !badge || !list) return;
 
                     const total = Number(payload?.total || 0);
                     if (total > 0) {
+                        bell.classList.add('text-white', 'drop-shadow-[0_0_8px_rgba(255,255,255,0.35)]');
+                        bell.classList.remove('text-slate-400');
                         badge.textContent = String(Math.min(99, total));
                         badge.classList.remove('hidden');
                         badge.classList.add('inline-flex');
                     } else {
+                        bell.classList.remove('text-white', 'drop-shadow-[0_0_8px_rgba(255,255,255,0.35)]');
+                        bell.classList.add('text-slate-400');
                         badge.textContent = '0';
                         badge.classList.add('hidden');
                         badge.classList.remove('inline-flex');
