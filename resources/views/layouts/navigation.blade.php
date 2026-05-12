@@ -26,11 +26,11 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17H9.143m5.714 0H18a1 1 0 0 0 1-1v-1.108a1 1 0 0 0-.293-.707L17 12.478V10a5 5 0 1 0-10 0v2.478l-1.707 1.707a1 1 0 0 0-.293.707V16a1 1 0 0 0 1 1h3.143m5.714 0a2.857 2.857 0 1 1-5.714 0"/>
                         </svg>
                         @if (($ticketNotifications['total'] ?? 0) > 0)
-                            <span data-ticket-notifications-badge class="absolute -right-2 -top-2 inline-flex min-h-[18px] min-w-[18px] items-center justify-center rounded-full border border-slate-200 bg-slate-100 px-1 text-[10px] font-bold text-slate-900 shadow-sm">
+                            <span data-ticket-notifications-badge style="background:#ef4444;color:#fff;border:1px solid rgba(255,255,255,.75);" class="absolute -right-2 -top-2 inline-flex h-[18px] min-w-[18px] items-center justify-center rounded-full px-1 text-[10px] font-bold leading-none shadow-sm">
                                 {{ min(99, (int) $ticketNotifications['total']) }}
                             </span>
                         @else
-                            <span data-ticket-notifications-badge class="absolute -right-2 -top-2 hidden min-h-[18px] min-w-[18px] items-center justify-center rounded-full border border-slate-200 bg-slate-100 px-1 text-[10px] font-bold text-slate-900 shadow-sm">0</span>
+                            <span data-ticket-notifications-badge style="background:#ef4444;color:#fff;border:1px solid rgba(255,255,255,.75);" class="absolute -right-2 -top-2 hidden h-[18px] min-w-[18px] items-center justify-center rounded-full px-1 text-[10px] font-bold leading-none shadow-sm">0</span>
                         @endif
                     </button>
                 </x-slot>
