@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\ContactMessage;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,7 +18,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('subject');
             $table->text('message');
-            $table->string('status')->default(ContactMessage::STATUS_NEW);
+            $table->string('status')->default('new');
             $table->timestamps();
         });
     }
@@ -32,4 +31,3 @@ return new class extends Migration
         Schema::dropIfExists('contact_messages');
     }
 };
-

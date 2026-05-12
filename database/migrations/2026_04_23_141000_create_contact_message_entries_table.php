@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\ContactMessageEntry;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -41,7 +40,7 @@ return new class extends Migration
                         $inserts[] = [
                             'contact_message_id' => $row->id,
                             'user_id' => $row->user_id,
-                            'sender_type' => ContactMessageEntry::SENDER_CLIENT,
+                            'sender_type' => 'client',
                             'message' => $row->message,
                             'created_at' => $createdAt,
                             'updated_at' => $createdAt,
@@ -53,7 +52,7 @@ return new class extends Migration
                         $inserts[] = [
                             'contact_message_id' => $row->id,
                             'user_id' => $row->replied_by_user_id,
-                            'sender_type' => ContactMessageEntry::SENDER_ADMIN,
+                            'sender_type' => 'admin',
                             'message' => $row->reply_message,
                             'created_at' => $replyAt,
                             'updated_at' => $replyAt,
