@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     @php
         $badgeClasses = [
             'new' => 'bg-blue-500/20 text-blue-300 border border-blue-400/30',
@@ -17,9 +17,9 @@
 
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Moje zgłoszenia</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Moje zgĹ‚oszenia</h2>
             <a href="{{ route('client.tickets.create') }}" class="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition hover:bg-blue-500">
-                Nowe zgłoszenie
+                Nowe zgĹ‚oszenie
             </a>
         </div>
     </x-slot>
@@ -35,7 +35,7 @@
             <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     @if ($tickets->isEmpty())
-                        <p>Brak zgłoszeń. Dodaj pierwsze zgłoszenie serwisowe.</p>
+                        <p>Brak zgĹ‚oszeĹ„. Dodaj pierwsze zgĹ‚oszenie serwisowe.</p>
                     @else
                         <div class="space-y-3 md:hidden">
                             @foreach ($tickets as $ticket)
@@ -53,7 +53,7 @@
 
                                     <p class="mt-2 font-semibold leading-5">{{ $ticket->title }}</p>
 
-                                    <p class="mt-3 text-xs uppercase tracking-wider text-slate-400">Usługi</p>
+                                    <p class="mt-3 text-xs uppercase tracking-wider text-slate-400">UsĹ‚ugi</p>
                                     <p class="mt-1 text-sm text-slate-200">
                                         {{ $ticket->services->isEmpty() ? '-' : $ticket->services->pluck('name')->implode(', ') }}
                                     </p>
@@ -67,7 +67,7 @@
 
                                     <div class="mt-4 flex flex-wrap items-center justify-end gap-2">
                                         @if ($canCancel)
-                                            <form method="POST" action="{{ route('client.tickets.cancel', $ticket) }}" data-confirm-title="Anulowanie zgłoszenia" data-confirm-message="Na pewno anulować zgłoszenie?">
+                                            <form method="POST" action="{{ route('client.tickets.cancel', $ticket) }}" data-confirm-title="Anulowanie zgĹ‚oszenia" data-confirm-message="Na pewno anulowaÄ‡ zgĹ‚oszenie?">
                                                 @csrf
                                                 @method('PATCH')
                                                 <button type="submit"
@@ -79,12 +79,12 @@
                                         @if ($canReview)
                                             <a href="{{ route('client.testimonials.create', ['ticket' => $ticket->id]) }}"
                                                class="inline-flex items-center rounded-md border border-amber-400/50 bg-amber-500/10 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-amber-200 hover:bg-amber-500/20">
-                                                Wystaw opinię
+                                                Wystaw opiniÄ™
                                             </a>
                                         @endif
                                         <a href="{{ route('client.tickets.show', $ticket) }}"
                                            class="inline-flex items-center rounded-md border border-indigo-400/50 bg-indigo-500/10 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-indigo-200 hover:bg-indigo-500/20">
-                                            Podgląd
+                                            PodglÄ…d
                                         </a>
                                     </div>
                                 </article>
@@ -93,15 +93,15 @@
 
                         <div class="hidden overflow-x-auto md:block">
                             <table class="min-w-[1060px] divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
+                                <thead class="bg-slate-800/90">
                                     <tr>
-                                        <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">ID</th>
-                                        <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Temat</th>
-                                        <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Usługi</th>
-                                        <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Status</th>
-                                        <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Płatność</th>
-                                        <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Data</th>
-                                        <th class="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">Akcja</th>
+                                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-100">ID</th>
+                                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-100">Temat</th>
+                                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-100">UsĹ‚ugi</th>
+                                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-100">Status</th>
+                                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-100">PĹ‚atnoĹ›Ä‡</th>
+                                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-100">Data</th>
+                                        <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-slate-100">Akcja</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
@@ -138,7 +138,7 @@
                                             <td class="px-4 py-3 text-right text-sm whitespace-nowrap">
                                                 <div class="inline-flex items-center gap-2">
                                                     @if ($canCancel)
-                                                        <form method="POST" action="{{ route('client.tickets.cancel', $ticket) }}" data-confirm-title="Anulowanie zgłoszenia" data-confirm-message="Na pewno anulować zgłoszenie?">
+                                                        <form method="POST" action="{{ route('client.tickets.cancel', $ticket) }}" data-confirm-title="Anulowanie zgĹ‚oszenia" data-confirm-message="Na pewno anulowaÄ‡ zgĹ‚oszenie?">
                                                             @csrf
                                                             @method('PATCH')
                                                             <button type="submit"
@@ -150,12 +150,12 @@
                                                     @if ($canReview)
                                                         <a href="{{ route('client.testimonials.create', ['ticket' => $ticket->id]) }}"
                                                            class="inline-flex items-center rounded-md border border-amber-400/50 bg-amber-500/10 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-amber-200 hover:bg-amber-500/20">
-                                                            Wystaw opinię
+                                                            Wystaw opiniÄ™
                                                         </a>
                                                     @endif
                                                     <a href="{{ route('client.tickets.show', $ticket) }}"
                                                        class="inline-flex items-center rounded-md border border-indigo-400/50 bg-indigo-500/10 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-indigo-200 hover:bg-indigo-500/20">
-                                                        Podgląd
+                                                        PodglÄ…d
                                                     </a>
                                                 </div>
                                             </td>
@@ -170,3 +170,4 @@
         </div>
     </div>
 </x-app-layout>
+
