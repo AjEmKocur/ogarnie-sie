@@ -39,15 +39,7 @@ return [
         'python_enabled' => (bool) env('MODERATION_PYTHON_ENABLED', true),
         'python_url' => env('MODERATION_PYTHON_URL', 'http://moderation-api:8001/moderate'),
         'timeout_seconds' => (int) env('MODERATION_TIMEOUT_SECONDS', 5),
-        'require_python' => (bool) env('MODERATION_REQUIRE_PYTHON', false),
         'debug_source' => (bool) env('MODERATION_DEBUG_SOURCE', false),
-    ],
-
-    'openai' => [
-        'key' => env('OPENAI_API_KEY'),
-        'moderation_enabled' => (bool) env('OPENAI_MODERATION_ENABLED', false),
-        'moderation_model' => env('OPENAI_MODERATION_MODEL', 'omni-moderation-latest'),
-        'timeout_seconds' => (int) env('OPENAI_TIMEOUT_SECONDS', 12),
     ],
 
     'news_analytics' => [
