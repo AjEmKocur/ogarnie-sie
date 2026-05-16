@@ -53,11 +53,6 @@
 
                                     <p class="mt-2 font-semibold leading-5">{{ $ticket->title }}</p>
 
-                                    <p class="mt-3 text-xs uppercase tracking-wider text-slate-400">Usługi</p>
-                                    <p class="mt-1 text-sm text-slate-200">
-                                        {{ $ticket->services->isEmpty() ? '-' : $ticket->services->pluck('name')->implode(', ') }}
-                                    </p>
-
                                     <div class="mt-3 flex items-center justify-between">
                                         <p class="text-sm text-slate-400">{{ $ticket->created_at->format('Y-m-d H:i') }}</p>
                                         <span class="rounded-full px-3 py-1 text-xs font-semibold {{ $paymentBadgeClasses[$ticket->payment_status] ?? 'bg-gray-500/20 text-gray-200 border border-gray-400/30' }}">
@@ -97,7 +92,6 @@
                                     <tr>
                                         <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-100">ID</th>
                                         <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-100">Temat</th>
-                                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-100">Usługi</th>
                                         <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-100">Status</th>
                                         <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-100">Płatność</th>
                                         <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-100">Data</th>
@@ -114,15 +108,6 @@
                                             <td class="px-4 py-3 text-sm whitespace-nowrap">#{{ $ticket->id }}</td>
                                             <td class="px-4 py-3 text-sm">
                                                 <div class="max-w-[260px] whitespace-normal break-words leading-5">{{ $ticket->title }}</div>
-                                            </td>
-                                            <td class="px-4 py-3 text-sm">
-                                                <div class="max-w-[280px] whitespace-normal break-words leading-5">
-                                                    @if ($ticket->services->isEmpty())
-                                                        -
-                                                    @else
-                                                        {{ $ticket->services->pluck('name')->implode(', ') }}
-                                                    @endif
-                                                </div>
                                             </td>
                                             <td class="px-4 py-3 text-sm whitespace-nowrap">
                                                 <span class="rounded-full px-3 py-1 text-xs font-semibold {{ $badgeClasses[$ticket->status] ?? 'bg-gray-500/20 text-gray-200 border border-gray-400/30' }}">
@@ -170,4 +155,3 @@
         </div>
     </div>
 </x-app-layout>
-

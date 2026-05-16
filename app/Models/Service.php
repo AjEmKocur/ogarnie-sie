@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Service extends Model
 {
@@ -18,9 +17,4 @@ class Service extends Model
         'is_active',
         'sort_order',
     ];
-
-    public function tickets(): BelongsToMany
-    {
-        return $this->belongsToMany(Ticket::class)->withTimestamps();
-    }
 }

@@ -21,7 +21,7 @@ class ClientTicketController extends Controller
 
         $tickets = $request->user()
             ->tickets()
-            ->with(['services', 'testimonial'])
+            ->with(['testimonial'])
             ->latest()
             ->get();
 
@@ -92,8 +92,7 @@ class ClientTicketController extends Controller
         try {
             Mail::to($request->user()->email)->send(
                 new TicketCreated(
-                    ticket: $ticket->load('services'),
-                    serviceNames: []
+                    ticket: $ticket
                 )
             );
         } catch (Throwable $e) {
@@ -115,7 +114,7 @@ class ClientTicketController extends Controller
             'client_last_seen_at' => now(),
         ])->saveQuietly();
 
-        $ticket->load(['attachments', 'services', 'statusHistories.changedByUser', 'messages.user']);
+        $ticket->load(['attachments', 'statusHistories.changedByUser', 'messages.user']);
 
         return view('client.tickets.show', [
             'ticket' => $ticket,

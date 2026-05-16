@@ -11,15 +11,6 @@
         <p><strong>Temat:</strong> {{ $ticket->title }}</p>
         <p><strong>Status:</strong> {{ \App\Models\Ticket::statuses()[$ticket->status] ?? $ticket->status }}</p>
 
-        @if (!empty($serviceNames))
-            <p><strong>Wybrane usługi:</strong></p>
-            <ul>
-                @foreach ($serviceNames as $serviceName)
-                    <li>{{ $serviceName }}</li>
-                @endforeach
-            </ul>
-        @endif
-
         @if ($ticket->estimated_price_from)
             <p><strong>Szacunkowa cena od:</strong> {{ number_format($ticket->estimated_price_from, 2, ',', ' ') }} PLN</p>
         @endif
@@ -32,4 +23,3 @@
         </p>
     </body>
 </html>
-

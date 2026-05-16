@@ -84,23 +84,9 @@
                     <section class="rounded-xl border border-gray-200 bg-white p-5">
                         <h3 class="text-base font-semibold">📝 Treść i załączniki</h3>
 
-                        <div class="mt-4 grid gap-4 md:grid-cols-2 text-sm">
-                            <div>
-                                <p class="text-xs uppercase tracking-wider text-slate-400">Usługi</p>
-                                @if ($ticket->services->isEmpty())
-                                    <p class="mt-1">-</p>
-                                @else
-                                    <ul class="mt-1 list-disc pl-5">
-                                        @foreach ($ticket->services as $service)
-                                            <li>{{ $service->name }}</li>
-                                        @endforeach
-                                    </ul>
-                                @endif
-                            </div>
-                            <div>
-                                <p class="text-xs uppercase tracking-wider text-slate-400">Orientacyjna cena od</p>
-                                <p class="mt-1">{{ $ticket->estimated_price_from !== null ? number_format($ticket->estimated_price_from, 2, ',', ' ') . ' PLN' : 'Wycena po diagnozie' }}</p>
-                            </div>
+                        <div class="mt-4 text-sm">
+                            <p class="text-xs uppercase tracking-wider text-slate-400">Orientacyjna cena od</p>
+                            <p class="mt-1">{{ $ticket->estimated_price_from !== null ? number_format($ticket->estimated_price_from, 2, ',', ' ') . ' PLN' : 'Wycena po diagnozie' }}</p>
                         </div>
 
                         @if ($ticket->custom_request)

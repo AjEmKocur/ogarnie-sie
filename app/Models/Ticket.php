@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -89,11 +88,6 @@ class Ticket extends Model
     public function statusHistories(): HasMany
     {
         return $this->hasMany(TicketStatusHistory::class)->latest();
-    }
-
-    public function services(): BelongsToMany
-    {
-        return $this->belongsToMany(Service::class)->withTimestamps();
     }
 
     public function testimonial(): HasOne

@@ -64,7 +64,6 @@ class AdminTicketController extends Controller
 
         $ticket->load([
             'user',
-            'services',
             'attachments',
             'messages.user',
             'statusHistories.changedByUser',

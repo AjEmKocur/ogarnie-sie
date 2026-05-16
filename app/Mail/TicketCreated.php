@@ -13,12 +13,8 @@ class TicketCreated extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * @param array<int, string> $serviceNames
-     */
     public function __construct(
-        public Ticket $ticket,
-        public array $serviceNames = []
+        public Ticket $ticket
     ) {
     }
 
@@ -44,5 +40,4 @@ class TicketCreated extends Mailable
         return [];
     }
 }
-
 

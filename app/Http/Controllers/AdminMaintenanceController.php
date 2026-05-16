@@ -41,7 +41,6 @@ class AdminMaintenanceController extends Controller
                 DB::table('ticket_messages')->delete();
                 DB::table('ticket_status_histories')->delete();
                 DB::table('ticket_attachments')->delete();
-                DB::table('service_ticket')->delete();
                 DB::table('tickets')->delete();
             });
         } catch (Throwable $e) {

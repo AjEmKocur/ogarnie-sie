@@ -79,25 +79,11 @@
                     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
                         <section class="rounded-xl border border-gray-200/30 bg-slate-900/40 p-4 lg:col-span-2">
                             <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-300">📝 Treść zgłoszenia</h4>
-                            <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-                                <div>
-                                    <p class="text-xs uppercase tracking-wider text-slate-400">Usługi</p>
-                                    @if ($ticket->services->isEmpty())
-                                        <p class="mt-1 text-sm text-slate-100">-</p>
-                                    @else
-                                        <ul class="mt-1 list-disc space-y-1 pl-5 text-sm text-slate-100">
-                                            @foreach ($ticket->services as $service)
-                                                <li>{{ $service->name }}</li>
-                                            @endforeach
-                                        </ul>
-                                    @endif
-                                </div>
-                                <div>
-                                    <p class="text-xs uppercase tracking-wider text-slate-400">Orientacyjna cena od</p>
-                                    <p class="mt-1 text-sm font-semibold text-slate-100">
-                                        {{ $ticket->estimated_price_from !== null ? number_format($ticket->estimated_price_from, 2, ',', ' ') . ' PLN' : 'Wycena po diagnozie' }}
-                                    </p>
-                                </div>
+                            <div class="mt-4">
+                                <p class="text-xs uppercase tracking-wider text-slate-400">Orientacyjna cena od</p>
+                                <p class="mt-1 text-sm font-semibold text-slate-100">
+                                    {{ $ticket->estimated_price_from !== null ? number_format($ticket->estimated_price_from, 2, ',', ' ') . ' PLN' : 'Wycena po diagnozie' }}
+                                </p>
                             </div>
 
                             @if ($ticket->custom_request)
