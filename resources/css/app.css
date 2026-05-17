@@ -115,11 +115,12 @@
         position: absolute;
         inset: 0;
         pointer-events: none;
-        background-image: url("data:image/svg+xml,%3Csvg width='220' height='140' viewBox='0 0 220 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%2366d0ff' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round' opacity='.2'%3E%3Cpath d='M22 40h52v34H22zM14 82h68M40 74v8M56 74v8'/%3E%3Cpath d='M140 38h46a6 6 0 0 1 6 6v28a6 6 0 0 1-6 6h-46a6 6 0 0 1-6-6V44a6 6 0 0 1 6-6zM151 86h30'/%3E%3Cpath d='M26 112h46l8 10H18l8-10zM136 112h56l6 10h-68l6-10z'/%3E%3C/g%3E%3C/svg%3E");
-        background-position: 24px 18px;
-        background-size: 220px 140px;
-        mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.68) 14%, rgba(0, 0, 0, 0.48) 86%, transparent 100%);
-        opacity: 0.42;
+        background-image: url("data:image/svg+xml,%3Csvg width='1280' height='260' viewBox='0 0 1280 260' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%2366d0ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' opacity='.34'%3E%3Cg transform='translate(60 38) rotate(-8)'%3E%3Cpath d='M0 0h86v52H0z'/%3E%3Cpath d='M34 52v14M52 52v14M20 66h46'/%3E%3C/g%3E%3Cg transform='translate(210 158) rotate(7) scale(.9)'%3E%3Cpath d='M10 0h84v50H10z'/%3E%3Cpath d='M20 66h64l12 16H8z'/%3E%3C/g%3E%3Cg transform='translate(382 34) rotate(5) scale(.75)'%3E%3Crect x='0' y='0' width='74' height='58' rx='9'/%3E%3Cpath d='M18 76h38M28 58v18M46 58v18'/%3E%3C/g%3E%3Cg transform='translate(520 150) rotate(-10) scale(1.05)'%3E%3Cpath d='M8 0h88v54H8z'/%3E%3Cpath d='M0 74h104l-14-18H14z'/%3E%3C/g%3E%3Cg transform='translate(735 44) rotate(-4) scale(.92)'%3E%3Cpath d='M0 0h90v54H0z'/%3E%3Cpath d='M36 54v16M54 54v16M24 70h42'/%3E%3C/g%3E%3Cg transform='translate(910 155) rotate(8) scale(.82)'%3E%3Crect x='0' y='0' width='86' height='58' rx='8'/%3E%3Cpath d='M22 78h42M32 58v20M54 58v20'/%3E%3C/g%3E%3Cg transform='translate(1078 38) rotate(9)'%3E%3Cpath d='M8 0h86v52H8z'/%3E%3Cpath d='M0 72h102L90 56H12z'/%3E%3C/g%3E%3Cg transform='translate(1188 150) rotate(-7) scale(.7)'%3E%3Cpath d='M0 0h92v54H0z'/%3E%3Cpath d='M36 54v16M56 54v16M22 70h48'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        background-position: center 8px;
+        background-repeat: repeat-x;
+        background-size: 1280px 260px;
+        mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.88) 18%, rgba(0, 0, 0, 0.66) 82%, rgba(0, 0, 0, 0.35) 100%);
+        opacity: 0.72;
     }
 
     .tech-pattern > * {
