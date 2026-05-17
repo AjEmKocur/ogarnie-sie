@@ -3,7 +3,6 @@
 @section('content')
     <section class="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
         <h1 class="text-4xl font-bold">Opinie klientów</h1>
-        <p class="mt-4 text-slate-300">Opinie publikowane są po akceptacji przez administratora.</p>
 
         @auth
             @if (!auth()->user()->isAdmin() && auth()->user()->hasClosedTicketsWithoutTestimonial())
