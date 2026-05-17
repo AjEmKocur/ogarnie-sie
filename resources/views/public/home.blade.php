@@ -71,25 +71,23 @@
         </div>
     </section>
 
-    <section class="tech-pattern relative overflow-hidden">
-        <div class="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
-            <h2 class="text-2xl font-semibold">Najczęściej wybierane usługi</h2>
+    <section class="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
+        <h2 class="text-2xl font-semibold">Najczęściej wybierane usługi</h2>
 
-            <div class="mt-6 grid gap-4 md:grid-cols-3">
-                @forelse ($featuredServices as $service)
-                    <article class="service-card rounded-xl border border-gray-200 bg-white p-5">
-                        <h3 class="font-semibold">{{ $service->name }}</h3>
-                        <p class="mt-2 text-sm text-slate-300">
-                            {{ $service->description ?: 'Opis usługi w przygotowaniu.' }}
-                        </p>
-                    </article>
-                @empty
-                    <article class="rounded-xl border border-gray-200 bg-white p-5 md:col-span-3">
-                        <h3 class="font-semibold">Brak dodanych usług</h3>
-                        <p class="mt-2 text-sm text-slate-300">Dodaj usługi w panelu admina: CMS -> Usługi.</p>
-                    </article>
-                @endforelse
-            </div>
+        <div class="mt-6 grid gap-4 md:grid-cols-3">
+            @forelse ($featuredServices as $service)
+                <article class="service-card rounded-xl border border-gray-200 bg-white p-5">
+                    <h3 class="font-semibold">{{ $service->name }}</h3>
+                    <p class="mt-2 text-sm text-slate-300">
+                        {{ $service->description ?: 'Opis usługi w przygotowaniu.' }}
+                    </p>
+                </article>
+            @empty
+                <article class="rounded-xl border border-gray-200 bg-white p-5 md:col-span-3">
+                    <h3 class="font-semibold">Brak dodanych usług</h3>
+                    <p class="mt-2 text-sm text-slate-300">Dodaj usługi w panelu admina: CMS -> Usługi.</p>
+                </article>
+            @endforelse
         </div>
     </section>
 @endsection
