@@ -37,12 +37,35 @@
                 </div>
             </div>
 
-            <div class="rounded-2xl border border-gray-200 bg-slate-900/60 p-6 shadow-2xl">
-                <p class="text-sm text-slate-400">Jak działamy</p>
-                <ol class="mt-4 space-y-4 text-sm">
-                    <li class="rounded-lg border border-gray-200 bg-white p-4">1. Zgłaszasz problem przez stronę.</li>
-                    <li class="rounded-lg border border-gray-200 bg-white p-4">2. Dostajesz status i kosztorys.</li>
-                    <li class="rounded-lg border border-gray-200 bg-white p-4">3. Realizujemy usługę i potwierdzamy zakończenie.</li>
+            <div class="rounded-2xl border border-blue-400/40 bg-slate-900/70 p-6 shadow-2xl">
+                <p class="text-xs font-semibold uppercase tracking-[0.24em] text-blue-200">Jak działamy?</p>
+                <h2 class="mt-3 text-2xl font-bold text-white">Prosty proces obsługi zgłoszenia</h2>
+                <p class="mt-3 text-sm leading-6 text-slate-300">
+                    Opisujesz problem, a dalszą diagnozę, wycenę i komunikację prowadzimy już w panelu klienta.
+                </p>
+
+                <ol class="mt-6 space-y-4">
+                    <li class="flex gap-4 rounded-lg border border-blue-400/30 bg-slate-950/40 p-4">
+                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white shadow-lg shadow-blue-500/25">1</span>
+                        <div>
+                            <h3 class="font-semibold text-white">Zgłaszasz problem</h3>
+                            <p class="mt-1 text-sm leading-6 text-slate-300">Wypełniasz formularz i możesz dodać zdjęcia usterki.</p>
+                        </div>
+                    </li>
+                    <li class="flex gap-4 rounded-lg border border-blue-400/30 bg-slate-950/40 p-4">
+                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white shadow-lg shadow-blue-500/25">2</span>
+                        <div>
+                            <h3 class="font-semibold text-white">Dostajesz informację zwrotną</h3>
+                            <p class="mt-1 text-sm leading-6 text-slate-300">Serwis aktualizuje status zgłoszenia i podaje szczegóły realizacji.</p>
+                        </div>
+                    </li>
+                    <li class="flex gap-4 rounded-lg border border-blue-400/30 bg-slate-950/40 p-4">
+                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white shadow-lg shadow-blue-500/25">3</span>
+                        <div>
+                            <h3 class="font-semibold text-white">Odbierasz gotowe rozwiązanie</h3>
+                            <p class="mt-1 text-sm leading-6 text-slate-300">Po zakończeniu realizacji widzisz potwierdzenie i możesz wystawić opinię.</p>
+                        </div>
+                    </li>
                 </ol>
             </div>
         </div>
