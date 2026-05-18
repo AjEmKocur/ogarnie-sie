@@ -23,9 +23,9 @@
                 <div class="mt-6 overflow-hidden rounded-lg border border-blue-400/30 bg-slate-950/40">
                     <iframe
                         title="Mapa lokalizacji firmy"
-                        src="https://www.google.com/maps?q=ul.%20Serwisowa%2012%2C%2000-001%20Miasto&output=embed"
-                        class="h-80 w-full"
-                        style="border:0;"
+                        src="https://maps.google.com/maps?hl=pl&q=Warszawa%2C%20Polska&z=13&output=embed"
+                        class="w-full"
+                        style="display:block;width:100%;height:320px;border:0;"
                         allowfullscreen
                         loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade"
