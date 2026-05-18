@@ -10,18 +10,6 @@
             Formularz kontaktowy działa dla gości. Nie musisz mieć konta.
         </p>
 
-        <div class="mt-8 overflow-hidden rounded-xl border border-blue-400/40 bg-slate-900/70 shadow-2xl">
-            <iframe
-                title="Mapa lokalizacji firmy"
-                src="https://maps.google.com/maps?hl=pl&q=Warszawa%2C%20Polska&z=13&output=embed"
-                class="w-full"
-                style="display:block;width:100%;height:400px;border:0;"
-                allowfullscreen
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-            ></iframe>
-        </div>
-
         <div class="mt-10 grid gap-6 lg:grid-cols-2">
             <div class="rounded-xl border border-gray-200 bg-white p-6">
                 <h2 class="text-xl font-semibold">Dane kontaktowe</h2>
