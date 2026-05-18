@@ -19,6 +19,18 @@
                     <li>Adres: ul. Serwisowa 12, 00-001 Miasto</li>
                     <li>Godziny: Pn-Pt 9:00-18:00</li>
                 </ul>
+
+                <div class="mt-6 overflow-hidden rounded-lg border border-blue-400/30 bg-slate-950/40">
+                    <iframe
+                        title="Mapa lokalizacji firmy"
+                        src="https://www.google.com/maps?q=ul.%20Serwisowa%2012%2C%2000-001%20Miasto&output=embed"
+                        class="h-80 w-full"
+                        style="border:0;"
+                        allowfullscreen
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                    ></iframe>
+                </div>
             </div>
 
             <div class="rounded-xl border border-gray-200 bg-white p-6">
