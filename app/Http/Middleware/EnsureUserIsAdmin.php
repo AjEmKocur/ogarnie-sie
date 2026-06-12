@@ -19,7 +19,6 @@ class EnsureUserIsAdmin
             abort(403);
         }
 
-        // Operator może być czasowo wyłączony; główny admin zawsze ma wejście.
         if ($user->role === \App\Models\User::ROLE_OPERATOR && ! (bool) $user->is_active) {
             abort(403);
         }
