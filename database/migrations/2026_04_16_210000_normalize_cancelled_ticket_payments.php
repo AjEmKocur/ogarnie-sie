@@ -21,7 +21,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        // Intencjonalnie puste - nie przywracamy starych niespójnych danych płatności.
     }
 };
 

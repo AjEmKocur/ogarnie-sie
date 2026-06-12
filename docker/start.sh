@@ -8,13 +8,10 @@ if [ -z "${APP_KEY:-}" ]; then
   exit 1
 fi
 
-# Force production asset mode (in case a stale hot file exists).
 rm -f public/hot
 
-# Clear stale caches between deployments.
 php artisan optimize:clear
 
-# Ensure public/storage symlink exists (required for uploaded gallery images).
 php artisan storage:link --force || true
 
 if [ "${RUN_MIGRATIONS:-false}" = "true" ]; then

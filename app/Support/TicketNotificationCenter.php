@@ -95,13 +95,10 @@ class TicketNotificationCenter
             $lastClientMessage = $row->last_client_message_at ? Carbon::parse($row->last_client_message_at) : null;
             $createdAt = Carbon::parse($row->created_at);
 
-            // Jeśli są wiadomości klienta, działamy jak dotychczas.
             if ($lastClientMessage) {
                 return ! $seen || $lastClientMessage->gt($seen);
             }
 
-            // Dla nowego zgłoszenia bez wiadomości klienta:
-            // pokazujemy je jako nieprzeczytane do momentu wejścia w szczegóły.
             return ! $seen || $createdAt->gt($seen);
         })->sortByDesc(function ($row) {
             $latest = $row->last_client_message_at ?? $row->created_at;

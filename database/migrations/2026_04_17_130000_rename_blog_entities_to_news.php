@@ -18,13 +18,11 @@ return new class extends Migration
                 try {
                     $table->dropForeign(['blog_post_id']);
                 } catch (\Throwable) {
-                    // Brak klucza obcego lub inna nazwa constraintu.
                 }
 
                 try {
                     $table->dropIndex(['blog_post_id', 'viewed_at']);
                 } catch (\Throwable) {
-                    // Brak indeksu lub inna nazwa indeksu.
                 }
             });
 
@@ -52,13 +50,11 @@ return new class extends Migration
                 try {
                     $table->dropForeign(['news_post_id']);
                 } catch (\Throwable) {
-                    // Brak klucza obcego lub inna nazwa constraintu.
                 }
 
                 try {
                     $table->dropIndex(['news_post_id', 'viewed_at']);
                 } catch (\Throwable) {
-                    // Brak indeksu lub inna nazwa indeksu.
                 }
             });
 

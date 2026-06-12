@@ -139,7 +139,6 @@
                         const data = await response.json();
                         renderRoot(root, data);
                     } catch (error) {
-                        // Cicho pomijamy chwilowe błędy sieci.
                     }
                 };
 

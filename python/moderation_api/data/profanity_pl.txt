@@ -1,6 +1,3 @@
-# Każda linia to słowo lub rdzeń.
-# Rekomendacja: wpisuj głównie rdzenie, np. "kurw", "pierdol", "jeb".
-# Dzięki temu łapiemy też odmiany.
 
 kurw
 chuj

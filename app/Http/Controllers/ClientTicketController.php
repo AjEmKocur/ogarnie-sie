@@ -136,7 +136,6 @@ class ClientTicketController extends Controller
             return back()->with('status', 'To zgłoszenie jest już opłacone.');
         }
 
-        // Symulacja płatności online dla projektu.
         $ticket->update([
             'payment_status' => Ticket::PAYMENT_STATUS_PAID,
             'paid_at' => now(),

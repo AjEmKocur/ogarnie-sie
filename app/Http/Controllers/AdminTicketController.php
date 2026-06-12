@@ -34,10 +34,8 @@ class AdminTicketController extends Controller
             $statusFilter = Ticket::STATUS_CLOSED;
             $query->whereIn('status', [Ticket::STATUS_CLOSED, Ticket::STATUS_CANCELLED]);
         } elseif ($statusFilter === 'all') {
-            // W "Wszystkie aktywne" pokazujemy zgłoszenia bez zamkniętych i anulowanych.
             $query->whereNotIn('status', [Ticket::STATUS_CLOSED, Ticket::STATUS_CANCELLED]);
         } elseif ($statusFilter === Ticket::STATUS_CLOSED) {
-            // Zakładka "Zamknięte" zbiera także anulowane.
             $query->whereIn('status', [Ticket::STATUS_CLOSED, Ticket::STATUS_CANCELLED]);
         } elseif (array_key_exists($statusFilter, $statuses)) {
             $query->where('status', $statusFilter);
@@ -106,7 +104,6 @@ class AdminTicketController extends Controller
         $hasPaymentInput = $request->has('payment_amount') || $request->has('payment_mark_paid');
 
         if ($validated['status'] === Ticket::STATUS_CANCELLED) {
-            // Anulowane zgłoszenie nie powinno oczekiwać na płatność.
             $paymentMode = Ticket::PAYMENT_MODE_NONE;
             $paymentStatus = Ticket::PAYMENT_STATUS_NOT_REQUIRED;
             $paymentAmount = null;
