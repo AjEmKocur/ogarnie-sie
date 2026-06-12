@@ -13,14 +13,14 @@ class PurgeUnverifiedUsers extends Command
      *
      * @var string
      */
-    protected $signature = 'users:purge-unverified {--days=7 : Usuń konta starsze niż X dni} {--dry-run : Tylko pokaż, co byłoby usunięte}';
+    protected $signature = 'users:purge-unverified {--days=7 : Liczba dni od rejestracji} {--dry-run : Pokaz wynik bez usuwania kont}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Usuwa niezweryfikowane konta użytkowników po określonym czasie.';
+    protected $description = 'Usuwa stare konta, ktore nie potwierdzily adresu e-mail.';
 
     /**
      * Execute the console command.
