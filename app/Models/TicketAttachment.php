@@ -2,14 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TicketAttachment extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'ticket_id',
         'user_id',
@@ -30,4 +27,3 @@ class TicketAttachment extends Model
         return $this->belongsTo(User::class);
     }
 }
-

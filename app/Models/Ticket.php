@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -10,8 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Ticket extends Model
 {
-    use HasFactory;
-
     public const STATUS_NEW = 'new';
     public const STATUS_IN_PROGRESS = 'in_progress';
     public const STATUS_WAITING_PARTS = 'waiting_parts';
@@ -19,9 +16,7 @@ class Ticket extends Model
     public const STATUS_CLOSED = 'closed';
     public const STATUS_CANCELLED = 'cancelled';
     public const PAYMENT_MODE_NONE = 'none';
-    public const PAYMENT_MODE_UPFRONT = 'upfront';
     public const PAYMENT_MODE_ON_PICKUP = 'on_pickup';
-    public const PAYMENT_MODE_TRANSFER = 'transfer';
     public const PAYMENT_STATUS_NOT_REQUIRED = 'not_required';
     public const PAYMENT_STATUS_PENDING = 'pending';
     public const PAYMENT_STATUS_PAID = 'paid';
@@ -117,9 +112,7 @@ class Ticket extends Model
     {
         return [
             self::PAYMENT_MODE_NONE => 'Brak płatności',
-            self::PAYMENT_MODE_UPFRONT => 'Przed realizacją (online)',
             self::PAYMENT_MODE_ON_PICKUP => 'Przy odbiorze',
-            self::PAYMENT_MODE_TRANSFER => 'Przelew tradycyjny',
         ];
     }
 

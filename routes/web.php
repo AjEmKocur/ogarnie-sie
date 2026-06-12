@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AdminTicketController;
 use App\Http\Controllers\AdminNewsPostController;
-use App\Http\Controllers\AdminMaintenanceController;
 use App\Http\Controllers\AdminOperatorController;
 use App\Http\Controllers\AdminServiceController;
 use App\Http\Controllers\AdminAboutGalleryController;
@@ -21,7 +20,6 @@ Route::get('/', [PublicPageController::class, 'home'])->name('public.home');
 Route::get('/o-nas', [PublicPageController::class, 'about'])->name('public.about');
 Route::get('/uslugi', [PublicPageController::class, 'services'])->name('public.services');
 Route::get('/uslugi/{service}', [PublicPageController::class, 'service'])->name('public.services.show');
-Route::get('/cennik', [PublicPageController::class, 'pricing'])->name('public.pricing');
 Route::view('/kontakt', 'public.contact')->name('public.contact');
 Route::get('/opinie', [PublicPageController::class, 'testimonials'])->name('public.testimonials');
 Route::get('/aktualnosci', [PublicPageController::class, 'news'])->name('public.news');
@@ -68,7 +66,6 @@ Route::middleware(['auth', 'verified', 'password.change.required', 'admin'])->gr
         Route::patch('/admin/team/{user}/permissions', [AdminOperatorController::class, 'updatePermissions'])->name('admin.team.permissions');
         Route::patch('/admin/team/{user}/toggle', [AdminOperatorController::class, 'toggle'])->name('admin.team.toggle');
         Route::patch('/admin/team/{user}/reset-password', [AdminOperatorController::class, 'resetPassword'])->name('admin.team.reset-password');
-        Route::post('/admin/maintenance/purge-tickets-testimonials', [AdminMaintenanceController::class, 'purgeTicketsAndTestimonials'])->name('admin.maintenance.purge-tickets-testimonials');
     });
 });
 

@@ -2,14 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Testimonial extends Model
 {
-    use HasFactory;
-
     public const MODERATION_APPROVE = 'approve';
     public const MODERATION_REVIEW = 'review';
     public const MODERATION_REJECT = 'reject';

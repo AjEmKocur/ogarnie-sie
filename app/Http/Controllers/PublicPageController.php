@@ -67,17 +67,6 @@ class PublicPageController extends Controller
         ]);
     }
 
-    public function pricing(): View
-    {
-        return view('public.pricing', [
-            'services' => Service::where('is_active', true)
-                ->whereNotNull('price_from')
-                ->orderBy('sort_order')
-                ->orderBy('name')
-                ->get(),
-        ]);
-    }
-
     public function news(): View
     {
         return view('public.news', [
