@@ -55,7 +55,9 @@ class ClientTestimonialController extends Controller
             $reasons = $moderation['reasons'] ?? [];
             $reasons = array_values(array_filter(
                 array_map(static fn ($reason) => trim((string) $reason), $reasons),
-                static fn ($reason) => $reason !== '' && ! str_starts_with($reason, 'Źródło moderacji:')
+                static fn ($reason) => $reason !== ''
+                    && ! str_starts_with($reason, 'Źródło moderacji:')
+                    && ! str_starts_with($reason, 'Zrodlo moderacji:')
             ));
             $reasonText = implode(' ', array_map(static fn ($reason) => '- '.$reason, $reasons));
 
