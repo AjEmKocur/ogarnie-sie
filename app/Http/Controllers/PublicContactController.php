@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactMessageConfirmation;
 use App\Mail\ContactMessageReceived;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -40,6 +41,15 @@ class PublicContactController extends Controller
             subjectLine: (string) $validated['subject'],
             messageBody: (string) $validated['message'],
         ));
+
+        try {
+            Mail::to((string) $validated['email'])->send(new ContactMessageConfirmation(
+                name: (string) $validated['name'],
+                subjectLine: (string) $validated['subject'],
+            ));
+        } catch (\Throwable $e) {
+            Log::warning('Contact confirmation email failed: '.$e->getMessage());
+        }
 
         return redirect()
             ->route('public.contact')
