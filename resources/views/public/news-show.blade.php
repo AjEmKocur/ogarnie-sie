@@ -5,7 +5,7 @@
         @include('public.partials.breadcrumbs', [
             'items' => [
                 ['label' => 'Start', 'url' => route('public.home')],
-                ['label' => 'Aktualności', 'url' => route('public.news')],
+                ['label' => 'Realizacje', 'url' => route('public.news')],
                 ['label' => $post->title],
             ],
         ])

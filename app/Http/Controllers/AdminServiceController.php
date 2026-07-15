@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Service;
+use App\Models\ServiceCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -12,13 +13,15 @@ class AdminServiceController extends Controller
     public function index(): View
     {
         return view('admin.cms.services', [
-            'services' => Service::orderBy('sort_order')->orderBy('name')->get(),
+            'categories' => ServiceCategory::orderBy('sort_order')->orderBy('name')->get(),
+            'services' => Service::with('category')->orderBy('sort_order')->orderBy('name')->get(),
         ]);
     }
 
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
+            'service_category_id' => ['nullable', 'integer', 'exists:service_categories,id'],
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:5000'],
             'long_description' => ['nullable', 'string', 'max:20000'],
@@ -41,6 +44,7 @@ class AdminServiceController extends Controller
     public function update(Request $request, Service $service): RedirectResponse
     {
         $validated = $request->validate([
+            'service_category_id' => ['nullable', 'integer', 'exists:service_categories,id'],
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:5000'],
             'long_description' => ['nullable', 'string', 'max:20000'],
@@ -64,6 +68,7 @@ class AdminServiceController extends Controller
     {
         $validated = $request->validate([
             'services' => ['required', 'array', 'min:1'],
+            'services.*.service_category_id' => ['nullable', 'integer', 'exists:service_categories,id'],
             'services.*.name' => ['required', 'string', 'max:255'],
             'services.*.description' => ['nullable', 'string', 'max:5000'],
             'services.*.long_description' => ['nullable', 'string', 'max:20000'],
@@ -83,6 +88,7 @@ class AdminServiceController extends Controller
             }
 
             $service->update([
+                'service_category_id' => $data['service_category_id'] ?? null,
                 'name' => $data['name'],
                 'description' => $data['description'] ?? null,
                 'long_description' => $data['long_description'] ?? null,
@@ -106,4 +112,3 @@ class AdminServiceController extends Controller
             ->with('status', __('Usługa usunięta.'));
     }
 }
-

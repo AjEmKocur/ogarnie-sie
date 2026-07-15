@@ -21,9 +21,12 @@ Route::get('/o-nas', [PublicPageController::class, 'about'])->name('public.about
 Route::get('/uslugi', [PublicPageController::class, 'services'])->name('public.services');
 Route::get('/uslugi/{service}', [PublicPageController::class, 'service'])->name('public.services.show');
 Route::view('/kontakt', 'public.contact')->name('public.contact');
+Route::view('/zasady-wspolpracy', 'public.terms')->name('public.terms');
+Route::view('/polityka-prywatnosci', 'public.privacy')->name('public.privacy');
+Route::view('/cookies', 'public.cookies')->name('public.cookies');
 Route::get('/opinie', [PublicPageController::class, 'testimonials'])->name('public.testimonials');
-Route::get('/aktualnosci', [PublicPageController::class, 'news'])->name('public.news');
-Route::get('/aktualnosci/{newsPost:slug}', [PublicPageController::class, 'newsShow'])->name('public.news.show');
+Route::get('/realizacje', [PublicPageController::class, 'news'])->name('public.news');
+Route::get('/realizacje/{newsPost:slug}', [PublicPageController::class, 'newsShow'])->name('public.news.show');
 
 Route::get('/dashboard', function () {
     if (auth()->user()->isAdmin()) {

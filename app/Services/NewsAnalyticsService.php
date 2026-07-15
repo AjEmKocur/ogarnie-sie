@@ -58,7 +58,7 @@ class NewsAnalyticsService
             ->where('p.is_published', true)
             ->whereNotNull('p.published_at')
             ->where('v.viewed_at', '>=', now()->subDays($days))
-            ->selectRaw('p.slug, p.title, COUNT(*)::int as views, MAX(v.viewed_at) as last_viewed_at')
+            ->selectRaw('p.slug, p.title, COUNT(*) as views, MAX(v.viewed_at) as last_viewed_at')
             ->groupBy('p.id', 'p.slug', 'p.title', 'p.published_at')
             ->orderByDesc('views')
             ->orderByDesc('last_viewed_at')

@@ -72,6 +72,11 @@
                         </div>
                     @endif
 
+                    <p class="text-xs leading-5 text-slate-400">
+                        Wysyłając formularz, przekazujesz dane w celu obsługi wiadomości. Szczegóły znajdziesz w
+                        <a href="{{ route('public.privacy') }}" class="text-amber-200 underline underline-offset-4 hover:text-amber-100">polityce prywatności</a>.
+                    </p>
+
                     <button type="submit" class="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-500">
                         Wyślij
                     </button>

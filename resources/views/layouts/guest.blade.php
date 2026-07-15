@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <link rel="icon" type="image/png" href="{{ asset('images/ogarnie-sie-logo.png') }}">
+        <link rel="icon" type="image/png" href="{{ asset('images/kocur-logo-amber.png') }}">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -18,7 +18,7 @@
             <main class="flex-1 flex flex-col items-center justify-center px-4 py-8">
                 <div>
                     <a href="/">
-                        <x-application-logo class="h-14 w-auto max-w-[280px] object-contain" />
+                        <x-application-logo class="h-16 w-auto max-w-[320px] object-contain" />
                     </a>
                 </div>
 
@@ -29,11 +29,10 @@
 
             <footer class="og-footer border-t border-gray-200">
                 <div class="mx-auto flex max-w-7xl flex-col items-start justify-between gap-3 px-5 py-6 text-sm text-slate-400 sm:flex-row sm:items-center sm:px-6 lg:px-8">
-                    <p>&copy; {{ date('Y') }} Ogarnie się. Serwis komputerowy.</p>
+                    <p>&copy; {{ date('Y') }} Kocur. Serwis komputerowy.</p>
                     <p>Godziny pracy: Pn-Pt 9:00-18:00</p>
                 </div>
             </footer>
         </div>
     </body>
 </html>
-

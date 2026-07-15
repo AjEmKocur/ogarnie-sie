@@ -1,2 +1,1 @@
-<img src="{{ asset('images/ogarnie-sie-logo.png') }}" alt="Ogarnie się logo" {{ $attributes }}>
-
+<img src="{{ asset('images/kocur-logo-amber.png') }}" alt="Kocur Serwis Komputerowy logo" {{ $attributes }}>

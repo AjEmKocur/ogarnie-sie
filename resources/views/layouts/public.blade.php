@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" type="image/png" href="{{ asset('images/ogarnie-sie-logo.png') }}">
-    <title>{{ $title ?? config('app.name', 'Ogarnie się') }}</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/kocur-logo-amber.png') }}">
+    <title>{{ $title ?? config('app.name', 'Kocur Serwis Komputerowy') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-slate-950 text-slate-100 antialiased">
@@ -13,16 +13,16 @@
         <header class="og-topbar sticky top-0 z-40 border-b border-gray-200 bg-slate-950/90 backdrop-blur">
             <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 sm:px-6 lg:px-8">
                 <a href="{{ route('public.home') }}" class="flex items-center">
-                    <x-application-logo class="h-8 w-auto" />
+                    <x-application-logo class="h-10 w-auto" />
                 </a>
 
                 <nav class="hidden items-center gap-6 text-base font-medium md:flex">
-                    <a href="{{ route('public.home') }}" class="{{ request()->routeIs('public.home') ? 'text-blue-300' : 'text-slate-300 hover:text-white' }}">Start</a>
-                    <a href="{{ route('public.about') }}" class="{{ request()->routeIs('public.about') ? 'text-blue-300' : 'text-slate-300 hover:text-white' }}">O nas</a>
-                    <a href="{{ route('public.services') }}" class="{{ request()->routeIs('public.services*') ? 'text-blue-300' : 'text-slate-300 hover:text-white' }}">Usługi i cennik</a>
-                    <a href="{{ route('public.testimonials') }}" class="{{ request()->routeIs('public.testimonials') ? 'text-blue-300' : 'text-slate-300 hover:text-white' }}">Opinie</a>
-                    <a href="{{ route('public.news') }}" class="{{ request()->routeIs('public.news*') ? 'text-blue-300' : 'text-slate-300 hover:text-white' }}">Aktualności</a>
-                    <a href="{{ route('public.contact') }}" class="{{ request()->routeIs('public.contact') ? 'text-blue-300' : 'text-slate-300 hover:text-white' }}">Kontakt</a>
+                    <a href="{{ route('public.home') }}" class="{{ request()->routeIs('public.home') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">Start</a>
+                    <a href="{{ route('public.about') }}" class="{{ request()->routeIs('public.about') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">O nas</a>
+                    <a href="{{ route('public.services') }}" class="{{ request()->routeIs('public.services*') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">Usługi i cennik</a>
+                    <a href="{{ route('public.testimonials') }}" class="{{ request()->routeIs('public.testimonials') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">Opinie</a>
+                    <a href="{{ route('public.news') }}" class="{{ request()->routeIs('public.news*') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">Realizacje</a>
+                    <a href="{{ route('public.contact') }}" class="{{ request()->routeIs('public.contact') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">Kontakt</a>
                 </nav>
 
                 <div class="flex items-center gap-2">
@@ -110,10 +110,10 @@
                             </x-slot>
                         </x-dropdown>
                     @else
-                        <a href="{{ route('public.contact') }}" class="rounded-md border border-gray-300 px-3 py-2 text-sm font-semibold uppercase tracking-wider text-slate-200 hover:bg-slate-800">
+                        <a href="{{ route('public.contact') }}" class="rounded-md border border-amber-300/35 px-3 py-2 text-sm font-semibold uppercase tracking-wider text-white hover:bg-amber-400/10">
                             Szybki kontakt
                         </a>
-                        <a href="{{ route('login', ['return' => url()->full()]) }}" class="rounded-md border border-gray-300 px-3 py-2 text-sm font-semibold uppercase tracking-wider text-slate-200 hover:bg-slate-800">
+                        <a href="{{ route('login', ['return' => url()->full()]) }}" class="rounded-md border border-white/20 px-3 py-2 text-sm font-semibold uppercase tracking-wider text-white hover:border-amber-300/45 hover:bg-white/5">
                             Logowanie
                         </a>
                     @endauth
@@ -135,8 +135,16 @@
 
         <footer class="og-footer border-t border-gray-200">
             <div class="mx-auto flex max-w-7xl flex-col items-start justify-between gap-3 px-5 py-6 text-sm text-slate-400 sm:flex-row sm:items-center sm:px-6 lg:px-8">
-                <p>&copy; {{ date('Y') }} Ogarnie się. Serwis komputerowy.</p>
-                <p>Godziny pracy: Pn-Pt 9:00-18:00</p>
+                <p>&copy; {{ date('Y') }} Kocur. Serwis komputerowy.</p>
+                <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
+                    <a href="{{ route('public.terms') }}" class="hover:text-amber-200">Zasady współpracy</a>
+                    <span class="hidden text-slate-700 sm:inline">/</span>
+                    <a href="{{ route('public.privacy') }}" class="hover:text-amber-200">Polityka prywatności</a>
+                    <span class="hidden text-slate-700 sm:inline">/</span>
+                    <a href="{{ route('public.cookies') }}" class="hover:text-amber-200">Cookies</a>
+                    <span class="hidden text-slate-700 sm:inline">/</span>
+                    <p>Godziny pracy: Pn-Pt 9:00-18:00</p>
+                </div>
             </div>
         </footer>
     </div>

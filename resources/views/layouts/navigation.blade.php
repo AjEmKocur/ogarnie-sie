@@ -5,16 +5,16 @@
 <nav class="og-topbar sticky top-0 z-40 border-b border-gray-200 bg-slate-950/90 backdrop-blur">
     <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 sm:px-6 lg:px-8">
         <a href="{{ route('public.home') }}" class="flex items-center">
-            <x-application-logo class="h-8 w-auto" />
+            <x-application-logo class="h-10 w-auto" />
         </a>
 
         <div class="hidden items-center gap-6 text-base font-medium md:flex">
-            <a href="{{ route('public.home') }}" class="{{ request()->routeIs('public.home') ? 'text-blue-300' : 'text-slate-300 hover:text-white' }}">Start</a>
-            <a href="{{ route('public.about') }}" class="{{ request()->routeIs('public.about') ? 'text-blue-300' : 'text-slate-300 hover:text-white' }}">O nas</a>
-            <a href="{{ route('public.services') }}" class="{{ request()->routeIs('public.services*') ? 'text-blue-300' : 'text-slate-300 hover:text-white' }}">Usługi i cennik</a>
-            <a href="{{ route('public.testimonials') }}" class="{{ request()->routeIs('public.testimonials') ? 'text-blue-300' : 'text-slate-300 hover:text-white' }}">Opinie</a>
-            <a href="{{ route('public.news') }}" class="{{ request()->routeIs('public.news*') ? 'text-blue-300' : 'text-slate-300 hover:text-white' }}">Aktualności</a>
-            <a href="{{ route('public.contact') }}" class="{{ request()->routeIs('public.contact') ? 'text-blue-300' : 'text-slate-300 hover:text-white' }}">Kontakt</a>
+            <a href="{{ route('public.home') }}" class="{{ request()->routeIs('public.home') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">Start</a>
+            <a href="{{ route('public.about') }}" class="{{ request()->routeIs('public.about') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">O nas</a>
+            <a href="{{ route('public.services') }}" class="{{ request()->routeIs('public.services*') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">Usługi i cennik</a>
+            <a href="{{ route('public.testimonials') }}" class="{{ request()->routeIs('public.testimonials') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">Opinie</a>
+            <a href="{{ route('public.news') }}" class="{{ request()->routeIs('public.news*') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">Realizacje</a>
+            <a href="{{ route('public.contact') }}" class="{{ request()->routeIs('public.contact') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">Kontakt</a>
         </div>
 
         <div class="flex items-center gap-2">

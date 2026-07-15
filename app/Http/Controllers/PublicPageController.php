@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AboutGalleryImage;
 use App\Models\NewsPost;
 use App\Models\Service;
+use App\Models\ServiceCategory;
 use App\Models\Testimonial;
 use App\Services\NewsAnalyticsService;
 use Illuminate\Http\Response;
@@ -43,7 +44,18 @@ class PublicPageController extends Controller
     public function services(): View
     {
         return view('public.services', [
-            'services' => Service::where('is_active', true)
+            'serviceCategories' => ServiceCategory::query()
+                ->where('is_active', true)
+                ->whereHas('services', fn ($query) => $query->where('is_active', true))
+                ->with(['services' => fn ($query) => $query
+                    ->where('is_active', true)
+                    ->orderBy('sort_order')
+                    ->orderBy('name')])
+                ->orderBy('sort_order')
+                ->orderBy('name')
+                ->get(),
+            'uncategorizedServices' => Service::where('is_active', true)
+                ->whereNull('service_category_id')
                 ->orderBy('sort_order')
                 ->orderBy('name')
                 ->get(),
@@ -57,9 +69,10 @@ class PublicPageController extends Controller
         }
 
         return view('public.service-show', [
-            'service' => $service,
+            'service' => $service->load('category'),
             'relatedServices' => Service::where('is_active', true)
                 ->whereKeyNot($service->id)
+                ->when($service->service_category_id, fn ($query) => $query->where('service_category_id', $service->service_category_id))
                 ->orderBy('sort_order')
                 ->orderBy('name')
                 ->take(3)
