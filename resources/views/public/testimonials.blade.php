@@ -1,5 +1,8 @@
 @extends('layouts.public')
 
+@section('title', 'Opinie klientów - Kocur Serwis Komputerowy')
+@section('meta_description', 'Opinie klientów po realizacji usług komputerowych: składanie PC, modernizacja, diagnostyka, instalacja systemów i pomoc techniczna.')
+
 @section('content')
     <section class="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
         <h1 class="text-4xl font-bold">Opinie klientów</h1>
@@ -8,7 +11,7 @@
             @if (!auth()->user()->isAdmin() && auth()->user()->hasClosedTicketsWithoutTestimonial())
                 <div class="mt-6 rounded-xl border border-gray-200 bg-white p-4">
                     <p class="text-sm text-slate-300">Masz zakończone zgłoszenie. Możesz wystawić opinię.</p>
-                    <a href="{{ route('client.testimonials.create') }}" class="mt-3 inline-flex rounded-md bg-blue-600 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white hover:bg-blue-500">
+                    <a href="{{ route('client.testimonials.create') }}" class="mt-3 inline-flex rounded-md bg-amber-400 px-4 py-2 text-xs font-black uppercase tracking-wider text-black hover:bg-amber-300">
                         Wystaw opinię
                     </a>
                 </div>

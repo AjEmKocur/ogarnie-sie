@@ -1,5 +1,8 @@
 @extends('layouts.public')
 
+@section('title', 'Kocur Serwis Komputerowy - składanie i naprawa komputerów')
+@section('meta_description', 'Składanie komputerów, diagnostyka laptopów, modernizacja sprzętu, instalacja systemów i pomoc z siecią domową w Rzeszowie i okolicach.')
+
 @section('content')
     <section class="relative isolate overflow-hidden border-b border-white/10 bg-black">
         <div class="absolute inset-y-0 right-0 hidden w-[58%] lg:block">

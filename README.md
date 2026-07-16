@@ -1,12 +1,12 @@
-# Ogarnie Sie
+# Kocur Serwis Komputerowy
 
-Portal internetowy dla serwisu komputerowego przygotowany w ramach pracy inzynierskiej.
+Portal internetowy dla lokalnego serwisu komputerowego.
 
 ## Zakres aplikacji
 
-- publiczna strona informacyjna z oferta, cennikiem, aktualnosciami, opiniami i formularzem kontaktowym,
+- publiczna strona informacyjna z oferta, cennikiem, realizacjami, opiniami i formularzem kontaktowym,
 - panel klienta do zakladania i obslugi zgloszen serwisowych,
-- panel administratora do zarzadzania zgloszeniami, uslugami, aktualnosciami, galeria oraz opiniami,
+- panel administratora do zarzadzania zgloszeniami, uslugami, realizacjami, galeria oraz opiniami,
 - system wiadomosci i zalacznikow przy zgloszeniach,
 - obsluga statusow, platnosci na miejscu oraz historii zmian,
 - zabezpieczenie formularza kontaktowego Cloudflare Turnstile,

@@ -4,8 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="description" content="@yield('meta_description', 'Kocur Serwis Komputerowy - składanie PC, modernizacja komputerów, diagnostyka laptopów, instalacja systemów i pomoc z siecią domową w Rzeszowie i okolicach.')">
+    <link rel="canonical" href="{{ url()->current() }}">
+    <meta property="og:title" content="@yield('title', $title ?? config('app.name', 'Kocur Serwis Komputerowy'))">
+    <meta property="og:description" content="@yield('meta_description', 'Składanie komputerów, naprawa komputerów i laptopów, modernizacja sprzętu oraz pomoc techniczna w Rzeszowie i okolicach.')">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
     <link rel="icon" type="image/png" href="{{ asset('images/kocur-logo-amber.png') }}">
-    <title>{{ $title ?? config('app.name', 'Kocur Serwis Komputerowy') }}</title>
+    <title>@yield('title', $title ?? config('app.name', 'Kocur Serwis Komputerowy'))</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-slate-950 text-slate-100 antialiased">
@@ -18,7 +24,7 @@
 
                 <nav class="hidden items-center gap-6 text-base font-medium md:flex">
                     <a href="{{ route('public.home') }}" class="{{ request()->routeIs('public.home') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">Start</a>
-                    <a href="{{ route('public.about') }}" class="{{ request()->routeIs('public.about') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">O nas</a>
+                    <a href="{{ route('public.about') }}" class="{{ request()->routeIs('public.about') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">O mnie</a>
                     <a href="{{ route('public.services') }}" class="{{ request()->routeIs('public.services*') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">Usługi i cennik</a>
                     <a href="{{ route('public.testimonials') }}" class="{{ request()->routeIs('public.testimonials') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">Opinie</a>
                     <a href="{{ route('public.news') }}" class="{{ request()->routeIs('public.news*') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">Realizacje</a>
@@ -142,6 +148,8 @@
                     <a href="{{ route('public.privacy') }}" class="hover:text-amber-200">Polityka prywatności</a>
                     <span class="hidden text-slate-700 sm:inline">/</span>
                     <a href="{{ route('public.cookies') }}" class="hover:text-amber-200">Cookies</a>
+                    <span class="hidden text-slate-700 sm:inline">/</span>
+                    <a href="{{ route('public.faq') }}" class="hover:text-amber-200">FAQ</a>
                     <span class="hidden text-slate-700 sm:inline">/</span>
                     <p>Godziny pracy: Pn-Pt 9:00-18:00</p>
                 </div>

@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">CMS: Edycja aktualności</h2>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">CMS: Edycja realizacji</h2>
     </x-slot>
 
     <div class="py-12">
@@ -9,7 +9,7 @@
                 'items' => [
                     ['label' => 'Strona główna', 'url' => route('admin.dashboard')],
                     ['label' => 'Centrum CMS', 'url' => route('admin.cms.dashboard')],
-                    ['label' => 'Aktualności', 'url' => route('admin.cms.news.index')],
+                    ['label' => 'Realizacje', 'url' => route('admin.cms.news.index')],
                     ['label' => 'Edycja'],
                 ],
             ])

@@ -12,6 +12,6 @@
         <p><strong>Temat:</strong> {{ $subjectLine }}</p>
         <p>Odpowiemy na podany adres e-mail tak szybko, jak będzie to możliwe.</p>
 
-        <p style="margin-top: 20px;">Ogarnie się - serwis komputerowy</p>
+        <p style="margin-top: 20px;">Kocur Serwis Komputerowy</p>
     </body>
 </html>

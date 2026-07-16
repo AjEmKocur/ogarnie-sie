@@ -1,5 +1,8 @@
 @extends('layouts.public')
 
+@section('title', 'Usługi i cennik - Kocur Serwis Komputerowy')
+@section('meta_description', 'Usługi komputerowe w Rzeszowie i okolicach: składanie PC, modernizacja, diagnostyka laptopów, instalacja systemu, konfiguracja sieci domowej i dojazd do klienta.')
+
 @section('content')
     <section class="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
         <div class="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
@@ -27,6 +30,15 @@
                     </a>
                 </div>
             </div>
+        </div>
+
+        <div class="mt-8 rounded-2xl border border-amber-300/20 bg-black/45 p-5 text-sm leading-7 text-slate-300">
+            <p class="font-semibold text-white">Jak rozliczamy części?</p>
+            <p class="mt-2">
+                Przy składaniu i modernizacji najczęściej pomagam dobrać podzespoły, a klient kupuje części na swoje dane.
+                Dzięki temu gwarancja i dokument zakupu są bezpośrednio po stronie klienta. Ewentualny zakup części przeze
+                mnie jest ustalany indywidualnie przed realizacją.
+            </p>
         </div>
 
         @if ($serviceCategories->isEmpty() && $uncategorizedServices->isEmpty())

@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">CMS: Aktualności</h2>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">CMS: Realizacje</h2>
     </x-slot>
 
     <div class="py-12">
@@ -9,7 +9,7 @@
                 'items' => [
                     ['label' => 'Strona główna', 'url' => route('admin.dashboard')],
                     ['label' => 'Centrum CMS', 'url' => route('admin.cms.dashboard')],
-                    ['label' => 'Aktualności'],
+                    ['label' => 'Realizacje'],
                 ],
             ])
 
@@ -18,15 +18,15 @@
             @endif
 
             <div class="flex flex-wrap items-center gap-2">
-                <a href="#lista-aktualnosci" class="inline-flex items-center rounded-md border border-gray-300 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-slate-200 hover:bg-slate-800">
-                    Lista aktualności
+                <a href="#lista-realizacji" class="inline-flex items-center rounded-md border border-gray-300 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-slate-200 hover:bg-slate-800">
+                    Lista realizacji
                 </a>
             </div>
 
             <details class="rounded-xl border border-gray-200 bg-white shadow-sm" @if($posts->isEmpty()) open @endif>
                 <summary class="cursor-pointer list-none px-5 py-4">
                     <span class="inline-flex items-center rounded-md border border-blue-300/60 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-blue-200 hover:bg-blue-500/10">
-                        {{ $posts->isEmpty() ? 'Dodaj pierwszą aktualność' : 'Dodaj kolejną aktualność' }}
+                        {{ $posts->isEmpty() ? 'Dodaj pierwszą realizację' : 'Dodaj kolejną realizację' }}
                     </span>
                 </summary>
 
@@ -46,8 +46,8 @@
                 </div>
             </details>
 
-            <div id="lista-aktualnosci" class="space-y-4">
-                <h3 class="text-lg font-semibold">Edytuj aktualności</h3>
+            <div id="lista-realizacji" class="space-y-4">
+                <h3 class="text-lg font-semibold">Edytuj realizacje</h3>
                 @foreach ($posts as $post)
                     <article class="rounded-xl border border-gray-200 bg-white shadow-sm">
                         <div class="flex flex-wrap items-center justify-between gap-4 px-5 py-4">

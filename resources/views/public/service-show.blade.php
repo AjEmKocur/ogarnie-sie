@@ -1,5 +1,8 @@
 @extends('layouts.public')
 
+@section('title', $service->name.' - Kocur Serwis Komputerowy')
+@section('meta_description', \Illuminate\Support\Str::limit($service->description ?: 'Szczegóły usługi komputerowej: zakres, cena od oraz możliwość kontaktu w sprawie realizacji.', 155))
+
 @section('content')
     <section class="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
         @include('public.partials.breadcrumbs', [

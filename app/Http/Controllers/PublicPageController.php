@@ -116,6 +116,44 @@ class PublicPageController extends Controller
         ]);
     }
 
+    public function sitemap(): Response
+    {
+        $urls = [
+            route('public.home'),
+            route('public.about'),
+            route('public.services'),
+            route('public.testimonials'),
+            route('public.news'),
+            route('public.contact'),
+            route('public.terms'),
+            route('public.privacy'),
+            route('public.cookies'),
+            route('public.faq'),
+        ];
+
+        Service::where('is_active', true)
+            ->orderBy('id')
+            ->get()
+            ->each(function (Service $service) use (&$urls): void {
+                $urls[] = route('public.services.show', $service);
+            });
+
+        NewsPost::where('is_published', true)
+            ->whereNotNull('published_at')
+            ->orderByDesc('published_at')
+            ->get()
+            ->each(function (NewsPost $post) use (&$urls): void {
+                $urls[] = route('public.news.show', $post);
+            });
+
+        $xml = view('public.sitemap', [
+            'urls' => array_values(array_unique($urls)),
+        ])->render();
+
+        return response($xml, Response::HTTP_OK)
+            ->header('Content-Type', 'application/xml');
+    }
+
     private function fetchPopularNews(?string $excludeSlug = null): array
     {
         $settings = config('services.news_analytics');

@@ -14,7 +14,7 @@
 
                 <li class="flex items-center gap-2">
                     @if ($url && !$isLast)
-                        <a href="{{ $url }}" class="hover:text-blue-300">{{ $label }}</a>
+                        <a href="{{ $url }}" class="hover:text-amber-200">{{ $label }}</a>
                     @else
                         <span class="{{ $isLast ? 'text-slate-100' : '' }}">{{ $label }}</span>
                     @endif
@@ -27,4 +27,3 @@
         </ol>
     </nav>
 @endif
-

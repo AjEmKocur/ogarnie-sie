@@ -1,5 +1,8 @@
 @extends('layouts.public')
 
+@section('title', 'Realizacje - Kocur Serwis Komputerowy')
+@section('meta_description', 'Realizacje serwisowe, modernizacje komputerów, składanie zestawów PC oraz przykłady wykonanych prac.')
+
 @section('content')
     <section class="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
         <h1 class="text-4xl font-bold">Realizacje</h1>
@@ -8,7 +11,7 @@
         <div class="mt-10 grid gap-8 xl:grid-cols-[minmax(0,1fr)_360px]">
             <div class="grid gap-4 sm:grid-cols-2 2xl:grid-cols-3">
                 @forelse ($posts as $post)
-                    <article class="overflow-hidden rounded-xl border border-gray-200 bg-white/5 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-300/70">
+                    <article class="overflow-hidden rounded-xl border border-amber-300/20 bg-white/5 shadow-sm transition hover:-translate-y-0.5 hover:border-amber-300/70">
                         <a href="{{ route('public.news.show', $post->slug) }}" class="block">
                             <div class="relative h-36 w-full overflow-hidden">
                                 @if ($post->coverImageUrl())
@@ -29,11 +32,11 @@
                         <div class="p-4">
                             <p class="text-xs uppercase tracking-wider text-slate-400">{{ $post->published_at?->format('Y-m-d H:i') }}</p>
                             <h2 class="mt-2 text-lg font-bold leading-snug">
-                                <a href="{{ route('public.news.show', $post->slug) }}" class="hover:text-blue-300">{{ $post->title }}</a>
+                                <a href="{{ route('public.news.show', $post->slug) }}" class="hover:text-amber-200">{{ $post->title }}</a>
                             </h2>
                             <p class="mt-2 text-sm text-slate-300">{{ \Illuminate\Support\Str::limit($post->excerpt ?: strip_tags($post->content), 96) }}</p>
                             <div class="mt-3">
-                                <a href="{{ route('public.news.show', $post->slug) }}" class="inline-flex items-center rounded-md border border-blue-300/60 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-blue-200 transition hover:bg-blue-500/10">
+                                <a href="{{ route('public.news.show', $post->slug) }}" class="inline-flex items-center rounded-md border border-amber-300/60 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-amber-100 transition hover:bg-amber-400/10">
                                     Zobacz realizację
                                 </a>
                             </div>
@@ -56,7 +59,7 @@
 
                 <div class="mt-4 space-y-3">
                     @forelse (($popularNews ?? []) as $item)
-                        <a href="{{ route('public.news.show', $item['slug']) }}" class="group flex items-start gap-3 rounded-lg border border-gray-200 bg-slate-900/30 p-2.5 hover:border-blue-300/60">
+                        <a href="{{ route('public.news.show', $item['slug']) }}" class="group flex items-start gap-3 rounded-lg border border-gray-200 bg-slate-900/30 p-2.5 hover:border-amber-300/60">
                             <div class="relative h-16 w-24 shrink-0 overflow-hidden rounded-md border border-gray-200">
                                 @if (!empty($item['cover_image_url']))
                                     <img
@@ -73,7 +76,7 @@
                                 @endif
                             </div>
                             <div class="min-w-0">
-                                <p class="text-sm font-semibold leading-snug group-hover:text-blue-300">{{ \Illuminate\Support\Str::limit($item['title'], 72) }}</p>
+                                <p class="text-sm font-semibold leading-snug group-hover:text-amber-200">{{ \Illuminate\Support\Str::limit($item['title'], 72) }}</p>
                             </div>
                         </a>
                     @empty

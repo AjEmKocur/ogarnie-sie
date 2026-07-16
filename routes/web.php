@@ -24,9 +24,11 @@ Route::view('/kontakt', 'public.contact')->name('public.contact');
 Route::view('/zasady-wspolpracy', 'public.terms')->name('public.terms');
 Route::view('/polityka-prywatnosci', 'public.privacy')->name('public.privacy');
 Route::view('/cookies', 'public.cookies')->name('public.cookies');
+Route::view('/faq', 'public.faq')->name('public.faq');
 Route::get('/opinie', [PublicPageController::class, 'testimonials'])->name('public.testimonials');
 Route::get('/realizacje', [PublicPageController::class, 'news'])->name('public.news');
 Route::get('/realizacje/{newsPost:slug}', [PublicPageController::class, 'newsShow'])->name('public.news.show');
+Route::get('/sitemap.xml', [PublicPageController::class, 'sitemap'])->name('public.sitemap');
 
 Route::get('/dashboard', function () {
     if (auth()->user()->isAdmin()) {
@@ -57,11 +59,11 @@ Route::middleware(['auth', 'verified', 'password.change.required', 'admin'])->gr
     Route::patch('/admin/cms/about-gallery/{aboutGalleryImage}', [AdminAboutGalleryController::class, 'update'])->middleware('admin.permission:cms_services')->name('admin.cms.about-gallery.update');
     Route::delete('/admin/cms/about-gallery/{aboutGalleryImage}', [AdminAboutGalleryController::class, 'destroy'])->middleware('admin.permission:cms_services')->name('admin.cms.about-gallery.destroy');
 
-    Route::get('/admin/cms/aktualnosci', [AdminNewsPostController::class, 'index'])->middleware('admin.permission:cms_news')->name('admin.cms.news.index');
-    Route::post('/admin/cms/aktualnosci', [AdminNewsPostController::class, 'store'])->middleware('admin.permission:cms_news')->name('admin.cms.news.store');
-    Route::get('/admin/cms/aktualnosci/{newsPost}/edit', [AdminNewsPostController::class, 'edit'])->middleware('admin.permission:cms_news')->name('admin.cms.news.edit');
-    Route::patch('/admin/cms/aktualnosci/{newsPost}', [AdminNewsPostController::class, 'update'])->middleware('admin.permission:cms_news')->name('admin.cms.news.update');
-    Route::delete('/admin/cms/aktualnosci/{newsPost}', [AdminNewsPostController::class, 'destroy'])->middleware('admin.permission:cms_news')->name('admin.cms.news.destroy');
+    Route::get('/admin/cms/realizacje', [AdminNewsPostController::class, 'index'])->middleware('admin.permission:cms_news')->name('admin.cms.news.index');
+    Route::post('/admin/cms/realizacje', [AdminNewsPostController::class, 'store'])->middleware('admin.permission:cms_news')->name('admin.cms.news.store');
+    Route::get('/admin/cms/realizacje/{newsPost}/edit', [AdminNewsPostController::class, 'edit'])->middleware('admin.permission:cms_news')->name('admin.cms.news.edit');
+    Route::patch('/admin/cms/realizacje/{newsPost}', [AdminNewsPostController::class, 'update'])->middleware('admin.permission:cms_news')->name('admin.cms.news.update');
+    Route::delete('/admin/cms/realizacje/{newsPost}', [AdminNewsPostController::class, 'destroy'])->middleware('admin.permission:cms_news')->name('admin.cms.news.destroy');
 
     Route::middleware('main_admin')->group(function () {
         Route::get('/admin/team', [AdminOperatorController::class, 'index'])->name('admin.team.index');

@@ -21,7 +21,7 @@ class TicketCreated extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: '[Ogarnie się] Potwierdzenie przyjęcia zgłoszenia #'.$this->ticket->id,
+            subject: '[Kocur Serwis Komputerowy] Potwierdzenie przyjęcia zgłoszenia #'.$this->ticket->id,
         );
     }
 
@@ -40,4 +40,3 @@ class TicketCreated extends Mailable
         return [];
     }
 }
-

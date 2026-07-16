@@ -23,7 +23,7 @@ class TicketMessageNotification extends Mailable
 
     public function envelope(): Envelope
     {
-        $prefix = '[Ogarnie się]';
+        $prefix = '[Kocur Serwis Komputerowy]';
         $subject = $this->fromAdmin
             ? "Nowa odpowiedź serwisu w zgłoszeniu #{$this->ticket->id}"
             : "Nowa wiadomość klienta w zgłoszeniu #{$this->ticket->id}";
@@ -46,4 +46,3 @@ class TicketMessageNotification extends Mailable
         return [];
     }
 }
-

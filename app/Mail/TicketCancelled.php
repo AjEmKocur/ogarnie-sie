@@ -23,8 +23,8 @@ class TicketCancelled extends Mailable
     public function envelope(): Envelope
     {
         $subject = $this->toAdmin
-            ? "[Ogarnie się] Klient anulował zgłoszenie #{$this->ticket->id}"
-            : "[Ogarnie się] Potwierdzenie anulowania zgłoszenia #{$this->ticket->id}";
+            ? "[Kocur Serwis Komputerowy] Klient anulował zgłoszenie #{$this->ticket->id}"
+            : "[Kocur Serwis Komputerowy] Potwierdzenie anulowania zgłoszenia #{$this->ticket->id}";
 
         return new Envelope(subject: $subject);
     }

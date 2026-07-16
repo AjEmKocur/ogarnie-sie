@@ -55,8 +55,8 @@
                 @if (auth()->user()->hasAdminPermission('cms_news'))
                     <a href="{{ route('admin.cms.news.index') }}" class="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:!border-blue-400/80 hover:!bg-slate-800/80 transition-all duration-200 min-h-[220px] flex flex-col">
                         <p class="text-sm uppercase tracking-wider text-gray-500">Treści</p>
-                        <h3 class="mt-2 text-xl font-semibold">Aktualności</h3>
-                        <p class="mt-2 text-base text-slate-300">Publikowanie wpisów i nowości technicznych.</p>
+                        <h3 class="mt-2 text-xl font-semibold">Realizacje</h3>
+                        <p class="mt-2 text-base text-slate-300">Publikowanie opisów wykonanych prac, zdjęć i efektów przed oraz po.</p>
                         <div class="mt-auto pt-6 flex justify-center text-indigo-300/90">
                             <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 4h12v16H6z"/>
@@ -97,5 +97,4 @@
         </div>
     </div>
 </x-app-layout>
-
 

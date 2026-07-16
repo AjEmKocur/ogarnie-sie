@@ -25,11 +25,11 @@
 
             <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
                 <div class="p-6 text-gray-900 space-y-3">
-                    <p class="text-sm uppercase tracking-[0.2em] text-gray-500">{{ __('Ogarnie się') }}</p>
+                    <p class="text-sm uppercase tracking-[0.2em] text-gray-500">{{ __('Kocur Serwis Komputerowy') }}</p>
                     <p class="text-2xl font-semibold">{{ __('Witaj,') }} {{ auth()->user()->name }}.</p>
                     <p>{{ __('Tutaj zarządzasz zgłoszeniami serwisowymi i załącznikami.') }}</p>
                     <div class="pt-2">
-                        <a href="{{ route('client.tickets.index') }}" class="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition hover:bg-blue-500">
+                        <a href="{{ route('client.tickets.index') }}" class="inline-flex items-center rounded-md bg-amber-400 px-4 py-2 text-xs font-black uppercase tracking-widest text-black transition hover:bg-amber-300">
                             {{ __('Moje zgłoszenia') }}
                         </a>
                     </div>

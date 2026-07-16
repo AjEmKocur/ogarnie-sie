@@ -21,7 +21,7 @@ class ContactMessageConfirmation extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: '[Ogarnie się] Potwierdzenie wysłania wiadomości',
+            subject: '[Kocur Serwis Komputerowy] Potwierdzenie wysłania wiadomości',
         );
     }
 

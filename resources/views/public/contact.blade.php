@@ -1,28 +1,31 @@
 @extends('layouts.public')
 
+@section('title', 'Kontakt - Kocur Serwis Komputerowy')
+@section('meta_description', 'Kontakt w sprawie składania komputerów, diagnostyki laptopów, modernizacji sprzętu, instalacji systemu i pomocy z siecią domową w Rzeszowie i okolicach.')
+
 @section('content')
     <section class="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
-        <h1 class="text-4xl font-bold">Kontakt</h1>
-        <p class="mt-4 text-slate-300">
-            Masz pytanie? Skontaktuj się z nami lub od razu załóż zgłoszenie.
+        <h1 class="text-4xl font-black text-white">Kontakt</h1>
+        <p class="mt-4 max-w-2xl text-slate-300">
+            Opisz krótko problem, sprzęt albo planowany zestaw. Po wiadomości ustalimy zakres, orientacyjny koszt i możliwy termin.
         </p>
-        <p class="mt-2 text-sm text-blue-200">
-            Formularz kontaktowy działa dla gości. Nie musisz mieć konta.
+        <p class="mt-2 text-sm text-amber-200">
+            Formularz działa dla gości. Konto klienta przyda się dopiero wtedy, gdy chcesz prowadzić pełne zgłoszenie w panelu.
         </p>
 
         <div class="mt-10 grid gap-6 lg:grid-cols-2">
-            <div class="rounded-xl border border-gray-200 bg-white p-6">
-                <h2 class="text-xl font-semibold">Dane kontaktowe</h2>
+            <div class="rounded-xl border border-amber-300/20 bg-slate-950/70 p-6">
+                <h2 class="text-xl font-semibold text-white">Dane kontaktowe</h2>
                 <ul class="mt-4 space-y-2 text-sm text-slate-300">
-                    <li>Telefon: +48 500 600 700</li>
                     <li>Email: kontakt@ogarniesie.pl</li>
-                    <li>Adres: ul. Serwisowa 12, 00-001 Miasto</li>
-                    <li>Godziny: Pn-Pt 9:00-18:00</li>
+                    <li>Obszar: Rzeszów i okolice</li>
+                    <li>Dojazd: ustalany indywidualnie przed usługą</li>
+                    <li>Godziny kontaktu: Pn-Pt 9:00-18:00</li>
                 </ul>
 
-                <div class="mt-6 overflow-hidden rounded-lg border border-blue-400/30 bg-slate-950/40">
+                <div class="mt-6 overflow-hidden rounded-lg border border-amber-300/25 bg-slate-950/40">
                     <iframe
-                        title="Mapa lokalizacji firmy"
+                        title="Mapa obszaru działania"
                         src="https://maps.google.com/maps?hl=pl&q=Rzesz%C3%B3w%2C%20Polska&z=13&output=embed"
                         class="w-full"
                         style="display:block;width:100%;height:320px;border:0;"
@@ -31,11 +34,10 @@
                         referrerpolicy="no-referrer-when-downgrade"
                     ></iframe>
                 </div>
-
             </div>
 
-            <div class="rounded-xl border border-gray-200 bg-white p-6">
-                <h2 class="text-xl font-semibold">Szybki kontakt</h2>
+            <div class="rounded-xl border border-amber-300/20 bg-slate-950/70 p-6">
+                <h2 class="text-xl font-semibold text-white">Opisz problem</h2>
                 <form method="POST" action="{{ route('public.contact.store') }}" class="mt-4 space-y-4">
                     @csrf
 
@@ -55,12 +57,12 @@
                     </div>
 
                     <div>
-                        <input type="text" name="subject" value="{{ old('subject') }}" placeholder="Temat" class="w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2" />
+                        <input type="text" name="subject" value="{{ old('subject') }}" placeholder="Temat, np. składanie PC albo problem z laptopem" class="w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2" />
                         <x-input-error :messages="$errors->get('subject')" class="mt-2" />
                     </div>
 
                     <div>
-                        <textarea name="message" rows="5" placeholder="Wiadomość" class="w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2">{{ old('message') }}</textarea>
+                        <textarea name="message" rows="5" placeholder="Opisz sprzęt, objawy, planowany zestaw albo czego potrzebujesz" class="w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2">{{ old('message') }}</textarea>
                         <x-input-error :messages="$errors->get('message')" class="mt-2" />
                     </div>
 
@@ -73,12 +75,13 @@
                     @endif
 
                     <p class="text-xs leading-5 text-slate-400">
-                        Wysyłając formularz, przekazujesz dane w celu obsługi wiadomości. Szczegóły znajdziesz w
+                        Administratorem danych jest Dominik Kocur. Wysyłając formularz, przekazujesz dane w celu obsługi wiadomości
+                        i ewentualnego ustalenia szczegółów usługi. Szczegóły znajdziesz w
                         <a href="{{ route('public.privacy') }}" class="text-amber-200 underline underline-offset-4 hover:text-amber-100">polityce prywatności</a>.
                     </p>
 
-                    <button type="submit" class="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-500">
-                        Wyślij
+                    <button type="submit" class="rounded-md bg-amber-400 px-5 py-3 text-sm font-black text-black shadow-[0_18px_40px_rgba(245,158,11,0.22)] transition hover:bg-amber-300">
+                        Wyślij wiadomość
                     </button>
                 </form>
             </div>

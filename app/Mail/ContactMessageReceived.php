@@ -24,7 +24,7 @@ class ContactMessageReceived extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: '[Ogarnie się] Nowa wiadomość kontaktowa: '.$this->subjectLine,
+            subject: '[Kocur Serwis Komputerowy] Nowa wiadomość kontaktowa: '.$this->subjectLine,
         );
     }
 

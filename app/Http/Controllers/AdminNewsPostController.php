@@ -52,7 +52,7 @@ class AdminNewsPostController extends Controller
             'published_at' => $isPublished ? Carbon::now() : null,
         ]);
 
-        return redirect()->route('admin.cms.news.index')->with('status', 'Aktualność została dodana.');
+        return redirect()->route('admin.cms.news.index')->with('status', 'Realizacja została dodana.');
     }
 
     public function edit(NewsPost $newsPost): View
@@ -103,7 +103,7 @@ class AdminNewsPostController extends Controller
             'published_at' => $isPublished ? ($newsPost->published_at ?? Carbon::now()) : null,
         ]);
 
-        return redirect()->route('admin.cms.news.edit', $newsPost)->with('status', 'Aktualność została zaktualizowana.');
+        return redirect()->route('admin.cms.news.edit', $newsPost)->with('status', 'Realizacja została zaktualizowana.');
     }
 
     public function destroy(NewsPost $newsPost): RedirectResponse
@@ -114,6 +114,6 @@ class AdminNewsPostController extends Controller
 
         $newsPost->delete();
 
-        return redirect()->route('admin.cms.news.index')->with('status', 'Aktualność została usunięta.');
+        return redirect()->route('admin.cms.news.index')->with('status', 'Realizacja została usunięta.');
     }
 }

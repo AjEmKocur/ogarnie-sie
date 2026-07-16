@@ -10,7 +10,7 @@
 
         <div class="hidden items-center gap-6 text-base font-medium md:flex">
             <a href="{{ route('public.home') }}" class="{{ request()->routeIs('public.home') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">Start</a>
-            <a href="{{ route('public.about') }}" class="{{ request()->routeIs('public.about') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">O nas</a>
+            <a href="{{ route('public.about') }}" class="{{ request()->routeIs('public.about') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">O mnie</a>
             <a href="{{ route('public.services') }}" class="{{ request()->routeIs('public.services*') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">Usługi i cennik</a>
             <a href="{{ route('public.testimonials') }}" class="{{ request()->routeIs('public.testimonials') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">Opinie</a>
             <a href="{{ route('public.news') }}" class="{{ request()->routeIs('public.news*') ? 'text-amber-300' : 'text-white/85 hover:text-amber-200' }}">Realizacje</a>

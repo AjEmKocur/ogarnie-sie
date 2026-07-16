@@ -17,7 +17,7 @@ class VerifyEmailNotification extends BaseVerifyEmail
         return (new MailMessage)
             ->subject('Potwierdź adres e-mail')
             ->greeting('Cześć!')
-            ->line('Dziękujemy za rejestrację w serwisie Ogarnie się.')
+            ->line('Dziękujemy za rejestrację w serwisie Kocur Serwis Komputerowy.')
             ->line('Aby aktywować konto, potwierdź swój adres e-mail.')
             ->action('Potwierdź e-mail', $verificationUrl)
             ->line('Jeśli to nie Ty zakładałeś konto, zignoruj tę wiadomość.');

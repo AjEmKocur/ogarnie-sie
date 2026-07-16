@@ -23,7 +23,7 @@ class TicketUpdated extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: '[Ogarnie się] Aktualizacja zgłoszenia #'.$this->ticket->id,
+            subject: '[Kocur Serwis Komputerowy] Aktualizacja zgłoszenia #'.$this->ticket->id,
         );
     }
 
@@ -42,5 +42,4 @@ class TicketUpdated extends Mailable
         return [];
     }
 }
-
 
