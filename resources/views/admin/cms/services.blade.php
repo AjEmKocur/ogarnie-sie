@@ -9,7 +9,7 @@
                 'items' => [
                     ['label' => 'Strona główna', 'url' => route('admin.dashboard')],
                     ['label' => 'Centrum CMS', 'url' => route('admin.cms.dashboard')],
-                    ['label' => 'Usługi i cennik'],
+                    ['label' => 'Usługi'],
                 ],
             ])
 

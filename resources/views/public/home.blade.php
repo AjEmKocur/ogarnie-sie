@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Kocur Serwis Komputerowy - składanie i naprawa komputerów')
-@section('meta_description', 'Składanie komputerów, diagnostyka laptopów, modernizacja sprzętu, instalacja systemów i pomoc z siecią domową w Rzeszowie i okolicach.')
+@section('meta_description', 'Składanie komputerów, diagnostyka laptopów, modernizacja sprzętu, instalacja systemów i pomoc z siecią domową w Jarosławiu i okolicach.')
 
 @section('content')
     <section class="relative isolate overflow-hidden border-b border-white/10 bg-black">
@@ -48,7 +48,7 @@
                 </div>
 
                 <div class="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-sm font-semibold text-slate-300">
-                    <span class="text-amber-200">Rzeszów i okolice</span>
+                    <span class="text-amber-200">Jarosław i okolice</span>
                     <span class="text-slate-600">/</span>
                     <span>Dojazd do klienta</span>
                     <span class="text-slate-600">/</span>
@@ -164,7 +164,7 @@
             <div class="mt-6 grid gap-3 sm:grid-cols-2">
                 <div class="rounded-lg border border-amber-300/20 bg-black/45 p-4">
                     <p class="text-2xl font-black text-white">15 km</p>
-                    <p class="mt-1 text-sm text-slate-300">orientacyjny promień od Rzeszowa</p>
+                    <p class="mt-1 text-sm text-slate-300">orientacyjny promień od Jarosławia</p>
                 </div>
                 <div class="rounded-lg border border-amber-300/20 bg-black/45 p-4">
                     <p class="text-2xl font-black text-white">1 zł/km</p>
@@ -175,7 +175,7 @@
 
         <div class="rounded-2xl border border-amber-300/20 bg-slate-950/70 p-7">
             <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">Najczęściej wybierane</p>
-            <h2 class="mt-3 text-3xl font-black text-white">Usługi z cennika</h2>
+            <h2 class="mt-3 text-3xl font-black text-white">Usługi</h2>
 
             <div class="mt-6 grid gap-4">
                 @forelse ($featuredServices as $service)
@@ -184,11 +184,7 @@
                         <p class="mt-2 text-sm leading-6 text-slate-300">
                             {{ $service->description ?: 'Zakres ustalany indywidualnie po kontakcie.' }}
                         </p>
-                        @if ($service->price_from !== null)
-                            <p class="mt-4 text-sm font-bold text-amber-200">
-                                Cena od: {{ number_format($service->price_from, 2, ',', ' ') }} PLN
-                            </p>
-                        @endif
+                        <p class="mt-4 text-sm font-bold text-slate-400">Wycena indywidualna po kontakcie</p>
                     </article>
                 @empty
                     <article class="rounded-xl border border-amber-300/20 bg-black/45 p-5">
@@ -199,7 +195,7 @@
             </div>
 
             <a href="{{ route('public.services') }}" class="mt-6 inline-flex items-center justify-center rounded-md border border-amber-300/50 bg-amber-400/10 px-5 py-3 text-sm font-bold text-amber-100 transition hover:border-amber-200 hover:bg-amber-400/20">
-                Sprawdź cennik
+                Zobacz usługi
             </a>
         </div>
     </section>

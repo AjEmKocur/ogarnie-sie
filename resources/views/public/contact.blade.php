@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Kontakt - Kocur Serwis Komputerowy')
-@section('meta_description', 'Kontakt w sprawie składania komputerów, diagnostyki laptopów, modernizacji sprzętu, instalacji systemu i pomocy z siecią domową w Rzeszowie i okolicach.')
+@section('meta_description', 'Kontakt w sprawie składania komputerów, diagnostyki laptopów, modernizacji sprzętu, instalacji systemu i pomocy z siecią domową w Jarosławiu i okolicach.')
 
 @section('content')
     <section class="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
@@ -17,16 +17,16 @@
             <div class="rounded-xl border border-amber-300/20 bg-slate-950/70 p-6">
                 <h2 class="text-xl font-semibold text-white">Dane kontaktowe</h2>
                 <ul class="mt-4 space-y-2 text-sm text-slate-300">
-                    <li>Email: kontakt@ogarniesie.pl</li>
-                    <li>Obszar: Rzeszów i okolice</li>
+                    <li>Email: kocurserwis@gmail.com</li>
+                    <li>Obszar: Jarosław i okolice</li>
                     <li>Dojazd: ustalany indywidualnie przed usługą</li>
-                    <li>Godziny kontaktu: Pn-Pt 9:00-18:00</li>
+                    <li>Godziny kontaktu: Pn-Pt 8:00-18:00</li>
                 </ul>
 
                 <div class="mt-6 overflow-hidden rounded-lg border border-amber-300/25 bg-slate-950/40">
                     <iframe
                         title="Mapa obszaru działania"
-                        src="https://maps.google.com/maps?hl=pl&q=Rzesz%C3%B3w%2C%20Polska&z=13&output=embed"
+                        src="https://maps.google.com/maps?hl=pl&q=Jaros%C5%82aw%2C%20Polska&z=13&output=embed"
                         class="w-full"
                         style="display:block;width:100%;height:320px;border:0;"
                         allowfullscreen

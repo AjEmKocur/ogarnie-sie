@@ -7,18 +7,12 @@ use App\Models\NewsPost;
 use App\Models\Service;
 use App\Models\ServiceCategory;
 use App\Models\Testimonial;
-use App\Services\NewsAnalyticsService;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
 class PublicPageController extends Controller
 {
-    public function __construct(
-        private readonly NewsAnalyticsService $newsAnalyticsService
-    ) {}
-
     public function about(): View
     {
         return view('public.about', [
@@ -87,7 +81,6 @@ class PublicPageController extends Controller
                 ->whereNotNull('published_at')
                 ->orderByDesc('published_at')
                 ->get(),
-            'popularNews' => $this->fetchPopularNews(),
         ]);
     }
 
@@ -97,11 +90,8 @@ class PublicPageController extends Controller
             abort(Response::HTTP_NOT_FOUND);
         }
 
-        $this->trackNewsView($newsPost);
-
         return view('public.news-show', [
             'post' => $newsPost,
-            'popularNews' => $this->fetchPopularNews($newsPost->slug),
         ]);
     }
 
@@ -154,35 +144,4 @@ class PublicPageController extends Controller
             ->header('Content-Type', 'application/xml');
     }
 
-    private function fetchPopularNews(?string $excludeSlug = null): array
-    {
-        $settings = config('services.news_analytics');
-        if (! ($settings['enabled'] ?? false)) {
-            return [];
-        }
-
-        $days = (int) ($settings['popular_days'] ?? 30);
-        $limit = (int) ($settings['popular_limit'] ?? 5);
-        $cacheSeconds = max(0, (int) ($settings['cache_seconds'] ?? 120));
-        $cacheKey = sprintf('news_analytics.popular.v1.%d.%d', $days, $limit);
-
-        $mapped = $cacheSeconds > 0
-            ? Cache::remember(
-                $cacheKey,
-                now()->addSeconds($cacheSeconds),
-                fn () => $this->newsAnalyticsService->popular()
-            )
-            : $this->newsAnalyticsService->popular();
-
-        if ($excludeSlug) {
-            $mapped = array_values(array_filter($mapped, static fn (array $item) => $item['slug'] !== $excludeSlug));
-        }
-
-        return $mapped;
-    }
-
-    private function trackNewsView(NewsPost $newsPost): void
-    {
-        $this->newsAnalyticsService->trackView($newsPost, session()->getId());
-    }
 }

@@ -1,14 +1,14 @@
 @extends('layouts.public')
 
 @section('title', $service->name.' - Kocur Serwis Komputerowy')
-@section('meta_description', \Illuminate\Support\Str::limit($service->description ?: 'Szczegóły usługi komputerowej: zakres, cena od oraz możliwość kontaktu w sprawie realizacji.', 155))
+@section('meta_description', \Illuminate\Support\Str::limit($service->description ?: 'Szczegóły usługi komputerowej: zakres, wycena indywidualna oraz możliwość kontaktu w sprawie realizacji.', 155))
 
 @section('content')
     <section class="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
         @include('public.partials.breadcrumbs', [
             'items' => [
                 ['label' => 'Start', 'url' => route('public.home')],
-                ['label' => 'Usługi i cennik', 'url' => route('public.services')],
+                ['label' => 'Usługi', 'url' => route('public.services')],
                 ['label' => $service->name],
             ],
         ])
@@ -21,15 +21,9 @@
 
                 <h1 class="mt-3 text-4xl font-black leading-tight text-white">{{ $service->name }}</h1>
 
-                @if ($service->price_from !== null)
-                    <p class="mt-5 inline-flex rounded-md border border-amber-300/30 bg-amber-400/10 px-4 py-2 text-sm font-bold text-amber-100">
-                        Cena od: {{ number_format($service->price_from, 2, ',', ' ') }} PLN
-                    </p>
-                @else
-                    <p class="mt-5 inline-flex rounded-md border border-white/15 bg-white/5 px-4 py-2 text-sm font-bold text-slate-300">
-                        Wycena po kontakcie
-                    </p>
-                @endif
+                <p class="mt-5 inline-flex rounded-md border border-white/15 bg-white/5 px-4 py-2 text-sm font-bold text-slate-300">
+                    Wycena indywidualna po kontakcie
+                </p>
 
                 <p class="mt-7 text-base leading-8 text-slate-200">
                     {{ $service->description ?: 'Szczegóły usługi są ustalane indywidualnie po krótkim kontakcie.' }}
@@ -76,13 +70,7 @@
                     @foreach ($relatedServices as $relatedService)
                         <a href="{{ route('public.services.show', $relatedService) }}" class="service-card block rounded-xl border border-amber-300/20 bg-slate-950/70 p-5">
                             <p class="font-bold text-white">{{ $relatedService->name }}</p>
-                            @if ($relatedService->price_from !== null)
-                                <p class="mt-2 text-sm font-bold text-amber-200">
-                                    Od {{ number_format($relatedService->price_from, 2, ',', ' ') }} PLN
-                                </p>
-                            @else
-                                <p class="mt-2 text-sm text-slate-400">Wycena po kontakcie</p>
-                            @endif
+                            <p class="mt-2 text-sm text-slate-400">Wycena indywidualna po kontakcie</p>
                         </a>
                     @endforeach
                 </div>

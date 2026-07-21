@@ -30,7 +30,7 @@
             <footer class="og-footer border-t border-gray-200">
                 <div class="mx-auto flex max-w-7xl flex-col items-start justify-between gap-3 px-5 py-6 text-sm text-slate-400 sm:flex-row sm:items-center sm:px-6 lg:px-8">
                     <p>&copy; {{ date('Y') }} Kocur. Serwis komputerowy.</p>
-                    <p>Godziny pracy: Pn-Pt 9:00-18:00</p>
+                    <p>Godziny pracy: Pn-Pt 8:00-18:00</p>
                 </div>
             </footer>
         </div>

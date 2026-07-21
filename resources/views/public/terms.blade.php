@@ -56,7 +56,7 @@
                 <li>
                     <h2 class="text-xl font-bold text-white">5. Dojazd do klienta</h2>
                     <p class="mt-3 leading-7 text-slate-300">
-                        Pomoc z dojazdem jest możliwa głównie na terenie Rzeszowa i okolic. Termin, zakres oraz ewentualny
+                        Pomoc z dojazdem jest możliwa głównie na terenie Jarosławia i okolic. Termin, zakres oraz ewentualny
                         koszt dojazdu są ustalane przed wizytą. Przy bardziej złożonych problemach może być konieczne
                         przekazanie sprzętu do dokładniejszej diagnostyki.
                     </p>

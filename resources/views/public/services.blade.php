@@ -1,18 +1,18 @@
 @extends('layouts.public')
 
-@section('title', 'Usługi i cennik - Kocur Serwis Komputerowy')
-@section('meta_description', 'Usługi komputerowe w Rzeszowie i okolicach: składanie PC, modernizacja, diagnostyka laptopów, instalacja systemu, konfiguracja sieci domowej i dojazd do klienta.')
+@section('title', 'Usługi - Kocur Serwis Komputerowy')
+@section('meta_description', 'Usługi komputerowe w Jarosławiu i okolicach: składanie PC, modernizacja, diagnostyka laptopów, instalacja systemu, konfiguracja sieci domowej i dojazd do klienta.')
 
 @section('content')
     <section class="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
         <div class="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
             <div>
-                <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">Usługi i cennik</p>
+                <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">Usługi</p>
                 <h1 class="mt-3 text-4xl font-black leading-tight text-white sm:text-5xl">
                     Konkretna pomoc komputerowa.
                 </h1>
                 <p class="mt-5 max-w-2xl text-base leading-8 text-slate-300">
-                    Wybierz kategorię albo opisz problem po swojemu. Ceny są orientacyjne, a dokładny zakres i koszt ustalam przed rozpoczęciem pracy.
+                    Wybierz kategorię albo opisz problem po swojemu. Dokładny zakres i koszt ustalam indywidualnie przed rozpoczęciem pracy.
                 </p>
             </div>
 
@@ -73,13 +73,7 @@
                                     {{ $service->description ?: 'Zakres usługi ustalany indywidualnie.' }}
                                 </p>
 
-                                @if ($service->price_from !== null)
-                                    <p class="mt-5 text-sm font-bold text-amber-200">
-                                        Cena od: {{ number_format($service->price_from, 2, ',', ' ') }} PLN
-                                    </p>
-                                @else
-                                    <p class="mt-5 text-sm font-bold text-slate-400">Wycena po kontakcie</p>
-                                @endif
+                                <p class="mt-5 text-sm font-bold text-slate-400">Wycena indywidualna po kontakcie</p>
 
                                 <div class="mt-5">
                                     <a href="{{ route('public.services.show', $service) }}" class="inline-flex items-center rounded-md border border-amber-300/40 px-4 py-2 text-xs font-bold uppercase tracking-wider text-amber-100 transition hover:border-amber-200 hover:bg-amber-400/10">
@@ -105,13 +99,7 @@
                                     {{ $service->description ?: 'Zakres usługi ustalany indywidualnie.' }}
                                 </p>
 
-                                @if ($service->price_from !== null)
-                                    <p class="mt-5 text-sm font-bold text-amber-200">
-                                        Cena od: {{ number_format($service->price_from, 2, ',', ' ') }} PLN
-                                    </p>
-                                @else
-                                    <p class="mt-5 text-sm font-bold text-slate-400">Wycena po kontakcie</p>
-                                @endif
+                                <p class="mt-5 text-sm font-bold text-slate-400">Wycena indywidualna po kontakcie</p>
 
                                 <div class="mt-5">
                                     <a href="{{ route('public.services.show', $service) }}" class="inline-flex items-center rounded-md border border-amber-300/40 px-4 py-2 text-xs font-bold uppercase tracking-wider text-amber-100 transition hover:border-amber-200 hover:bg-amber-400/10">

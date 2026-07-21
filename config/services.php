@@ -42,14 +42,6 @@ return [
         'debug_source' => (bool) env('MODERATION_DEBUG_SOURCE', false),
     ],
 
-    'news_analytics' => [
-        'enabled' => filter_var(env('NEWS_ANALYTICS_ENABLED', true), FILTER_VALIDATE_BOOL),
-        'popular_days' => (int) env('NEWS_ANALYTICS_POPULAR_DAYS', 30),
-        'popular_limit' => (int) env('NEWS_ANALYTICS_POPULAR_LIMIT', 5),
-        'cache_seconds' => (int) env('NEWS_ANALYTICS_CACHE_SECONDS', 120),
-        'track_cooldown_seconds' => (int) env('NEWS_TRACK_COOLDOWN_SECONDS', 1800),
-    ],
-
     'turnstile' => [
         'enabled' => filter_var(env('TURNSTILE_ENABLED', false), FILTER_VALIDATE_BOOL),
         'site_key' => env('TURNSTILE_SITE_KEY'),

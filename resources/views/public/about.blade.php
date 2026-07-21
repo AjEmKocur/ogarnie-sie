@@ -37,7 +37,7 @@
             </div>
             <div class="rounded-xl border border-gray-200 bg-white p-5">
                 <p class="text-sm text-slate-400">Dojazd</p>
-                <p class="mt-2 text-2xl font-bold">Rzeszów i okolice</p>
+                <p class="mt-2 text-2xl font-bold">Jarosław i okolice</p>
             </div>
             <div class="rounded-xl border border-gray-200 bg-white p-5">
                 <p class="text-sm text-slate-400">Wycena</p>
