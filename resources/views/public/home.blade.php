@@ -161,15 +161,9 @@
             <p class="mt-4 text-base leading-7 text-slate-300">
                 Przy prostszych tematach mogę dojechać do klienta, np. przy konfiguracji routera, Wi-Fi, switcha, drukarki albo podstawowej diagnostyce.
             </p>
-            <div class="mt-6 grid gap-3 sm:grid-cols-2">
-                <div class="rounded-lg border border-amber-300/20 bg-black/45 p-4">
-                    <p class="text-2xl font-black text-white">Jarosław</p>
-                    <p class="mt-1 text-sm text-slate-300">i okolice po ustaleniu</p>
-                </div>
-                <div class="rounded-lg border border-amber-300/20 bg-black/45 p-4">
-                    <p class="text-2xl font-black text-white">Bez stawki za km</p>
-                    <p class="mt-1 text-sm text-slate-300">dojazd ustalam przed usługą</p>
-                </div>
+            <div class="mt-6 rounded-lg border border-amber-300/20 bg-black/45 p-4">
+                <p class="text-2xl font-black text-white">Jarosław i okolice</p>
+                <p class="mt-1 text-sm text-slate-300">dojazd po wcześniejszym ustaleniu</p>
             </div>
         </div>
 
@@ -182,14 +176,13 @@
                     <article class="service-card rounded-xl border border-amber-300/20 bg-black/45 p-5">
                         <h3 class="font-bold text-white">{{ $service->name }}</h3>
                         <p class="mt-2 text-sm leading-6 text-slate-300">
-                            {{ $service->description ?: 'Zakres ustalany indywidualnie po kontakcie.' }}
+                            {{ $service->description ?: 'Zakres ustalimy po krótkim opisie problemu.' }}
                         </p>
-                        <p class="mt-4 text-sm font-bold text-slate-400">Wycena indywidualna po kontakcie</p>
                     </article>
                 @empty
                     <article class="rounded-xl border border-amber-300/20 bg-black/45 p-5">
-                        <h3 class="font-bold text-white">Wycena po krótkim kontakcie</h3>
-                        <p class="mt-2 text-sm leading-6 text-slate-300">Opisz sprzęt albo problem, a podam orientacyjny koszt i możliwy termin.</p>
+                        <h3 class="font-bold text-white">Zakres przed usługą</h3>
+                        <p class="mt-2 text-sm leading-6 text-slate-300">Opisz sprzęt albo problem, a ustalimy orientacyjny koszt i możliwy termin.</p>
                     </article>
                 @endforelse
             </div>

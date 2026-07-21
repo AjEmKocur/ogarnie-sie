@@ -55,7 +55,7 @@
 
             @if ($aboutGalleryImages->isEmpty())
                 <div class="mt-6 rounded-xl border border-dashed border-gray-300 p-6 text-sm text-slate-300">
-                    Galeria jest jeszcze pusta. Zdjęcia można dodać w panelu admina: CMS → Galeria O nas.
+                    Wkrótce pojawią się tutaj zdjęcia stanowiska i przykładowych etapów pracy.
                 </div>
             @else
                 <div class="relative mt-6">

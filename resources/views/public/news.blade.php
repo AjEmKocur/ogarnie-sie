@@ -7,7 +7,8 @@
     <section class="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
         <h1 class="text-4xl font-bold">Realizacje</h1>
         <p class="mt-4 max-w-2xl text-slate-300">
-            Przykłady wykonanych prac, modernizacji i zestawów przed oraz po realizacji. Każdy wpis może zawierać zdjęcie, krótki opis problemu, wykonane prace i efekt końcowy.
+            Przykłady wykonanych prac: składania komputerów, modernizacji sprzętu, porządkowania zestawów i prostych napraw.
+            To miejsce na zdjęcia oraz krótkie opisy efektu końcowego.
         </p>
 
         <div class="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -45,8 +46,8 @@
                 </article>
             @empty
                 <article class="rounded-xl border border-amber-300/20 bg-slate-950/70 p-5 md:col-span-2">
-                    <h2 class="mt-2 text-lg font-semibold text-white">Brak realizacji</h2>
-                    <p class="mt-3 text-sm text-slate-300">Dodaj wpisy i oznacz je jako opublikowane w panelu admina.</p>
+                    <h2 class="mt-2 text-lg font-semibold text-white">Realizacje pojawią się wkrótce</h2>
+                    <p class="mt-3 text-sm text-slate-300">Po wykonaniu pierwszych prac dodam tutaj zdjęcia i krótkie opisy.</p>
                 </article>
             @endforelse
         </div>

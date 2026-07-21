@@ -36,24 +36,26 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <div class="mt-4 flex items-center justify-end">
-            <a class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" href="{{ route('login', request()->filled('return') ? ['return' => request('return')] : []) }}">
+        <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+            <p class="text-sm text-slate-400">
                 Masz już konto?
-            </a>
+                <a class="font-semibold text-amber-100 underline decoration-amber-300/60 underline-offset-4 hover:text-amber-200 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-black" href="{{ route('login', request()->filled('return') ? ['return' => request('return')] : []) }}">
+                    Zaloguj się.
+                </a>
+            </p>
 
-            <x-primary-button class="ms-4">
+            <x-primary-button>
                 Zarejestruj
             </x-primary-button>
         </div>
     </form>
 
-    <div class="mt-6 rounded-lg border border-blue-500/40 bg-blue-950/20 p-4 text-sm">
+    <div class="mt-6 rounded-lg border border-amber-300/30 bg-amber-400/5 p-4 text-sm">
         <p class="text-slate-200">Nie chcesz zakładać konta?</p>
         <p class="mt-1 text-slate-400">Możesz napisać do nas jako gość.</p>
-        <a href="{{ route('public.contact') }}" class="mt-3 inline-flex rounded-md border border-blue-500/60 px-3 py-2 font-semibold text-blue-200 hover:bg-slate-800">
+        <a href="{{ route('public.contact') }}" class="mt-3 inline-flex rounded-md border border-amber-300/50 px-3 py-2 font-semibold text-amber-100 hover:bg-amber-400/10">
             Szybki kontakt
         </a>
     </div>
 </x-guest-layout>
-
 

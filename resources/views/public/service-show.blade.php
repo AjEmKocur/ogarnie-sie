@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('title', $service->name.' - Kocur Serwis Komputerowy')
-@section('meta_description', \Illuminate\Support\Str::limit($service->description ?: 'Szczegóły usługi komputerowej: zakres, wycena indywidualna oraz możliwość kontaktu w sprawie realizacji.', 155))
+@section('meta_description', \Illuminate\Support\Str::limit($service->description ?: 'Szczegóły usługi komputerowej: zakres, przebieg pracy oraz możliwość kontaktu w sprawie realizacji.', 155))
 
 @section('content')
     <section class="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
@@ -22,11 +22,11 @@
                 <h1 class="mt-3 text-4xl font-black leading-tight text-white">{{ $service->name }}</h1>
 
                 <p class="mt-5 inline-flex rounded-md border border-white/15 bg-white/5 px-4 py-2 text-sm font-bold text-slate-300">
-                    Wycena indywidualna po kontakcie
+                    Zakres i koszt ustalane przed usługą
                 </p>
 
                 <p class="mt-7 text-base leading-8 text-slate-200">
-                    {{ $service->description ?: 'Szczegóły usługi są ustalane indywidualnie po krótkim kontakcie.' }}
+                    {{ $service->description ?: 'Zakres usługi dopasowuję do konkretnego problemu.' }}
                 </p>
 
                 @if ($service->long_description)
@@ -44,7 +44,7 @@
                 <div class="rounded-2xl border border-amber-300/20 bg-black/55 p-5">
                     <h2 class="text-lg font-bold text-white">Masz podobny temat?</h2>
                     <p class="mt-2 text-sm leading-6 text-slate-300">
-                        Opisz sprzęt, objawy albo planowany zestaw. Po kontakcie ustalimy zakres, koszt i termin.
+                        Opisz sprzęt, objawy albo planowany zestaw. Po krótkiej rozmowie ustalimy zakres, koszt i termin.
                     </p>
 
                     <a href="{{ route('public.contact') }}" class="mt-5 inline-flex w-full items-center justify-center rounded-md bg-amber-400 px-4 py-3 text-sm font-black text-black shadow-[0_18px_40px_rgba(245,158,11,0.22)] transition hover:bg-amber-300">
@@ -70,7 +70,6 @@
                     @foreach ($relatedServices as $relatedService)
                         <a href="{{ route('public.services.show', $relatedService) }}" class="service-card block rounded-xl border border-amber-300/20 bg-slate-950/70 p-5">
                             <p class="font-bold text-white">{{ $relatedService->name }}</p>
-                            <p class="mt-2 text-sm text-slate-400">Wycena indywidualna po kontakcie</p>
                         </a>
                     @endforeach
                 </div>
