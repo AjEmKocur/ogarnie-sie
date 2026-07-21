@@ -48,8 +48,8 @@
         <div class="mt-14 rounded-2xl border border-gray-200 bg-white p-6">
             <div class="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                    <h2 class="text-2xl font-semibold">Realizacje i miejsce pracy</h2>
-                    <p class="mt-1 text-sm text-slate-300">Krótka galeria zdjęć sprzętu, stanowiska i wykonanych prac.</p>
+                    <h2 class="text-2xl font-semibold">Jak pracuję</h2>
+                    <p class="mt-1 text-sm text-slate-300">Zdjęcia stanowiska, sprzętu i przykładowych etapów pracy.</p>
                 </div>
             </div>
 
