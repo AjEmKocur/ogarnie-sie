@@ -10,7 +10,7 @@
             Opisz krótko problem, sprzęt albo planowany zestaw. Po wiadomości ustalimy zakres, orientacyjny koszt i możliwy termin.
         </p>
         <p class="mt-2 text-sm text-amber-200">
-            Formularz działa dla gości. Konto klienta przyda się dopiero wtedy, gdy chcesz prowadzić pełne zgłoszenie w panelu.
+            Formularz kontaktowy działa bez konta. Jeśli chcesz śledzić zgłoszenie w panelu klienta, załóż konto.
         </p>
 
         <div class="mt-10 grid gap-6 lg:grid-cols-2">

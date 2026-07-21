@@ -14,7 +14,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="bg-slate-950 font-sans antialiased text-slate-100">
-        <div class="flex min-h-screen flex-col">
+        <div class="app-page-shell flex min-h-screen flex-col">
             @include('layouts.navigation')
 
             @isset($header)

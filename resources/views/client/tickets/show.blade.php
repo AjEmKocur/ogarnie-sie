@@ -2,9 +2,9 @@
     @php
         $canCancel = !in_array($ticket->status, [\App\Models\Ticket::STATUS_CLOSED, \App\Models\Ticket::STATUS_CANCELLED], true);
         $statusBadgeClasses = [
-            'new' => 'bg-blue-500/20 text-blue-200 border border-blue-400/40',
+            'new' => 'bg-amber-400/15 text-amber-100 border border-amber-300/40',
             'in_progress' => 'bg-amber-500/20 text-amber-200 border border-amber-400/40',
-            'waiting_parts' => 'bg-violet-500/20 text-violet-200 border border-violet-400/40',
+            'waiting_parts' => 'bg-orange-500/15 text-orange-100 border border-orange-300/35',
             'ready' => 'bg-emerald-500/20 text-emerald-200 border border-emerald-400/40',
             'closed' => 'bg-slate-500/20 text-slate-200 border border-slate-400/40',
             'cancelled' => 'bg-rose-500/20 text-rose-200 border border-rose-400/40',
@@ -35,7 +35,7 @@
                     </form>
                 @endif
 
-                <a href="{{ route('client.tickets.index') }}" class="inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 transition hover:bg-gray-50">
+                <a href="{{ route('client.tickets.index') }}" class="inline-flex items-center rounded-md border border-amber-300/30 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-100 transition hover:bg-amber-400/10">
                     Wróć do listy
                 </a>
             </div>
@@ -56,9 +56,9 @@
                 </div>
             @endif
 
-            <div class="overflow-hidden rounded-xl border border-gray-200 bg-slate-900/40 shadow-sm sm:rounded-lg">
+            <div class="overflow-hidden rounded-xl border border-amber-300/20 bg-black/60 shadow-sm sm:rounded-lg">
                 <div class="space-y-4 p-4 sm:p-6 text-slate-100">
-                    <section class="rounded-xl border border-gray-200/30 bg-slate-900/40 p-4">
+                    <section class="rounded-xl border border-amber-300/20 bg-black/45 p-4">
                         <div class="flex flex-wrap items-start justify-between gap-4">
                             <div>
                                 <p class="text-xs uppercase tracking-wider text-slate-400">Zgłoszenie #{{ $ticket->id }}</p>
@@ -77,7 +77,7 @@
                     </section>
 
                     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
-                        <section class="rounded-xl border border-gray-200/30 bg-slate-900/40 p-4 lg:col-span-2">
+                        <section class="rounded-xl border border-amber-300/20 bg-black/45 p-4 lg:col-span-2">
                             <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-300">📝 Treść zgłoszenia</h4>
                             <div class="mt-4">
                                 <p class="text-xs uppercase tracking-wider text-slate-400">Orientacyjna cena od</p>
@@ -99,7 +99,7 @@
                             </div>
                         </section>
 
-                        <section class="rounded-xl border border-gray-200/30 bg-slate-900/40 p-4">
+                        <section class="rounded-xl border border-amber-300/20 bg-black/45 p-4">
                             <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-300">💳 Płatność</h4>
                             <p class="mt-3 text-sm text-slate-200">
                                 Tryb: {{ \App\Models\Ticket::paymentModes()[$ticket->payment_mode] ?? $ticket->payment_mode }}
@@ -134,12 +134,12 @@
                     </div>
 
                     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
-                        <section class="rounded-xl border border-gray-200/30 bg-slate-900/40 p-4 lg:col-span-2">
+                        <section class="rounded-xl border border-amber-300/20 bg-black/45 p-4 lg:col-span-2">
                             <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-300">📎 Załączniki</h4>
 
                             <form method="POST" action="{{ route('tickets.attachments.store', $ticket) }}" enctype="multipart/form-data" class="mt-4 flex flex-wrap items-center gap-3">
                                 @csrf
-                                <input type="file" name="attachment" required class="block rounded-md border border-gray-300 bg-white text-sm text-slate-900 file:mr-4 file:rounded-md file:border-0 file:bg-gray-100 file:px-3 file:py-2 file:text-sm file:font-semibold" />
+                                <input type="file" name="attachment" required class="block rounded-md border border-amber-300/30 bg-black/50 text-sm text-slate-100 file:mr-4 file:rounded-md file:border-0 file:bg-amber-400 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-black" />
                                 <x-primary-button>Dodaj plik</x-primary-button>
                             </form>
 
@@ -151,7 +151,7 @@
                                         <li class="flex items-center justify-between rounded-md border border-gray-200/30 bg-slate-900/50 px-3 py-2 text-sm">
                                             <span class="truncate pr-3">{{ $attachment->original_name }}</span>
                                             <div class="flex items-center gap-3 whitespace-nowrap">
-                                                <a href="{{ route('tickets.attachments.download', $attachment) }}" class="text-indigo-300 hover:text-indigo-200">Pobierz</a>
+                                                <a href="{{ route('tickets.attachments.download', $attachment) }}" class="text-amber-200 hover:text-amber-100">Pobierz</a>
                                                 <form method="POST" action="{{ route('tickets.attachments.destroy', $attachment) }}" onsubmit="return confirm('Usunąć ten plik?');">
                                                     @csrf
                                                     @method('DELETE')
@@ -164,7 +164,7 @@
                             @endif
                         </section>
 
-                        <section class="rounded-xl border border-gray-200/30 bg-slate-900/40 p-4">
+                        <section class="rounded-xl border border-amber-300/20 bg-black/45 p-4">
                             <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-300">📈 Przebieg realizacji</h4>
                             @if ($ticket->statusHistories->isEmpty())
                                 <p class="mt-3 text-sm text-slate-400">Historia zmian nie jest jeszcze dostępna.</p>
@@ -184,7 +184,7 @@
                         </section>
                     </div>
 
-                    <section class="rounded-xl border border-gray-200/30 bg-slate-900/40 p-4">
+                    <section class="rounded-xl border border-amber-300/20 bg-black/45 p-4">
                         <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-300">💬 Wiadomości z serwisem</h4>
 
                         @if ($ticket->messages->isEmpty())
@@ -196,7 +196,7 @@
                                         $isOwn = $message->user_id === auth()->id();
                                     @endphp
                                     <div class="flex {{ $isOwn ? 'justify-end' : 'justify-start' }}">
-                                        <div class="w-full max-w-[86%] rounded-lg border p-4 {{ $isOwn ? 'border-blue-400/30 bg-blue-500/10' : 'border-gray-200/20 bg-slate-900/50' }}">
+                                        <div class="w-full max-w-[86%] rounded-lg border p-4 {{ $isOwn ? 'border-amber-300/30 bg-amber-400/10' : 'border-gray-200/20 bg-slate-900/50' }}">
                                             <div class="flex flex-wrap items-center justify-between gap-2">
                                                 <p class="text-sm font-semibold text-slate-100">{{ $message->user?->name ?? 'Użytkownik' }}</p>
                                                 <p class="text-xs text-slate-400">{{ $message->created_at?->format('Y-m-d H:i') }}</p>
@@ -210,7 +210,7 @@
 
                         <form method="POST" action="{{ route('tickets.messages.store', $ticket) }}" class="mt-4 space-y-3">
                             @csrf
-                            <textarea name="message" rows="3" class="w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2 text-slate-100" placeholder="Napisz wiadomość do serwisu..." required>{{ old('message') }}</textarea>
+                            <textarea name="message" rows="3" class="w-full rounded-md border border-amber-300/30 bg-black/50 px-3 py-2 text-slate-100 focus:border-amber-400 focus:ring-amber-400" placeholder="Napisz wiadomość do serwisu..." required>{{ old('message') }}</textarea>
                             <x-input-error :messages="$errors->get('message')" class="mt-2" />
                             <div class="flex justify-end">
                                 <x-primary-button>Wyślij wiadomość</x-primary-button>

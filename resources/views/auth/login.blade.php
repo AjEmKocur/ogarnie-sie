@@ -24,14 +24,14 @@
 
         <div class="mt-4 block">
             <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
+                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-amber-500 shadow-sm focus:ring-amber-400" name="remember">
                 <span class="ms-2 text-sm text-gray-600">Zapamiętaj mnie</span>
             </label>
         </div>
 
         <div class="mt-4 flex items-center justify-end">
             @if (Route::has('password.request'))
-                <a class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" href="{{ route('password.request') }}">
+                <a class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2" href="{{ route('password.request') }}">
                     Nie pamiętasz hasła?
                 </a>
             @endif
@@ -51,14 +51,13 @@
         @endif
     </form>
 
-    <div class="mt-6 rounded-lg border border-blue-500/40 bg-blue-950/20 p-4 text-sm">
+    <div class="mt-6 rounded-lg border border-amber-300/30 bg-amber-400/5 p-4 text-sm">
         <p class="text-slate-200">Nie chcesz zakładać konta?</p>
         <p class="mt-1 text-slate-400">Możesz napisać do nas jako gość.</p>
-        <a href="{{ route('public.contact') }}" class="mt-3 inline-flex rounded-md border border-blue-500/60 px-3 py-2 font-semibold text-blue-200 hover:bg-slate-800">
+        <a href="{{ route('public.contact') }}" class="mt-3 inline-flex rounded-md border border-amber-300/50 px-3 py-2 font-semibold text-amber-100 hover:bg-amber-400/10">
             Szybki kontakt
         </a>
     </div>
 </x-guest-layout>
-
 
 

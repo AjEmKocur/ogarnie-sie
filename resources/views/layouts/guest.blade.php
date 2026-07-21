@@ -14,7 +14,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-100 antialiased bg-slate-950">
-        <div class="flex min-h-screen flex-col bg-gray-100">
+        <div class="app-page-shell flex min-h-screen flex-col bg-gray-100">
             <main class="flex-1 flex flex-col items-center justify-center px-4 py-8">
                 <div>
                     <a href="/">

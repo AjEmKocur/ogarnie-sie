@@ -1,9 +1,9 @@
 ﻿<x-app-layout>
     @php
         $badgeClasses = [
-            'new' => 'bg-blue-500/20 text-blue-300 border border-blue-400/30',
+            'new' => 'bg-amber-400/15 text-amber-100 border border-amber-300/40',
             'in_progress' => 'bg-amber-500/20 text-amber-200 border border-amber-400/30',
-            'waiting_parts' => 'bg-violet-500/20 text-violet-200 border border-violet-400/30',
+            'waiting_parts' => 'bg-orange-500/15 text-orange-100 border border-orange-300/35',
             'ready' => 'bg-emerald-500/20 text-emerald-200 border border-emerald-400/30',
             'closed' => 'bg-slate-500/20 text-slate-200 border border-slate-400/30',
             'cancelled' => 'bg-rose-500/20 text-rose-200 border border-rose-400/30',
@@ -18,7 +18,7 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Moje zgłoszenia</h2>
-            <a href="{{ route('client.tickets.create') }}" class="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition hover:bg-blue-500">
+            <a href="{{ route('client.tickets.create') }}" class="inline-flex items-center rounded-md bg-amber-400 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-black transition hover:bg-amber-300">
                 Nowe zgłoszenie
             </a>
         </div>
@@ -32,7 +32,7 @@
                 </div>
             @endif
 
-            <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm sm:rounded-lg">
+            <div class="overflow-hidden rounded-xl border border-amber-300/20 bg-black/60 shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     @if ($tickets->isEmpty())
                         <p>Brak zgłoszeń. Dodaj pierwsze zgłoszenie serwisowe.</p>
@@ -43,7 +43,7 @@
                                     $canReview = $ticket->status === \App\Models\Ticket::STATUS_CLOSED && !$ticket->testimonial;
                                     $canCancel = !in_array($ticket->status, [\App\Models\Ticket::STATUS_CLOSED, \App\Models\Ticket::STATUS_CANCELLED], true);
                                 @endphp
-                                <article class="rounded-xl border border-gray-200 bg-slate-900/60 p-4">
+                                <article class="rounded-xl border border-amber-300/20 bg-black/45 p-4">
                                     <div class="flex items-start justify-between gap-3">
                                         <p class="text-sm text-slate-400">#{{ $ticket->id }}</p>
                                         <span class="rounded-full px-3 py-1 text-xs font-semibold {{ $badgeClasses[$ticket->status] ?? 'bg-gray-500/20 text-gray-200 border border-gray-400/30' }}">
@@ -78,7 +78,7 @@
                                             </a>
                                         @endif
                                         <a href="{{ route('client.tickets.show', $ticket) }}"
-                                           class="inline-flex items-center rounded-md border border-indigo-400/50 bg-indigo-500/10 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-indigo-200 hover:bg-indigo-500/20">
+                                           class="inline-flex items-center rounded-md border border-white/20 bg-white/5 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-slate-100 hover:bg-white/10">
                                             Podgląd
                                         </a>
                                     </div>
@@ -87,10 +87,10 @@
                         </div>
 
                         <div class="hidden overflow-x-auto md:block">
-                            <table class="min-w-[1060px] divide-y divide-gray-200">
-                                <thead class="bg-slate-800/90">
+                            <table class="min-w-[1060px] divide-y divide-amber-300/15">
+                                <thead class="bg-amber-400/10">
                                     <tr>
-                                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-100">ID</th>
+                                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-amber-100">Numer zgłoszenia</th>
                                         <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-100">Temat</th>
                                         <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-100">Status</th>
                                         <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-100">Płatność</th>
@@ -98,7 +98,7 @@
                                         <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-slate-100">Akcja</th>
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-gray-200 bg-white">
+                                <tbody class="divide-y divide-amber-300/15 bg-black/35">
                                     @foreach ($tickets as $ticket)
                                         @php
                                             $canReview = $ticket->status === \App\Models\Ticket::STATUS_CLOSED && !$ticket->testimonial;
@@ -139,7 +139,7 @@
                                                         </a>
                                                     @endif
                                                     <a href="{{ route('client.tickets.show', $ticket) }}"
-                                                       class="inline-flex items-center rounded-md border border-indigo-400/50 bg-indigo-500/10 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-indigo-200 hover:bg-indigo-500/20">
+                                                       class="inline-flex items-center rounded-md border border-white/20 bg-white/5 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-slate-100 hover:bg-white/10">
                                                         Podgląd
                                                     </a>
                                                 </div>

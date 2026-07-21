@@ -163,12 +163,12 @@
             </p>
             <div class="mt-6 grid gap-3 sm:grid-cols-2">
                 <div class="rounded-lg border border-amber-300/20 bg-black/45 p-4">
-                    <p class="text-2xl font-black text-white">15 km</p>
-                    <p class="mt-1 text-sm text-slate-300">orientacyjny promień od Jarosławia</p>
+                    <p class="text-2xl font-black text-white">Jarosław</p>
+                    <p class="mt-1 text-sm text-slate-300">i okolice po ustaleniu</p>
                 </div>
                 <div class="rounded-lg border border-amber-300/20 bg-black/45 p-4">
-                    <p class="text-2xl font-black text-white">1 zł/km</p>
-                    <p class="mt-1 text-sm text-slate-300">orientacyjny koszt dojazdu</p>
+                    <p class="text-2xl font-black text-white">Bez stawki za km</p>
+                    <p class="mt-1 text-sm text-slate-300">dojazd ustalam przed usługą</p>
                 </div>
             </div>
         </div>
