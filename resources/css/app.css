@@ -40,6 +40,10 @@
         opacity: 0.22;
     }
 
+    [x-cloak] {
+        display: none !important;
+    }
+
 }
 
 @layer components {

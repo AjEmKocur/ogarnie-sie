@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\NewsPost;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -34,6 +35,8 @@ class AdminNewsPostController extends Controller
             'excerpt' => ['nullable', 'string', 'max:1000'],
             'content' => ['nullable', 'string'],
             'cover_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'gallery_images' => ['nullable', 'array'],
+            'gallery_images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             'is_published' => ['nullable', 'boolean'],
         ]);
 
@@ -41,7 +44,7 @@ class AdminNewsPostController extends Controller
         $disk = (string) config('filesystems.news_cover_disk', 'public');
         $coverPath = $request->hasFile('cover_image') ? $validated['cover_image']->store('news-covers', $disk) : null;
 
-        NewsPost::create([
+        $post = NewsPost::create([
             'title' => $validated['title'],
             'slug' => Str::slug($validated['title']).'-'.Str::lower(Str::random(5)),
             'excerpt' => $validated['excerpt'] ?? null,
@@ -52,13 +55,15 @@ class AdminNewsPostController extends Controller
             'published_at' => $isPublished ? Carbon::now() : null,
         ]);
 
+        $this->storeGalleryImages($request, $post, $disk);
+
         return redirect()->route('admin.cms.news.index')->with('status', 'Realizacja została dodana.');
     }
 
     public function edit(NewsPost $newsPost): View
     {
         return view('admin.cms.news-edit', [
-            'post' => $newsPost,
+            'post' => $newsPost->load('images'),
         ]);
     }
 
@@ -70,6 +75,10 @@ class AdminNewsPostController extends Controller
             'content' => ['nullable', 'string'],
             'cover_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             'remove_cover_image' => ['nullable', 'boolean'],
+            'gallery_images' => ['nullable', 'array'],
+            'gallery_images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'remove_gallery_images' => ['nullable', 'array'],
+            'remove_gallery_images.*' => ['integer'],
             'is_published' => ['nullable', 'boolean'],
         ]);
 
@@ -103,6 +112,13 @@ class AdminNewsPostController extends Controller
             'published_at' => $isPublished ? ($newsPost->published_at ?? Carbon::now()) : null,
         ]);
 
+        $galleryImagesToRemove = $newsPost->images()
+            ->whereKey($validated['remove_gallery_images'] ?? [])
+            ->get();
+
+        $this->deleteGalleryImages($galleryImagesToRemove);
+        $this->storeGalleryImages($request, $newsPost, $disk);
+
         return redirect()->route('admin.cms.news.edit', $newsPost)->with('status', 'Realizacja została zaktualizowana.');
     }
 
@@ -112,8 +128,45 @@ class AdminNewsPostController extends Controller
             Storage::disk($newsPost->cover_image_disk)->delete($newsPost->cover_image_path);
         }
 
+        $this->deleteGalleryImages($newsPost->images);
+
         $newsPost->delete();
 
         return redirect()->route('admin.cms.news.index')->with('status', 'Realizacja została usunięta.');
+    }
+
+    private function storeGalleryImages(Request $request, NewsPost $newsPost, string $disk): void
+    {
+        if (! $request->hasFile('gallery_images')) {
+            return;
+        }
+
+        $images = $request->file('gallery_images', []);
+        $images = is_array($images) ? $images : [$images];
+        $nextSortOrder = ((int) $newsPost->images()->max('sort_order')) + 10;
+
+        foreach ($images as $image) {
+            if (! $image instanceof UploadedFile) {
+                continue;
+            }
+
+            $path = $image->store('news-gallery', $disk);
+
+            $newsPost->images()->create([
+                'disk' => $disk,
+                'path' => $path,
+                'sort_order' => $nextSortOrder,
+            ]);
+
+            $nextSortOrder += 10;
+        }
+    }
+
+    private function deleteGalleryImages(iterable $images): void
+    {
+        foreach ($images as $image) {
+            Storage::disk($image->disk)->delete($image->path);
+            $image->delete();
+        }
     }
 }

@@ -63,9 +63,33 @@
                         @endif
 
                         <div>
-                            <label class="mb-1 block text-sm font-medium text-slate-200">Podmień zdjęcie (opcjonalnie)</label>
+                            <label class="mb-1 block text-sm font-medium text-slate-200">Podmień zdjęcie główne (opcjonalnie)</label>
                             <input type="file" name="cover_image" accept=".jpg,.jpeg,.png,.webp" class="block w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2 text-sm text-slate-200">
                             <x-input-error :messages="$errors->get('cover_image')" class="mt-2" />
+                        </div>
+
+                        @if ($post->images->isNotEmpty())
+                            <div>
+                                <label class="mb-2 block text-sm font-medium text-slate-200">Zdjęcia galerii</label>
+                                <div class="grid gap-3 sm:grid-cols-2">
+                                    @foreach ($post->images as $image)
+                                        <label class="rounded-lg border border-gray-300 bg-slate-900 p-3">
+                                            <img src="{{ $image->publicUrl() }}" alt="Zdjęcie galerii" class="h-36 w-full rounded-md object-cover">
+                                            <span class="mt-3 flex items-center gap-2 text-sm">
+                                                <input type="checkbox" name="remove_gallery_images[]" value="{{ $image->id }}">
+                                                Usuń to zdjęcie
+                                            </span>
+                                        </label>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+
+                        <div>
+                            <label class="mb-1 block text-sm font-medium text-slate-200">Dodaj kolejne zdjęcia do galerii (opcjonalnie)</label>
+                            <input type="file" name="gallery_images[]" accept=".jpg,.jpeg,.png,.webp" multiple class="block w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2 text-sm text-slate-200">
+                            <x-input-error :messages="$errors->get('gallery_images')" class="mt-2" />
+                            <x-input-error :messages="$errors->get('gallery_images.*')" class="mt-2" />
                         </div>
 
                         <label class="flex items-center gap-2 text-sm">

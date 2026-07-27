@@ -91,7 +91,7 @@ class PublicPageController extends Controller
         }
 
         return view('public.news-show', [
-            'post' => $newsPost,
+            'post' => $newsPost->load('images'),
         ]);
     }
 

@@ -37,8 +37,13 @@
                         <textarea name="excerpt" rows="2" placeholder="Skrót" class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2"></textarea>
                         <textarea name="content" rows="5" placeholder="Treść" class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2"></textarea>
                         <div>
-                            <label class="mb-1 block text-sm font-medium text-slate-200">Zdjęcie poglądowe (opcjonalnie)</label>
+                            <label class="mb-1 block text-sm font-medium text-slate-200">Zdjęcie główne (opcjonalnie)</label>
                             <input type="file" name="cover_image" accept=".jpg,.jpeg,.png,.webp" class="block w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2 text-sm text-slate-200">
+                        </div>
+                        <div>
+                            <label class="mb-1 block text-sm font-medium text-slate-200">Dodatkowe zdjęcia realizacji (opcjonalnie)</label>
+                            <input type="file" name="gallery_images[]" accept=".jpg,.jpeg,.png,.webp" multiple class="block w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2 text-sm text-slate-200">
+                            <p class="mt-1 text-xs text-slate-400">Możesz zaznaczyć kilka zdjęć jednej realizacji.</p>
                         </div>
                         <label class="flex items-center gap-2 text-sm"><input type="checkbox" name="is_published" value="1"> Opublikowany</label>
                         <div class="flex justify-end"><x-primary-button>Dodaj</x-primary-button></div>
