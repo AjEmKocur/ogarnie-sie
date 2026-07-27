@@ -25,7 +25,7 @@
 
             <details class="rounded-xl border border-gray-200 bg-white shadow-sm" @if($posts->isEmpty()) open @endif>
                 <summary class="cursor-pointer list-none px-5 py-4">
-                    <span class="inline-flex items-center rounded-md border border-blue-300/60 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-blue-200 hover:bg-blue-500/10">
+                    <span class="inline-flex items-center rounded-md border border-amber-300/60 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-amber-200 hover:bg-amber-500/10">
                         {{ $posts->isEmpty() ? 'Dodaj pierwszą realizację' : 'Dodaj kolejną realizację' }}
                     </span>
                 </summary>
@@ -58,7 +58,7 @@
                                         {{ $post->is_published ? 'Opublikowany' : 'Szkic' }}
                                     </span>
                                     <span class="text-slate-400">Publikacja: {{ $post->published_at?->format('Y-m-d H:i') ?? 'brak' }}</span>
-                                    <span class="text-blue-300">Wyświetlenia: {{ (int) ($post->views_count ?? 0) }}</span>
+                                    <span class="text-amber-300">Wyświetlenia: {{ (int) ($post->views_count ?? 0) }}</span>
                                 </div>
                             </div>
 
@@ -67,7 +67,7 @@
                                     href="{{ route('admin.cms.news.edit', $post) }}"
                                     target="_blank"
                                     rel="noopener"
-                                    class="inline-flex items-center rounded-md border border-blue-300/60 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-blue-200 hover:bg-blue-500/10"
+                                    class="inline-flex items-center rounded-md border border-amber-300/60 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-amber-200 hover:bg-amber-500/10"
                                 >
                                     Edytuj
                                 </a>

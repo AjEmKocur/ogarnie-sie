@@ -36,7 +36,7 @@
                                     <button
                                         type="button"
                                         data-value="{{ $i }}"
-                                        class="rating-star text-slate-600 transition duration-150 hover:-translate-y-0.5 hover:text-blue-300"
+                                        class="rating-star text-slate-600 transition duration-150 hover:-translate-y-0.5 hover:text-amber-300"
                                         aria-label="Oceń na {{ $i }} gwiazdek"
                                     >
                                         ★
@@ -54,7 +54,7 @@
                             <p class="mt-2 text-xs text-slate-400">Po wysłaniu treść zostanie automatycznie sprawdzona przez AI.</p>
                         </div>
 
-                        <div id="ai-checking-notice" class="hidden rounded-md border border-blue-400/40 bg-blue-500/10 px-3 py-2 text-sm text-blue-200">
+                        <div id="ai-checking-notice" class="hidden rounded-md border border-amber-400/40 bg-amber-500/10 px-3 py-2 text-sm text-amber-200">
                             Trwa sprawdzanie opinii przez AI...
                         </div>
 
@@ -80,7 +80,7 @@
             const render = (value) => {
                 stars.forEach((star, index) => {
                     const active = index < value;
-                    star.classList.toggle('text-blue-300', active);
+                    star.classList.toggle('text-amber-300', active);
                     star.classList.toggle('text-slate-600', !active);
                 });
 

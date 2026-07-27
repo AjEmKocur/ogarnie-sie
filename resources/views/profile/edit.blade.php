@@ -1,7 +1,7 @@
 <x-app-layout>
     @if (auth()->user()->force_password_change)
         <div x-data="{ open: true }" x-show="open" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/70 px-4">
-            <div class="rounded-xl border border-blue-400/40 bg-slate-900 p-5 shadow-2xl" style="width:min(92vw,32rem);max-width:32rem;">
+            <div class="rounded-xl border border-amber-400/40 bg-slate-900 p-5 shadow-2xl" style="width:min(92vw,32rem);max-width:32rem;">
                 <h3 class="text-lg font-semibold text-white">Zmiana hasła wymagana</h3>
                 <p class="mt-2 text-sm text-slate-300">
                     To pierwsze logowanie na koncie operatora. Ustaw teraz własne hasło, aby przejść dalej.
@@ -10,7 +10,7 @@
                     <button
                         type="button"
                         @click="open = false; document.getElementById('password-section')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); document.getElementById('update_password_password')?.focus();"
-                        class="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-500"
+                        class="rounded-md bg-amber-500 px-4 py-2 text-sm font-semibold text-black hover:bg-amber-500"
                     >
                         Przejdź do zmiany hasła
                     </button>

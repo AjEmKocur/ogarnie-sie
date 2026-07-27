@@ -24,13 +24,13 @@
 
                         <div>
                             <x-input-label for="description" :value="__('Opis problemu (co się dzieje?)')" />
-                            <textarea id="description" name="description" rows="7" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>{{ old('description') }}</textarea>
+                            <textarea id="description" name="description" rows="7" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500" required>{{ old('description') }}</textarea>
                             <x-input-error :messages="$errors->get('description')" class="mt-2" />
                         </div>
 
                         <div>
                             <x-input-label for="custom_request" :value="__('Dodatkowe informacje (opcjonalnie)')" />
-                            <textarea id="custom_request" name="custom_request" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Np. ważne szczegóły, oczekiwany termin, preferowany kontakt">{{ old('custom_request') }}</textarea>
+                            <textarea id="custom_request" name="custom_request" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500" placeholder="Np. ważne szczegóły, oczekiwany termin, preferowany kontakt">{{ old('custom_request') }}</textarea>
                             <x-input-error :messages="$errors->get('custom_request')" class="mt-2" />
                         </div>
 

@@ -38,7 +38,7 @@
 
             <details class="rounded-xl border border-gray-200 bg-white shadow-sm" @if($images->isEmpty()) open @endif>
                 <summary class="cursor-pointer list-none px-5 py-4">
-                    <span class="inline-flex items-center rounded-md border border-blue-300/60 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-blue-200 hover:bg-blue-500/10">
+                    <span class="inline-flex items-center rounded-md border border-amber-300/60 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-amber-200 hover:bg-amber-500/10">
                         {{ $images->isEmpty() ? 'Dodaj pierwsze zdjęcie' : 'Dodaj kolejne zdjęcie' }}
                     </span>
                 </summary>
@@ -57,7 +57,7 @@
                             <input type="text" name="caption" value="{{ old('caption') }}" maxlength="255" class="w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2">
                         </div>
                         <div class="md:col-span-2 flex justify-end">
-                            <button type="submit" class="rounded-md bg-blue-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white hover:bg-blue-500">
+                            <button type="submit" class="rounded-md bg-amber-500 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-black hover:bg-amber-500">
                                 Dodaj zdjęcie
                             </button>
                         </div>
@@ -103,7 +103,7 @@
                                             </div>
 
                                             <label class="flex items-center gap-2 self-end pb-2">
-                                                <input type="checkbox" name="is_active" value="1" @checked($image->is_active) class="rounded border-gray-300 bg-slate-900 text-blue-500">
+                                                <input type="checkbox" name="is_active" value="1" @checked($image->is_active) class="rounded border-gray-300 bg-slate-900 text-amber-500">
                                                 <span class="text-sm">Widoczne na stronie</span>
                                             </label>
 
@@ -115,7 +115,7 @@
                                                 >
                                                     Usuń
                                                 </button>
-                                                <button type="submit" class="rounded-md border border-blue-400/50 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-100 hover:bg-slate-800">
+                                                <button type="submit" class="rounded-md border border-amber-400/50 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-100 hover:bg-slate-800">
                                                     Zapisz
                                                 </button>
                                             </div>

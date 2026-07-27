@@ -148,7 +148,7 @@
                                     <div class="flex items-center gap-3 text-xs">
                                         <span class="text-slate-400">Sort: {{ $service->sort_order }}</span>
                                         @if ($service->price_from !== null)
-                                            <span class="text-blue-300">Od {{ number_format($service->price_from, 2, ',', ' ') }} PLN</span>
+                                            <span class="text-amber-300">Od {{ number_format($service->price_from, 2, ',', ' ') }} PLN</span>
                                         @else
                                             <span class="text-slate-400">Bez ceny</span>
                                         @endif

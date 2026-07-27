@@ -1,9 +1,9 @@
 <x-app-layout>
     @php
         $badgeClasses = [
-            'new' => 'bg-blue-500/20 text-blue-300 border border-blue-400/30',
+            'new' => 'bg-amber-500/20 text-amber-300 border border-amber-400/30',
             'in_progress' => 'bg-amber-500/20 text-amber-200 border border-amber-400/30',
-            'waiting_parts' => 'bg-violet-500/20 text-violet-200 border border-violet-400/30',
+            'waiting_parts' => 'bg-stone-500/20 text-stone-200 border border-stone-400/30',
             'ready' => 'bg-emerald-500/20 text-emerald-200 border border-emerald-400/30',
             'closed' => 'bg-slate-500/20 text-slate-200 border border-slate-400/30',
             'cancelled' => 'bg-rose-500/20 text-rose-200 border border-rose-400/30',
@@ -44,13 +44,13 @@
                 <p class="mb-3 text-xs uppercase tracking-wider text-slate-400">Filtr statusu</p>
                 <div class="flex flex-wrap gap-2">
                     <a href="{{ route('admin.tickets.index', ['status' => 'all']) }}"
-                       class="rounded-md px-3 py-2 text-xs font-semibold uppercase tracking-wider {{ $statusFilter === 'all' ? 'bg-blue-600 text-white' : 'border border-gray-300 text-slate-300 hover:bg-slate-800' }}">
+                       class="rounded-md px-3 py-2 text-xs font-semibold uppercase tracking-wider {{ $statusFilter === 'all' ? 'bg-amber-500 text-black' : 'border border-gray-300 text-slate-300 hover:bg-slate-800' }}">
                         Wszystkie aktywne
                     </a>
                     @foreach ($statuses as $value => $label)
                         @continue($value === \App\Models\Ticket::STATUS_CANCELLED)
                         <a href="{{ route('admin.tickets.index', ['status' => $value]) }}"
-                           class="rounded-md px-3 py-2 text-xs font-semibold uppercase tracking-wider {{ $statusFilter === $value ? 'bg-blue-600 text-white' : 'border border-gray-300 text-slate-300 hover:bg-slate-800' }}">
+                           class="rounded-md px-3 py-2 text-xs font-semibold uppercase tracking-wider {{ $statusFilter === $value ? 'bg-amber-500 text-black' : 'border border-gray-300 text-slate-300 hover:bg-slate-800' }}">
                             {{ $label }}
                         </a>
                     @endforeach
@@ -85,7 +85,7 @@
                                                     Nowa wiadomość od klienta
                                                 </p>
                                             @elseif ($hasAdminNewTicket)
-                                                <p class="mt-1 inline-flex items-center rounded-full border border-blue-400/40 bg-blue-500/10 px-2 py-0.5 text-[11px] font-semibold text-blue-200">
+                                                <p class="mt-1 inline-flex items-center rounded-full border border-amber-400/40 bg-amber-500/10 px-2 py-0.5 text-[11px] font-semibold text-amber-200">
                                                     Nowe zgłoszenie
                                                 </p>
                                             @endif
@@ -104,7 +104,7 @@
                                                 {{ $paymentStatuses[$ticket->payment_status] ?? $ticket->payment_status }}
                                             </span>
                                             <a href="{{ route('admin.tickets.show', $ticket) }}"
-                                               class="inline-flex items-center rounded-md border border-blue-400/50 bg-blue-500/20 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-blue-100 transition hover:bg-blue-500/30">
+                                               class="inline-flex items-center rounded-md border border-amber-400/50 bg-amber-500/20 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-amber-100 transition hover:bg-amber-500/30">
                                                 Otwórz szczegóły
                                             </a>
                                         </div>

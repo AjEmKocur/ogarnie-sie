@@ -1,4 +1,4 @@
-﻿<x-app-layout>
+<x-app-layout>
     @php
         $allTicketsCount = \App\Models\Ticket::count();
         $activeTicketsCount = \App\Models\Ticket::whereIn('status', ['new', 'in_progress', 'waiting_parts'])->count();
@@ -45,7 +45,7 @@
                     <p class="text-2xl font-semibold">Witaj, {{ auth()->user()->name }}.</p>
                     <p>To panel operacyjny do zarządzania zgłoszeniami, usługami, cennikiem, realizacjami i kontaktem.</p>
                     <div class="pt-2 flex flex-wrap gap-3">
-                        <a href="{{ route('admin.cms.dashboard') }}" class="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white hover:bg-blue-500">Centrum CMS</a>
+                        <a href="{{ route('admin.cms.dashboard') }}" class="inline-flex items-center rounded-md bg-amber-500 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-black hover:bg-amber-500">Centrum CMS</a>
                         <a href="{{ route('admin.tickets.index') }}" class="inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-200 hover:bg-slate-800">Zgłoszenia</a>
                     </div>
                 </div>

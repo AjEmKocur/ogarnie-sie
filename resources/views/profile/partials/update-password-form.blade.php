@@ -1,4 +1,4 @@
-﻿<section>
+<section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
             {{ __('Update Password') }}
@@ -23,7 +23,7 @@
                 <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
             </div>
         @else
-            <p class="rounded-md border border-blue-300/50 bg-blue-500/10 px-3 py-2 text-sm text-blue-200">
+            <p class="rounded-md border border-amber-300/50 bg-amber-500/10 px-3 py-2 text-sm text-amber-200">
                 Zmień hasło startowe przy pierwszym logowaniu.
             </p>
         @endif

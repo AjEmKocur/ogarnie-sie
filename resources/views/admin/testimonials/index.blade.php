@@ -17,15 +17,15 @@
                 <div class="rounded-lg border border-green-400/40 bg-green-500/10 p-4 text-green-200">{{ session('status') }}</div>
             @endif
 
-            <div class="rounded-xl border border-blue-400/30 bg-slate-900/60 p-4">
+            <div class="rounded-xl border border-amber-400/30 bg-slate-900/60 p-4">
                 <div class="flex flex-wrap items-center gap-2">
                     <a href="{{ route('admin.testimonials.index', ['status' => 'all']) }}"
-                       class="rounded-md border px-3 py-2 text-xs font-semibold uppercase tracking-wider {{ $statusFilter === 'all' ? 'border-blue-400 bg-blue-500/20 text-blue-100' : 'border-slate-600 text-slate-200 hover:bg-slate-800' }}">
+                       class="rounded-md border px-3 py-2 text-xs font-semibold uppercase tracking-wider {{ $statusFilter === 'all' ? 'border-amber-400 bg-amber-500/20 text-amber-100' : 'border-slate-600 text-slate-200 hover:bg-slate-800' }}">
                         Wszystkie
                     </a>
                     @foreach ($moderationStatuses as $key => $label)
                         <a href="{{ route('admin.testimonials.index', ['status' => $key]) }}"
-                           class="rounded-md border px-3 py-2 text-xs font-semibold uppercase tracking-wider {{ $statusFilter === $key ? 'border-blue-400 bg-blue-500/20 text-blue-100' : 'border-slate-600 text-slate-200 hover:bg-slate-800' }}">
+                           class="rounded-md border px-3 py-2 text-xs font-semibold uppercase tracking-wider {{ $statusFilter === $key ? 'border-amber-400 bg-amber-500/20 text-amber-100' : 'border-slate-600 text-slate-200 hover:bg-slate-800' }}">
                             {{ $label }}
                         </a>
                     @endforeach
@@ -33,7 +33,7 @@
             </div>
 
             @forelse ($testimonials as $testimonial)
-                <div class="rounded-xl border border-blue-400/30 bg-slate-900/60 p-6 shadow-sm">
+                <div class="rounded-xl border border-amber-400/30 bg-slate-900/60 p-6 shadow-sm">
                     <div class="flex flex-wrap items-start justify-between gap-4">
                         <div>
                             <p class="text-sm text-slate-400">Zgłoszenie #{{ $testimonial->ticket_id }}</p>

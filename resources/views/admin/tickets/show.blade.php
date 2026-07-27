@@ -1,9 +1,9 @@
 <x-app-layout>
     @php
         $badgeClasses = [
-            'new' => 'bg-blue-500/20 text-blue-300 border border-blue-400/30',
+            'new' => 'bg-amber-500/20 text-amber-300 border border-amber-400/30',
             'in_progress' => 'bg-amber-500/20 text-amber-200 border border-amber-400/30',
-            'waiting_parts' => 'bg-violet-500/20 text-violet-200 border border-violet-400/30',
+            'waiting_parts' => 'bg-stone-500/20 text-stone-200 border border-stone-400/30',
             'ready' => 'bg-emerald-500/20 text-emerald-200 border border-emerald-400/30',
             'closed' => 'bg-slate-500/20 text-slate-200 border border-slate-400/30',
             'cancelled' => 'bg-rose-500/20 text-rose-200 border border-rose-400/30',
@@ -118,7 +118,7 @@
                                         <li class="flex items-center justify-between rounded-md border border-gray-200 px-3 py-2 text-sm">
                                             <span>{{ $attachment->original_name }}</span>
                                             <div class="flex items-center gap-3">
-                                                <a href="{{ route('tickets.attachments.download', $attachment) }}" class="text-indigo-600 hover:text-indigo-800">Pobierz</a>
+                                                <a href="{{ route('tickets.attachments.download', $attachment) }}" class="text-amber-500 hover:text-amber-700">Pobierz</a>
                                                 <form method="POST" action="{{ route('tickets.attachments.destroy', $attachment) }}" onsubmit="return confirm('Usunąć ten plik?');">
                                                     @csrf
                                                     @method('DELETE')
@@ -141,7 +141,7 @@
                             @method('PATCH')
                             <input type="hidden" name="status" value="{{ $ticket->status }}">
 
-                            <textarea name="admin_note" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ old('admin_note', $ticket->admin_note) }}</textarea>
+                            <textarea name="admin_note" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">{{ old('admin_note', $ticket->admin_note) }}</textarea>
 
                             <div class="flex justify-end">
                                 <x-primary-button>Zapisz notatkę</x-primary-button>
@@ -217,7 +217,7 @@
                                     type="number"
                                     min="0"
                                     step="0.01"
-                                    class="mt-1 block w-full rounded-md border-gray-300 bg-slate-900 text-slate-100 placeholder-slate-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    class="mt-1 block w-full rounded-md border-gray-300 bg-slate-900 text-slate-100 placeholder-slate-400 shadow-sm focus:border-amber-500 focus:ring-amber-500"
                                     value="{{ old('payment_amount', $ticket->payment_amount) }}"
                                     placeholder="Puste = brak płatności"
                                 />
@@ -229,14 +229,14 @@
                                     name="payment_mark_paid"
                                     value="1"
                                     @checked((bool) old('payment_mark_paid', $ticket->payment_status === \App\Models\Ticket::PAYMENT_STATUS_PAID))
-                                    class="rounded border-gray-300 bg-slate-900 text-blue-500"
+                                    class="rounded border-gray-300 bg-slate-900 text-amber-500"
                                 >
                                 Oznacz jako opłacone
                             </label>
 
                             <div class="rounded-md border border-gray-200 p-3">
                                 <p class="text-[11px] uppercase tracking-wider text-slate-400">Status (szybka zmiana)</p>
-                                <select name="status" class="mt-2 block w-full rounded-md border-gray-300 bg-slate-900 px-2 py-1.5 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <select name="status" class="mt-2 block w-full rounded-md border-gray-300 bg-slate-900 px-2 py-1.5 text-sm shadow-sm focus:border-amber-500 focus:ring-amber-500">
                                     @foreach ($statuses as $value => $label)
                                         <option value="{{ $value }}" @selected(old('status', $ticket->status) === $value)>{{ $label }}</option>
                                     @endforeach
