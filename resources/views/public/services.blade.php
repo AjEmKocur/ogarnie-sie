@@ -28,34 +28,35 @@
 
         <div class="mt-12 grid gap-7 lg:grid-cols-2">
             @foreach ($serviceCategories as $category)
-                <section class="rounded-2xl border border-amber-300/40 bg-black/85 p-6 shadow-[0_24px_70px_rgba(0,0,0,0.42)]">
-                    <div class="border-b border-amber-300/25 pb-5">
+                <section class="rounded-2xl border border-white/10 bg-zinc-950/65 p-6 shadow-[0_24px_70px_rgba(0,0,0,0.34)]">
+                    <div class="border-b border-white/10 pb-5">
                         <div class="flex items-start gap-4">
-                            <p class="inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-amber-400 text-xs font-black text-black">
+                            <p class="inline-flex h-8 min-w-8 shrink-0 items-center justify-center rounded-md border border-amber-300/35 bg-amber-300/10 text-xs font-black text-amber-200">
                                 {{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}
                             </p>
                             <div>
                                 <h2 class="text-2xl font-black leading-tight text-white">{{ $category->name }}</h2>
                                 @if ($category->description)
-                                    <p class="mt-3 max-w-3xl text-[15px] leading-7 text-slate-200">{{ $category->description }}</p>
+                                    <p class="mt-3 max-w-3xl text-sm leading-7 text-zinc-400">{{ $category->description }}</p>
                                 @endif
                             </div>
                         </div>
                     </div>
 
-                    <div class="mt-5 space-y-4">
+                    <div class="mt-3 divide-y divide-white/10">
                         @foreach ($category->services as $service)
-                            <article class="group rounded-xl border border-white/10 bg-zinc-950/80 p-4 shadow-inner shadow-black/30 transition hover:border-amber-300/45 hover:bg-black/90">
-                                <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                                    <div class="min-w-0 border-l-2 border-amber-300/60 pl-4">
-                                        <h3 class="text-base font-black leading-snug text-amber-100 transition group-hover:text-amber-200">{{ $service->name }}</h3>
-                                        <p class="mt-2 text-sm leading-7 text-zinc-300">
+                            <article class="group py-5 first:pt-0 last:pb-0">
+                                <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                                    <div class="min-w-0">
+                                        <h3 class="text-[1.05rem] font-bold leading-snug text-zinc-50 transition group-hover:text-amber-100">{{ $service->name }}</h3>
+                                        <p class="mt-2 max-w-2xl text-sm leading-7 text-zinc-400">
                                             {{ $service->description ?: 'Zakres usługi ustalany indywidualnie.' }}
                                         </p>
                                     </div>
 
-                                    <a href="{{ route('public.services.show', $service) }}" class="inline-flex shrink-0 items-center justify-center self-start rounded-md border border-amber-300/35 bg-black/40 px-4 py-2 text-xs font-black uppercase tracking-wider text-amber-100 transition hover:border-amber-300 hover:bg-amber-400 hover:text-black">
+                                    <a href="{{ route('public.services.show', $service) }}" class="inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-zinc-300 transition hover:border-amber-300/50 hover:text-amber-100">
                                         Szczegóły
+                                        <span aria-hidden="true">&rarr;</span>
                                     </a>
                                 </div>
                             </article>
@@ -65,10 +66,10 @@
             @endforeach
 
             @if ($uncategorizedServices->isNotEmpty())
-                <section class="rounded-2xl border border-amber-300/40 bg-black/85 p-6 shadow-[0_24px_70px_rgba(0,0,0,0.42)] lg:col-span-2">
-                    <div class="border-b border-amber-300/25 pb-5">
+                <section class="rounded-2xl border border-white/10 bg-zinc-950/65 p-6 shadow-[0_24px_70px_rgba(0,0,0,0.34)] lg:col-span-2">
+                    <div class="border-b border-white/10 pb-5">
                         <div class="flex items-start gap-4">
-                            <p class="inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-amber-400 text-xs font-black text-black">+</p>
+                            <p class="inline-flex h-8 min-w-8 shrink-0 items-center justify-center rounded-md border border-amber-300/35 bg-amber-300/10 text-xs font-black text-amber-200">+</p>
                             <div>
                                 <p class="text-sm font-semibold uppercase tracking-[0.18em] text-amber-200">Pozostałe</p>
                                 <h2 class="mt-2 text-2xl font-black leading-tight text-white">Pozostałe usługi</h2>
@@ -76,19 +77,20 @@
                         </div>
                     </div>
 
-                    <div class="mt-5 grid gap-4 md:grid-cols-2">
+                    <div class="mt-1 grid gap-x-10 md:grid-cols-2">
                         @foreach ($uncategorizedServices as $service)
-                            <article class="group rounded-xl border border-white/10 bg-zinc-950/80 p-4 shadow-inner shadow-black/30 transition hover:border-amber-300/45 hover:bg-black/90">
-                                <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                                    <div class="min-w-0 border-l-2 border-amber-300/60 pl-4">
-                                        <h3 class="text-base font-black leading-snug text-amber-100 transition group-hover:text-amber-200">{{ $service->name }}</h3>
-                                        <p class="mt-2 text-sm leading-7 text-zinc-300">
+                            <article class="group border-b border-white/10 py-5 last:border-b-0">
+                                <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                                    <div class="min-w-0">
+                                        <h3 class="text-[1.05rem] font-bold leading-snug text-zinc-50 transition group-hover:text-amber-100">{{ $service->name }}</h3>
+                                        <p class="mt-2 max-w-2xl text-sm leading-7 text-zinc-400">
                                             {{ $service->description ?: 'Zakres usługi ustalany indywidualnie.' }}
                                         </p>
                                     </div>
 
-                                    <a href="{{ route('public.services.show', $service) }}" class="inline-flex shrink-0 items-center justify-center self-start rounded-md border border-amber-300/35 bg-black/40 px-4 py-2 text-xs font-black uppercase tracking-wider text-amber-100 transition hover:border-amber-300 hover:bg-amber-400 hover:text-black">
+                                    <a href="{{ route('public.services.show', $service) }}" class="inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-zinc-300 transition hover:border-amber-300/50 hover:text-amber-100">
                                         Szczegóły
+                                        <span aria-hidden="true">&rarr;</span>
                                     </a>
                                 </div>
                             </article>
