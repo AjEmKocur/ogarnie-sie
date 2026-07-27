@@ -120,11 +120,7 @@
     .og-section-band {
         position: relative;
         overflow: hidden;
-        border-block: 1px solid rgba(245, 158, 11, 0.14);
-        background:
-            radial-gradient(760px 360px at 4% 16%, rgba(245, 158, 11, 0.08), transparent 66%),
-            radial-gradient(760px 360px at 96% 72%, rgba(180, 83, 9, 0.08), transparent 68%),
-            linear-gradient(135deg, rgba(8, 8, 8, 0.96), rgba(2, 2, 2, 0.98) 58%, rgba(12, 8, 3, 0.96));
+        background: transparent;
     }
 
     .og-section-band::before {
@@ -133,19 +129,19 @@
         inset: 0;
         pointer-events: none;
         background:
-            linear-gradient(90deg, rgba(245, 158, 11, 0.06), transparent 18%, transparent 82%, rgba(245, 158, 11, 0.05)),
-            radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.045), transparent 34%);
-        opacity: 0.78;
+            radial-gradient(720px 420px at 6% 42%, rgba(245, 158, 11, 0.055), transparent 70%),
+            radial-gradient(720px 420px at 94% 58%, rgba(180, 83, 9, 0.045), transparent 72%);
+        opacity: 0.46;
     }
 
     .og-section-band::after {
         content: '';
         position: absolute;
         inset-inline: clamp(1.25rem, 10vw, 12rem);
-        top: 0;
+        bottom: 0;
         height: 1px;
         pointer-events: none;
-        background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.42), transparent);
+        background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.18), transparent);
     }
 
     .og-section-band > * {
@@ -155,10 +151,10 @@
 
     .og-panel-depth {
         background:
-            radial-gradient(520px 240px at 18% 0%, rgba(245, 158, 11, 0.08), transparent 70%),
-            linear-gradient(145deg, rgba(11, 11, 12, 0.92), rgba(3, 3, 4, 0.95));
-        border-color: rgba(245, 158, 11, 0.24) !important;
-        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+            radial-gradient(520px 240px at 18% 0%, rgba(245, 158, 11, 0.04), transparent 74%),
+            linear-gradient(145deg, rgba(9, 9, 10, 0.88), rgba(3, 3, 4, 0.93));
+        border-color: rgba(245, 158, 11, 0.2) !important;
+        box-shadow: 0 20px 58px rgba(0, 0, 0, 0.34);
     }
 
     .hero-surface::before,
