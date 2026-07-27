@@ -44,7 +44,7 @@
                 <summary class="cursor-pointer text-lg font-bold text-white">Czy dojeżdżasz do klienta?</summary>
                 <p class="mt-4 leading-7 text-slate-300">
                     Tak, przy prostszych tematach możliwy jest dojazd do klienta w Jarosławiu i okolicach. Dotyczy to
-                    między innymi konfiguracji Wi-Fi, routera, drukarki, switcha albo podstawowej diagnostyki.
+                    między innymi konfiguracji WiFi, routera, drukarki, switcha albo podstawowej diagnostyki.
                 </p>
             </details>
 

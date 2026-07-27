@@ -63,7 +63,7 @@ return new class extends Migration
             ],
             [
                 'name' => 'Sieci domowe',
-                'description' => 'Router, Wi-Fi, repeater, switch i podstawowa konfiguracja internetu.',
+                'description' => 'Router, WiFi, repeater, switch i podstawowa konfiguracja internetu.',
                 'sort_order' => 50,
                 'is_active' => true,
                 'created_at' => $now,

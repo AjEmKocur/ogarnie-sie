@@ -69,7 +69,7 @@
                     <div class="rounded-lg border border-amber-300/20 bg-black/55 p-4 shadow-[0_18px_45px_rgba(0,0,0,0.28)]">
                         <span class="mb-3 block h-1 w-10 rounded-full bg-amber-400"></span>
                         <p class="font-bold text-white">Dojazd do klienta</p>
-                        <p class="mt-1">Pomoc z komputerem, internetem, Wi-Fi i drukarką na miejscu.</p>
+                        <p class="mt-1">Pomoc z komputerem, internetem, WiFi i drukarką na miejscu.</p>
                     </div>
                 </div>
             </div>
@@ -115,7 +115,7 @@
             <article class="service-card og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
                 <p class="text-sm font-semibold uppercase tracking-[0.18em] text-amber-200">05</p>
                 <h3 class="mt-3 text-lg font-bold text-white">Sieci domowe</h3>
-                <p class="mt-3 text-sm leading-6 text-slate-300">Router, Wi-Fi, repeater, switch i podstawowa konfiguracja internetu.</p>
+                <p class="mt-3 text-sm leading-6 text-slate-300">Router, WiFi, repeater, switch i podstawowa konfiguracja internetu.</p>
             </article>
         </div>
         </div>
@@ -162,7 +162,7 @@
             <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">Dojazd</p>
             <h2 class="mt-3 text-3xl font-black text-white">Pomoc techniczna u klienta.</h2>
             <p class="mt-4 text-base leading-7 text-slate-300">
-                Przy prostszych tematach mogę dojechać do klienta, np. przy konfiguracji routera, Wi-Fi, switcha, drukarki albo podstawowej diagnostyce.
+                Przy prostszych tematach mogę dojechać do klienta, np. przy konfiguracji routera, WiFi, switcha, drukarki albo podstawowej diagnostyce.
             </p>
             <div class="mt-6 rounded-lg border border-amber-300/20 bg-black/45 p-4">
                 <p class="text-2xl font-black text-white">Jarosław i okolice</p>

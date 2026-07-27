@@ -43,18 +43,18 @@
                         </div>
                     </div>
 
-                    <div class="mt-5 space-y-3">
+                    <div class="mt-5 space-y-4">
                         @foreach ($category->services as $service)
-                            <article class="rounded-xl bg-white/[0.035] p-4 transition hover:bg-white/[0.055]">
+                            <article class="group rounded-xl border border-white/10 bg-zinc-950/80 p-4 shadow-inner shadow-black/30 transition hover:border-amber-300/45 hover:bg-black/90">
                                 <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                                    <div class="border-l-2 border-amber-300/45 pl-4">
-                                        <h3 class="text-base font-extrabold leading-snug text-white">{{ $service->name }}</h3>
-                                        <p class="mt-2 text-[15px] leading-7 text-slate-300">
+                                    <div class="min-w-0 border-l-2 border-amber-300/60 pl-4">
+                                        <h3 class="text-base font-black leading-snug text-amber-100 transition group-hover:text-amber-200">{{ $service->name }}</h3>
+                                        <p class="mt-2 text-sm leading-7 text-zinc-300">
                                             {{ $service->description ?: 'Zakres usługi ustalany indywidualnie.' }}
                                         </p>
                                     </div>
 
-                                    <a href="{{ route('public.services.show', $service) }}" class="inline-flex shrink-0 items-center justify-center rounded-md border border-white/15 px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-100 transition hover:border-amber-300/70 hover:bg-amber-400/10 hover:text-amber-100">
+                                    <a href="{{ route('public.services.show', $service) }}" class="inline-flex shrink-0 items-center justify-center self-start rounded-md border border-amber-300/35 bg-black/40 px-4 py-2 text-xs font-black uppercase tracking-wider text-amber-100 transition hover:border-amber-300 hover:bg-amber-400 hover:text-black">
                                         Szczegóły
                                     </a>
                                 </div>
@@ -76,18 +76,18 @@
                         </div>
                     </div>
 
-                    <div class="mt-5 grid gap-3 md:grid-cols-2">
+                    <div class="mt-5 grid gap-4 md:grid-cols-2">
                         @foreach ($uncategorizedServices as $service)
-                            <article class="rounded-xl bg-white/[0.035] p-4 transition hover:bg-white/[0.055]">
+                            <article class="group rounded-xl border border-white/10 bg-zinc-950/80 p-4 shadow-inner shadow-black/30 transition hover:border-amber-300/45 hover:bg-black/90">
                                 <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                                    <div class="border-l-2 border-amber-300/45 pl-4">
-                                        <h3 class="text-base font-extrabold leading-snug text-white">{{ $service->name }}</h3>
-                                        <p class="mt-2 text-[15px] leading-7 text-slate-300">
+                                    <div class="min-w-0 border-l-2 border-amber-300/60 pl-4">
+                                        <h3 class="text-base font-black leading-snug text-amber-100 transition group-hover:text-amber-200">{{ $service->name }}</h3>
+                                        <p class="mt-2 text-sm leading-7 text-zinc-300">
                                             {{ $service->description ?: 'Zakres usługi ustalany indywidualnie.' }}
                                         </p>
                                     </div>
 
-                                    <a href="{{ route('public.services.show', $service) }}" class="inline-flex shrink-0 items-center justify-center rounded-md border border-white/15 px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-100 transition hover:border-amber-300/70 hover:bg-amber-400/10 hover:text-amber-100">
+                                    <a href="{{ route('public.services.show', $service) }}" class="inline-flex shrink-0 items-center justify-center self-start rounded-md border border-amber-300/35 bg-black/40 px-4 py-2 text-xs font-black uppercase tracking-wider text-amber-100 transition hover:border-amber-300 hover:bg-amber-400 hover:text-black">
                                         Szczegóły
                                     </a>
                                 </div>
