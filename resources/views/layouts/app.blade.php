@@ -67,7 +67,7 @@
                     return;
                 }
 
-                const itemClass = 'block w-full px-4 py-2 text-start text-sm leading-5 text-gray-200 hover:bg-slate-800 focus:outline-none focus:bg-slate-800 transition duration-150 ease-in-out';
+                const itemClass = 'block w-full px-4 py-2 text-start text-sm leading-5 text-stone-200 transition duration-150 ease-in-out hover:bg-amber-400/10 hover:text-amber-100 focus:bg-amber-400/10 focus:text-amber-100 focus:outline-none';
 
                 const renderRoot = (root, payload) => {
                     const bell = root.querySelector('[data-ticket-bell]');
@@ -78,13 +78,13 @@
                     const total = Number(payload?.total || 0);
                     if (total > 0) {
                         bell.classList.add('text-white', 'drop-shadow-[0_0_8px_rgba(255,255,255,0.35)]');
-                        bell.classList.remove('text-slate-400');
+                        bell.classList.remove('text-stone-400');
                         badge.textContent = String(Math.min(99, total));
                         badge.classList.remove('hidden');
                         badge.classList.add('inline-flex');
                     } else {
                         bell.classList.remove('text-white', 'drop-shadow-[0_0_8px_rgba(255,255,255,0.35)]');
-                        bell.classList.add('text-slate-400');
+                        bell.classList.add('text-stone-400');
                         badge.textContent = '0';
                         badge.classList.add('hidden');
                         badge.classList.remove('inline-flex');
@@ -94,7 +94,7 @@
                     const items = Array.isArray(payload?.items) ? payload.items : [];
                     if (!items.length) {
                         const empty = document.createElement('div');
-                        empty.className = 'px-4 py-2 text-sm text-slate-400';
+                        empty.className = 'px-4 py-2 text-sm text-stone-400';
                         empty.textContent = 'Brak nowych powiadomień.';
                         list.appendChild(empty);
                         return;
@@ -115,7 +115,7 @@
 
                         if (item.time) {
                             const time = document.createElement('span');
-                            time.className = 'text-xs text-slate-400';
+                            time.className = 'text-xs text-stone-500';
                             time.textContent = item.time;
                             wrap.appendChild(time);
                         }

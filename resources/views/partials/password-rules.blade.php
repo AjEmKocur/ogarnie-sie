@@ -4,13 +4,13 @@
 ])
 
 <div
-    class="fixed z-[90] hidden w-[300px] rounded-lg border border-slate-700 bg-slate-900/95 p-3 text-xs shadow-xl shadow-slate-950/50 backdrop-blur"
+    class="fixed z-[90] hidden w-[300px] rounded-lg border border-amber-400/30 bg-black/95 p-3 text-xs shadow-xl shadow-black/60 backdrop-blur"
     data-password-rules
     data-password-id="{{ $passwordId }}"
     @if ($confirmationId) data-confirmation-id="{{ $confirmationId }}" @endif
 >
-    <p class="mb-2 font-semibold text-slate-200">Wymagania hasła:</p>
-    <ul class="space-y-1 text-slate-300">
+    <p class="mb-2 font-semibold text-amber-100">Wymagania hasła:</p>
+    <ul class="space-y-1 text-stone-300">
         <li data-rule="min" class="flex items-center gap-2">
             <span data-icon class="font-bold text-rose-500">&#10007;</span>
             <span>minimum 8 znaków</span>
@@ -26,7 +26,7 @@
         @if ($confirmationId)
             <li data-rule="match" class="flex items-center gap-2">
                 <span data-icon class="font-bold text-rose-500">&#10007;</span>
-            <span>hasła są takie same</span>
+                <span>hasła są takie same</span>
             </li>
         @endif
     </ul>

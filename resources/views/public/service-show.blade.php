@@ -14,23 +14,23 @@
         ])
 
         <div class="grid gap-6 lg:grid-cols-3">
-            <article class="rounded-2xl border border-amber-300/20 bg-slate-950/70 p-7 lg:col-span-2">
+            <article class="rounded-2xl border border-amber-300/25 bg-black/70 p-7 shadow-2xl shadow-black/50 lg:col-span-2">
                 @if ($service->category)
                     <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">{{ $service->category->name }}</p>
                 @endif
 
                 <h1 class="mt-3 text-4xl font-black leading-tight text-white">{{ $service->name }}</h1>
 
-                <p class="mt-5 inline-flex rounded-md border border-white/15 bg-white/5 px-4 py-2 text-sm font-bold text-slate-300">
+                <p class="mt-5 inline-flex rounded-md border border-amber-300/30 bg-amber-400/10 px-4 py-2 text-sm font-bold text-amber-100">
                     Zakres i koszt ustalane przed usługą
                 </p>
 
-                <p class="mt-7 text-base leading-8 text-slate-200">
+                <p class="mt-7 text-base leading-8 text-stone-200">
                     {{ $service->description ?: 'Zakres usługi dopasowuję do konkretnego problemu.' }}
                 </p>
 
                 @if ($service->long_description)
-                    <div class="mt-7 space-y-4 text-sm leading-7 text-slate-300">
+                    <div class="mt-7 space-y-4 text-sm leading-7 text-stone-300">
                         @foreach (preg_split('/\r\n|\r|\n/', trim($service->long_description)) as $paragraph)
                             @if (trim($paragraph) !== '')
                                 <p>{{ $paragraph }}</p>
@@ -41,9 +41,9 @@
             </article>
 
             <aside class="space-y-4">
-                <div class="rounded-2xl border border-amber-300/20 bg-black/55 p-5">
+                <div class="rounded-2xl border border-amber-300/25 bg-black/70 p-5 shadow-xl shadow-black/40">
                     <h2 class="text-lg font-bold text-white">Masz podobny temat?</h2>
-                    <p class="mt-2 text-sm leading-6 text-slate-300">
+                    <p class="mt-2 text-sm leading-6 text-stone-300">
                         Opisz sprzęt, objawy albo planowany zestaw. Po krótkiej rozmowie ustalimy zakres, koszt i termin.
                     </p>
 
@@ -52,9 +52,9 @@
                     </a>
                 </div>
 
-                <div class="rounded-2xl border border-amber-300/20 bg-slate-950/70 p-5">
+                <div class="rounded-2xl border border-amber-300/25 bg-black/70 p-5 shadow-xl shadow-black/40">
                     <h2 class="text-lg font-bold text-white">Ważne przed usługą</h2>
-                    <ul class="mt-3 space-y-2 text-sm leading-6 text-slate-300">
+                    <ul class="mt-3 space-y-2 text-sm leading-6 text-stone-300">
                         <li>Wycena jest ustalana przed rozpoczęciem pracy.</li>
                         <li>Nie wymieniam części bez wcześniejszego potwierdzenia.</li>
                         <li>Przy danych na dysku warto wcześniej zrobić kopię zapasową.</li>
@@ -68,7 +68,7 @@
                 <h2 class="text-2xl font-black text-white">Podobne usługi</h2>
                 <div class="mt-5 grid gap-4 md:grid-cols-3">
                     @foreach ($relatedServices as $relatedService)
-                        <a href="{{ route('public.services.show', $relatedService) }}" class="service-card block rounded-xl border border-amber-300/20 bg-slate-950/70 p-5">
+                        <a href="{{ route('public.services.show', $relatedService) }}" class="service-card block rounded-xl border border-amber-300/25 bg-black/70 p-5 shadow-xl shadow-black/40">
                             <p class="font-bold text-white">{{ $relatedService->name }}</p>
                         </a>
                     @endforeach

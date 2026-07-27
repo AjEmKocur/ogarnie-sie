@@ -42,7 +42,7 @@
                         <p class="text-sm uppercase tracking-wider text-gray-500">Treści</p>
                         <h3 class="mt-2 text-xl font-semibold">Galeria O nas</h3>
                         <p class="mt-2 text-base text-slate-300">Dodawanie zdjęć serwisu do sekcji O nas (slider publiczny).</p>
-                        <div class="mt-auto pt-6 flex justify-center text-emerald-300/90">
+                        <div class="mt-auto pt-6 flex justify-center text-amber-300/90">
                             <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true">
                                 <rect x="3" y="5" width="18" height="14" rx="2" />
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m3 15 5-5 4 4 3-3 6 6"/>

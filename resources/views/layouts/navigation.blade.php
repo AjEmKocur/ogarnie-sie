@@ -21,7 +21,7 @@
             <div data-ticket-notifications-root data-url="{{ route('notifications.tickets') }}">
             <x-dropdown align="right" width="72">
                 <x-slot name="trigger">
-                    <button data-ticket-bell class="relative inline-flex items-center rounded-md border border-gray-300 px-3 py-2 text-sm font-semibold {{ (($ticketNotifications['total'] ?? 0) > 0) ? 'text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.35)]' : 'text-slate-400' }} hover:bg-slate-800" title="Powiadomienia">
+                    <button data-ticket-bell class="relative inline-flex items-center rounded-md border border-amber-300/35 px-3 py-2 text-sm font-semibold {{ (($ticketNotifications['total'] ?? 0) > 0) ? 'text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.35)]' : 'text-stone-400' }} hover:bg-amber-400/10 hover:text-amber-100" title="Powiadomienia">
                         <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17H9.143m5.714 0H18a1 1 0 0 0 1-1v-1.108a1 1 0 0 0-.293-.707L17 12.478V10a5 5 0 1 0-10 0v2.478l-1.707 1.707a1 1 0 0 0-.293.707V16a1 1 0 0 0 1 1h3.143m5.714 0a2.857 2.857 0 1 1-5.714 0"/>
                         </svg>
@@ -36,7 +36,7 @@
                 </x-slot>
 
                 <x-slot name="content">
-                    <div class="px-4 py-2 text-xs uppercase tracking-wider text-slate-400">
+                    <div class="px-4 py-2 text-xs uppercase tracking-wider text-amber-100/75">
                         Powiadomienia
                     </div>
                     <div data-ticket-notifications-list>
@@ -45,12 +45,12 @@
                                 <div class="flex flex-col gap-1">
                                     <span class="font-semibold">{{ $item['title'] }}</span>
                                     @if (!empty($item['time']))
-                                        <span class="text-xs text-slate-400">{{ $item['time'] }}</span>
+                                        <span class="text-xs text-stone-500">{{ $item['time'] }}</span>
                                     @endif
                                 </div>
                             </x-dropdown-link>
                         @empty
-                            <div class="px-4 py-2 text-sm text-slate-400">Brak nowych powiadomień.</div>
+                            <div class="px-4 py-2 text-sm text-stone-400">Brak nowych powiadomień.</div>
                         @endforelse
                     </div>
                 </x-slot>
@@ -59,7 +59,7 @@
 
             <x-dropdown align="right" width="56">
                 <x-slot name="trigger">
-                    <button class="inline-flex items-center rounded-md border border-gray-300 px-3 py-2 text-sm font-semibold text-slate-200 hover:bg-slate-800">
+                    <button class="inline-flex items-center rounded-md border border-amber-300/35 px-3 py-2 text-sm font-semibold text-stone-200 hover:bg-amber-400/10 hover:text-amber-100">
                         <span>{{ Auth::user()->name }}</span>
                         <svg class="ms-2 h-4 w-4 fill-current" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
