@@ -81,7 +81,8 @@
         </div>
     </section>
 
-    <section class="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
+    <section class="og-section-band py-16">
+        <div class="mx-auto max-w-[1500px] px-5 sm:px-6 lg:px-8">
         <div class="max-w-3xl">
             <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">Oferta na start</p>
             <h2 class="mt-3 text-3xl font-black text-white">Co mogę zrobić dla Ciebie?</h2>
@@ -91,36 +92,37 @@
         </div>
 
         <div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-5">
-            <article class="service-card rounded-xl border border-amber-300/20 bg-slate-950/70 p-5">
+            <article class="service-card og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
                 <p class="text-sm font-semibold uppercase tracking-[0.18em] text-amber-200">01</p>
                 <h3 class="mt-3 text-lg font-bold text-white">Składanie komputerów</h3>
                 <p class="mt-3 text-sm leading-6 text-slate-300">Dobór części, montaż, konfiguracja BIOS/UEFI i test stabilności.</p>
             </article>
-            <article class="service-card rounded-xl border border-amber-300/20 bg-slate-950/70 p-5">
+            <article class="service-card og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
                 <p class="text-sm font-semibold uppercase tracking-[0.18em] text-amber-200">02</p>
                 <h3 class="mt-3 text-lg font-bold text-white">Modernizacja sprzętu</h3>
                 <p class="mt-3 text-sm leading-6 text-slate-300">Wymiana dysku, rozbudowa RAM, czyszczenie i klonowanie danych.</p>
             </article>
-            <article class="service-card rounded-xl border border-amber-300/20 bg-slate-950/70 p-5">
+            <article class="service-card og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
                 <p class="text-sm font-semibold uppercase tracking-[0.18em] text-amber-200">03</p>
                 <h3 class="mt-3 text-lg font-bold text-white">Diagnostyka</h3>
                 <p class="mt-3 text-sm leading-6 text-slate-300">Sprawdzenie dysku, pamięci RAM i problemów z uruchamianiem.</p>
             </article>
-            <article class="service-card rounded-xl border border-amber-300/20 bg-slate-950/70 p-5">
+            <article class="service-card og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
                 <p class="text-sm font-semibold uppercase tracking-[0.18em] text-amber-200">04</p>
                 <h3 class="mt-3 text-lg font-bold text-white">Systemy</h3>
                 <p class="mt-3 text-sm leading-6 text-slate-300">Instalacja systemu, sterowniki, aktualizacje i przygotowanie komputera.</p>
             </article>
-            <article class="service-card rounded-xl border border-amber-300/20 bg-slate-950/70 p-5">
+            <article class="service-card og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
                 <p class="text-sm font-semibold uppercase tracking-[0.18em] text-amber-200">05</p>
                 <h3 class="mt-3 text-lg font-bold text-white">Sieci domowe</h3>
                 <p class="mt-3 text-sm leading-6 text-slate-300">Router, Wi-Fi, repeater, switch i podstawowa konfiguracja internetu.</p>
             </article>
         </div>
+        </div>
     </section>
 
-    <section class="border-y border-white/10 bg-black/85">
-        <div class="mx-auto grid max-w-7xl gap-8 px-5 py-16 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
+    <section class="og-section-band py-16">
+        <div class="mx-auto grid max-w-[1500px] gap-8 px-5 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
             <div>
                 <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">Jak wygląda współpraca?</p>
                 <h2 class="mt-3 text-3xl font-black text-white">Prosty proces, bez zgadywania.</h2>
@@ -130,22 +132,22 @@
             </div>
 
             <ol class="grid gap-4 md:grid-cols-2">
-                <li class="rounded-xl border border-amber-300/20 bg-slate-950/70 p-5">
+                <li class="og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
                     <span class="flex h-10 w-10 items-center justify-center rounded-full bg-amber-400 text-sm font-black text-black">1</span>
                     <h3 class="mt-4 font-bold text-white">Opisujesz temat</h3>
                     <p class="mt-2 text-sm leading-6 text-slate-300">Piszesz, czy chodzi o nowy komputer, modernizację, problem ze sprzętem albo sieć.</p>
                 </li>
-                <li class="rounded-xl border border-amber-300/20 bg-slate-950/70 p-5">
+                <li class="og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
                     <span class="flex h-10 w-10 items-center justify-center rounded-full bg-amber-400 text-sm font-black text-black">2</span>
                     <h3 class="mt-4 font-bold text-white">Ustalam zakres</h3>
                     <p class="mt-2 text-sm leading-6 text-slate-300">Dopytuję o szczegóły i podaję orientacyjny koszt oraz możliwy termin.</p>
                 </li>
-                <li class="rounded-xl border border-amber-300/20 bg-slate-950/70 p-5">
+                <li class="og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
                     <span class="flex h-10 w-10 items-center justify-center rounded-full bg-amber-400 text-sm font-black text-black">3</span>
                     <h3 class="mt-4 font-bold text-white">Realizuję usługę</h3>
                     <p class="mt-2 text-sm leading-6 text-slate-300">Składam zestaw, diagnozuję sprzęt, konfiguruję system albo ogarniam sieć.</p>
                 </li>
-                <li class="rounded-xl border border-amber-300/20 bg-slate-950/70 p-5">
+                <li class="og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
                     <span class="flex h-10 w-10 items-center justify-center rounded-full bg-amber-400 text-sm font-black text-black">4</span>
                     <h3 class="mt-4 font-bold text-white">Potwierdzamy koniec</h3>
                     <p class="mt-2 text-sm leading-6 text-slate-300">Po wykonaniu usługi dostajesz informację, co zostało zrobione.</p>
@@ -154,8 +156,9 @@
         </div>
     </section>
 
-    <section class="mx-auto grid max-w-7xl gap-8 px-5 py-16 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:px-8">
-        <div class="rounded-2xl border border-amber-300/20 bg-slate-950/70 p-7">
+    <section class="og-section-band py-16">
+        <div class="mx-auto grid max-w-[1500px] gap-8 px-5 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:px-8">
+        <div class="og-panel-depth rounded-2xl border border-amber-300/20 bg-black/60 p-7">
             <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">Dojazd</p>
             <h2 class="mt-3 text-3xl font-black text-white">Pomoc techniczna u klienta.</h2>
             <p class="mt-4 text-base leading-7 text-slate-300">
@@ -167,7 +170,7 @@
             </div>
         </div>
 
-        <div class="rounded-2xl border border-amber-300/20 bg-slate-950/70 p-7">
+        <div class="og-panel-depth rounded-2xl border border-amber-300/20 bg-black/60 p-7">
             <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">Najczęściej wybierane</p>
             <h2 class="mt-3 text-3xl font-black text-white">Usługi</h2>
 
@@ -191,10 +194,11 @@
                 Zobacz usługi
             </a>
         </div>
+        </div>
     </section>
 
-    <section class="mx-auto max-w-7xl px-5 pb-16 sm:px-6 lg:px-8">
-        <div class="rounded-2xl border border-amber-300/20 bg-gradient-to-r from-white/10 via-slate-950/90 to-amber-500/10 p-7 sm:p-9">
+    <section class="mx-auto max-w-[1500px] px-5 py-16 sm:px-6 lg:px-8">
+        <div class="og-panel-depth rounded-2xl border border-amber-300/20 bg-gradient-to-r from-white/10 via-black/90 to-amber-500/10 p-7 sm:p-9">
             <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
                 <div>
                     <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">Nie wiesz od czego zacząć?</p>

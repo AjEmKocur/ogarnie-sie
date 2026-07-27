@@ -23,6 +23,7 @@
             radial-gradient(900px 520px at 50% 94%, rgba(120, 53, 15, 0.16) 0%, transparent 68%),
             linear-gradient(180deg, #020202 0%, #050505 48%, #090807 100%),
             var(--og-bg);
+        background-attachment: fixed;
         color: var(--og-text);
     }
 
@@ -58,7 +59,22 @@
         background-position: center 18px;
         background-repeat: repeat;
         background-size: 1280px 260px;
-        opacity: 0.28;
+        mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.36) 24%, rgba(0, 0, 0, 0.24) 50%, rgba(0, 0, 0, 0.36) 76%, rgba(0, 0, 0, 0.85));
+        opacity: 0.18;
+    }
+
+    .public-page::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background:
+            radial-gradient(760px 520px at -8% 22%, rgba(245, 158, 11, 0.15), transparent 66%),
+            radial-gradient(660px 500px at 108% 42%, rgba(251, 191, 36, 0.1), transparent 64%),
+            radial-gradient(520px 420px at 82% 72%, rgba(113, 63, 18, 0.18), transparent 70%),
+            linear-gradient(90deg, rgba(245, 158, 11, 0.045), transparent 19%, transparent 81%, rgba(245, 158, 11, 0.04));
+        opacity: 0.9;
     }
 
     .public-page > * {
@@ -99,6 +115,50 @@
     .og-footer {
         border-top-color: rgba(245, 158, 11, 0.22) !important;
         background: linear-gradient(180deg, rgba(5, 5, 6, 0.92), rgba(0, 0, 0, 0.96));
+    }
+
+    .og-section-band {
+        position: relative;
+        overflow: hidden;
+        border-block: 1px solid rgba(245, 158, 11, 0.14);
+        background:
+            radial-gradient(760px 360px at 4% 16%, rgba(245, 158, 11, 0.08), transparent 66%),
+            radial-gradient(760px 360px at 96% 72%, rgba(180, 83, 9, 0.08), transparent 68%),
+            linear-gradient(135deg, rgba(8, 8, 8, 0.96), rgba(2, 2, 2, 0.98) 58%, rgba(12, 8, 3, 0.96));
+    }
+
+    .og-section-band::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+            linear-gradient(90deg, rgba(245, 158, 11, 0.06), transparent 18%, transparent 82%, rgba(245, 158, 11, 0.05)),
+            radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.045), transparent 34%);
+        opacity: 0.78;
+    }
+
+    .og-section-band::after {
+        content: '';
+        position: absolute;
+        inset-inline: clamp(1.25rem, 10vw, 12rem);
+        top: 0;
+        height: 1px;
+        pointer-events: none;
+        background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.42), transparent);
+    }
+
+    .og-section-band > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    .og-panel-depth {
+        background:
+            radial-gradient(520px 240px at 18% 0%, rgba(245, 158, 11, 0.08), transparent 70%),
+            linear-gradient(145deg, rgba(11, 11, 12, 0.92), rgba(3, 3, 4, 0.95));
+        border-color: rgba(245, 158, 11, 0.24) !important;
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
     }
 
     .hero-surface::before,

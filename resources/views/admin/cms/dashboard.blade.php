@@ -33,7 +33,8 @@
                         <p class="mt-2 text-base text-slate-300">Dodawanie i edycja usług wraz z ceną od widoczną na stronie.</p>
                         <div class="mt-auto pt-6 flex justify-center text-amber-300/90">
                             <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m14.7 6.3 3 3m-9.4 9.4 8.9-8.9a2.12 2.12 0 1 0-3-3l-8.9 8.9-.6 3.6 3.6-.6Z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V4h9l8.6 8.6a2 2 0 0 1 0 2.8Z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 7.5h.01"/>
                             </svg>
                         </div>
                     </a>
