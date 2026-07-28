@@ -70,46 +70,48 @@
                     x-on:keydown.arrow-right.window="isOpen && nextImage()"
                     class="mt-6"
                 >
-                    <button
-                        type="button"
-                        x-on:click="openImage(currentIndex)"
-                        class="group relative block aspect-[4/3] w-full overflow-hidden rounded-xl border border-amber-300/25 bg-zinc-950 text-left shadow-[0_24px_80px_rgba(0,0,0,0.45)]"
-                    >
-                        <img
-                            src="{{ $mainImage['url'] }}"
-                            alt="{{ $mainImage['alt'] }}"
-                            x-bind:src="currentImage.url"
-                            x-bind:alt="currentImage.alt"
-                            class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
-                            loading="eager"
-                            fetchpriority="high"
+                    <div class="relative">
+                        <button
+                            type="button"
+                            x-on:click="openImage(currentIndex)"
+                            class="group relative block aspect-[4/3] w-full overflow-hidden rounded-xl border border-amber-300/25 bg-zinc-950 text-left shadow-[0_24px_80px_rgba(0,0,0,0.45)]"
                         >
-                        <span class="absolute bottom-4 right-4 rounded-md border border-amber-300/40 bg-black/75 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-amber-100 opacity-0 transition group-hover:opacity-100">
-                            Powiększ zdjęcie
-                        </span>
-                    </button>
+                            <img
+                                src="{{ $mainImage['url'] }}"
+                                alt="{{ $mainImage['alt'] }}"
+                                x-bind:src="currentImage.url"
+                                x-bind:alt="currentImage.alt"
+                                class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
+                                loading="eager"
+                                fetchpriority="high"
+                            >
+                            <span class="absolute left-4 top-4 rounded-md border border-amber-300/35 bg-black/75 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-amber-100">
+                                <span x-text="currentIndex + 1"></span> / <span x-text="images.length"></span>
+                            </span>
+                            <span class="absolute bottom-4 right-4 rounded-md border border-amber-300/40 bg-black/75 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-amber-100 opacity-0 transition group-hover:opacity-100">
+                                Powiększ zdjęcie
+                            </span>
+                        </button>
 
-                    @if ($galleryImages->count() > 1)
-                        <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                            @foreach ($galleryImages as $image)
-                                <button
-                                    type="button"
-                                    x-on:click="selectImage({{ $loop->index }})"
-                                    x-bind:class="currentIndex === {{ $loop->index }} ? 'border-amber-300 ring-2 ring-amber-300/40' : 'border-white/10 hover:border-amber-300/50'"
-                                    class="group relative aspect-[4/3] overflow-hidden rounded-lg bg-zinc-950 text-left transition"
-                                >
-                                    <img src="{{ $image['url'] }}" alt="{{ $image['alt'] }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]" loading="lazy">
-                                    <span
-                                        x-show="currentIndex === {{ $loop->index }}"
-                                        x-cloak
-                                        class="absolute bottom-2 left-2 rounded bg-amber-400 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-black"
-                                    >
-                                        Wybrane
-                                    </span>
-                                </button>
-                            @endforeach
-                        </div>
-                    @endif
+                        @if ($galleryImages->count() > 1)
+                            <button
+                                type="button"
+                                x-on:click.stop="previousImage()"
+                                class="absolute left-4 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-amber-300/45 bg-black/75 text-2xl font-bold leading-none text-amber-100 shadow-lg transition hover:bg-amber-400 hover:text-black"
+                                aria-label="Poprzednie zdjęcie"
+                            >
+                                <span class="-translate-y-px">‹</span>
+                            </button>
+                            <button
+                                type="button"
+                                x-on:click.stop="nextImage()"
+                                class="absolute right-4 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-amber-300/45 bg-black/75 text-2xl font-bold leading-none text-amber-100 shadow-lg transition hover:bg-amber-400 hover:text-black"
+                                aria-label="Następne zdjęcie"
+                            >
+                                <span class="-translate-y-px">›</span>
+                            </button>
+                        @endif
+                    </div>
 
                     <div
                         x-show="isOpen"
@@ -146,10 +148,10 @@
                             x-show="images.length > 1"
                             x-cloak
                             x-on:click.stop="previousImage()"
-                            class="absolute left-4 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-amber-300/50 bg-black/75 text-3xl leading-none text-amber-100 hover:bg-amber-400 hover:text-black"
+                            class="absolute left-4 top-1/2 z-10 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-amber-300/50 bg-black/75 text-3xl font-bold leading-none text-amber-100 transition hover:bg-amber-400 hover:text-black"
                             aria-label="Poprzednie zdjęcie"
                         >
-                            ‹
+                            <span class="-translate-y-px">‹</span>
                         </button>
 
                         <button
@@ -157,10 +159,10 @@
                             x-show="images.length > 1"
                             x-cloak
                             x-on:click.stop="nextImage()"
-                            class="absolute right-4 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-amber-300/50 bg-black/75 text-3xl leading-none text-amber-100 hover:bg-amber-400 hover:text-black"
+                            class="absolute right-4 top-1/2 z-10 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-amber-300/50 bg-black/75 text-3xl font-bold leading-none text-amber-100 transition hover:bg-amber-400 hover:text-black"
                             aria-label="Następne zdjęcie"
                         >
-                            ›
+                            <span class="-translate-y-px">›</span>
                         </button>
 
                         <div class="relative max-h-[92vh] max-w-6xl">
@@ -179,21 +181,6 @@
                             >
                         </div>
 
-                        @if ($galleryImages->count() > 1)
-                            <div class="absolute bottom-4 left-1/2 z-10 hidden max-w-[90vw] -translate-x-1/2 gap-2 overflow-x-auto rounded-xl border border-amber-300/20 bg-black/75 p-2 sm:flex">
-                                @foreach ($galleryImages as $image)
-                                    <button
-                                        type="button"
-                                        x-on:click.stop="selectImage({{ $loop->index }})"
-                                        x-bind:class="currentIndex === {{ $loop->index }} ? 'border-amber-300 opacity-100' : 'border-white/10 opacity-60 hover:opacity-100'"
-                                        class="h-16 w-24 shrink-0 overflow-hidden rounded-md border transition"
-                                        aria-label="Pokaż zdjęcie {{ $loop->iteration }}"
-                                    >
-                                        <img src="{{ $image['url'] }}" alt="{{ $image['alt'] }}" class="h-full w-full object-cover">
-                                    </button>
-                                @endforeach
-                            </div>
-                        @endif
                     </div>
                 </div>
             @endif
