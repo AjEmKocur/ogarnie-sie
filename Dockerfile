@@ -15,6 +15,8 @@ FROM php:8.4-cli-alpine
 
 WORKDIR /var/www/html
 
+COPY docker/php.ini /usr/local/etc/php/conf.d/upload-limits.ini
+
 RUN apk add --no-cache \
     bash \
     git \

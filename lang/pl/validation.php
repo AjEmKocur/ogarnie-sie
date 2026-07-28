@@ -35,9 +35,13 @@ return [
 
     'required' => 'Pole :attribute jest wymagane.',
     'string' => 'Pole :attribute musi być tekstem.',
+    'uploaded' => 'Nie udało się wgrać pliku :attribute. Sprawdź rozmiar pliku i spróbuj ponownie.',
     'unique' => 'Taka wartość pola :attribute już istnieje.',
 
     'attributes' => [
+        'cover_image' => 'zdjęcie główne',
+        'gallery_images' => 'dodatkowe zdjęcia',
+        'gallery_images.*' => 'dodatkowe zdjęcie',
         'name' => 'imię i nazwisko',
         'email' => 'adres e-mail',
         'password' => 'hasło',

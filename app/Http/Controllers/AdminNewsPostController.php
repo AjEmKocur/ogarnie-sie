@@ -40,9 +40,11 @@ class AdminNewsPostController extends Controller
             'is_published' => ['nullable', 'boolean'],
         ], [
             'title.required' => 'Podaj tytuł realizacji.',
+            'cover_image.uploaded' => 'Nie udało się wgrać zdjęcia głównego. Sprawdź, czy plik nie jest za duży i spróbuj ponownie.',
             'cover_image.image' => 'Zdjęcie główne musi być plikiem graficznym.',
             'cover_image.mimes' => 'Zdjęcie główne musi być w formacie JPG, PNG albo WebP.',
             'cover_image.max' => 'Zdjęcie główne może mieć maksymalnie 10 MB.',
+            'gallery_images.*.uploaded' => 'Nie udało się wgrać jednego z dodatkowych zdjęć. Sprawdź rozmiar pliku i spróbuj ponownie.',
             'gallery_images.*.image' => 'Dodatkowe zdjęcia muszą być plikami graficznymi.',
             'gallery_images.*.mimes' => 'Dodatkowe zdjęcia muszą być w formacie JPG, PNG albo WebP.',
             'gallery_images.*.max' => 'Każde dodatkowe zdjęcie może mieć maksymalnie 10 MB.',
@@ -90,9 +92,11 @@ class AdminNewsPostController extends Controller
             'is_published' => ['nullable', 'boolean'],
         ], [
             'title.required' => 'Podaj tytuł realizacji.',
+            'cover_image.uploaded' => 'Nie udało się wgrać zdjęcia głównego. Sprawdź, czy plik nie jest za duży i spróbuj ponownie.',
             'cover_image.image' => 'Zdjęcie główne musi być plikiem graficznym.',
             'cover_image.mimes' => 'Zdjęcie główne musi być w formacie JPG, PNG albo WebP.',
             'cover_image.max' => 'Zdjęcie główne może mieć maksymalnie 10 MB.',
+            'gallery_images.*.uploaded' => 'Nie udało się wgrać jednego z dodatkowych zdjęć. Sprawdź rozmiar pliku i spróbuj ponownie.',
             'gallery_images.*.image' => 'Dodatkowe zdjęcia muszą być plikami graficznymi.',
             'gallery_images.*.mimes' => 'Dodatkowe zdjęcia muszą być w formacie JPG, PNG albo WebP.',
             'gallery_images.*.max' => 'Każde dodatkowe zdjęcie może mieć maksymalnie 10 MB.',
