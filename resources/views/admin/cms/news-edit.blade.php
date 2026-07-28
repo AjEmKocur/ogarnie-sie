@@ -18,6 +18,17 @@
                 <div class="rounded-lg border border-green-200 bg-green-50 p-4 text-green-700">{{ session('status') }}</div>
             @endif
 
+            @if ($errors->any())
+                <div class="rounded-lg border border-rose-400/60 bg-rose-950/40 p-4 text-sm text-rose-100">
+                    <p class="font-semibold">Nie udało się zapisać realizacji. Sprawdź poniższe błędy:</p>
+                    <ul class="mt-2 list-disc space-y-1 pl-5">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <div class="rounded-xl border border-gray-200 bg-white shadow-sm">
                 <div class="flex items-center justify-between border-b border-gray-200 px-5 py-4">
                     <div>
@@ -65,6 +76,7 @@
                         <div>
                             <label class="mb-1 block text-sm font-medium text-slate-200">Podmień zdjęcie główne (opcjonalnie)</label>
                             <input type="file" name="cover_image" accept=".jpg,.jpeg,.png,.webp" class="block w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2 text-sm text-slate-200">
+                            <p class="mt-1 text-xs text-slate-400">JPG, PNG albo WebP, maksymalnie 10 MB.</p>
                             <x-input-error :messages="$errors->get('cover_image')" class="mt-2" />
                         </div>
 
@@ -88,6 +100,7 @@
                         <div>
                             <label class="mb-1 block text-sm font-medium text-slate-200">Dodaj kolejne zdjęcia do galerii (opcjonalnie)</label>
                             <input type="file" name="gallery_images[]" accept=".jpg,.jpeg,.png,.webp" multiple class="block w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2 text-sm text-slate-200">
+                            <p class="mt-1 text-xs text-slate-400">Możesz zaznaczyć kilka zdjęć jednej realizacji. Każde zdjęcie maksymalnie 10 MB.</p>
                             <x-input-error :messages="$errors->get('gallery_images')" class="mt-2" />
                             <x-input-error :messages="$errors->get('gallery_images.*')" class="mt-2" />
                         </div>

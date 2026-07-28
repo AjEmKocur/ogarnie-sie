@@ -17,13 +17,24 @@
                 <div class="rounded-lg border border-green-200 bg-green-50 p-4 text-green-700">{{ session('status') }}</div>
             @endif
 
+            @if ($errors->any())
+                <div class="rounded-lg border border-rose-400/60 bg-rose-950/40 p-4 text-sm text-rose-100">
+                    <p class="font-semibold">Nie udało się dodać realizacji. Sprawdź poniższe błędy:</p>
+                    <ul class="mt-2 list-disc space-y-1 pl-5">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <div class="flex flex-wrap items-center gap-2">
                 <a href="#lista-realizacji" class="inline-flex items-center rounded-md border border-gray-300 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-slate-200 hover:bg-slate-800">
                     Lista realizacji
                 </a>
             </div>
 
-            <details class="rounded-xl border border-gray-200 bg-white shadow-sm" @if($posts->isEmpty()) open @endif>
+            <details class="rounded-xl border border-gray-200 bg-white shadow-sm" @if($posts->isEmpty() || $errors->any()) open @endif>
                 <summary class="cursor-pointer list-none px-5 py-4">
                     <span class="inline-flex items-center rounded-md border border-amber-300/60 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-amber-200 hover:bg-amber-500/10">
                         {{ $posts->isEmpty() ? 'Dodaj pierwszą realizację' : 'Dodaj kolejną realizację' }}
@@ -33,19 +44,33 @@
                 <div class="border-t border-gray-200 px-5 py-4">
                     <form method="POST" action="{{ route('admin.cms.news.store') }}" enctype="multipart/form-data" class="grid gap-4">
                         @csrf
-                        <input name="title" placeholder="Tytuł" class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2">
-                        <textarea name="excerpt" rows="2" placeholder="Skrót" class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2"></textarea>
-                        <textarea name="content" rows="5" placeholder="Treść" class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2"></textarea>
+                        <div>
+                            <input name="title" value="{{ old('title') }}" placeholder="Tytuł" class="w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2 text-slate-100 placeholder:text-slate-500">
+                            @error('title')
+                                <p class="mt-1 text-sm text-rose-300">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <textarea name="excerpt" rows="2" placeholder="Skrót" class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2 text-slate-100 placeholder:text-slate-500">{{ old('excerpt') }}</textarea>
+                        <textarea name="content" rows="5" placeholder="Treść" class="rounded-md border border-gray-300 bg-slate-900 px-3 py-2 text-slate-100 placeholder:text-slate-500">{{ old('content') }}</textarea>
                         <div>
                             <label class="mb-1 block text-sm font-medium text-slate-200">Zdjęcie główne (opcjonalnie)</label>
                             <input type="file" name="cover_image" accept=".jpg,.jpeg,.png,.webp" class="block w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2 text-sm text-slate-200">
+                            <p class="mt-1 text-xs text-slate-400">JPG, PNG albo WebP, maksymalnie 10 MB.</p>
+                            @error('cover_image')
+                                <p class="mt-1 text-sm text-rose-300">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
                             <label class="mb-1 block text-sm font-medium text-slate-200">Dodatkowe zdjęcia realizacji (opcjonalnie)</label>
                             <input type="file" name="gallery_images[]" accept=".jpg,.jpeg,.png,.webp" multiple class="block w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2 text-sm text-slate-200">
-                            <p class="mt-1 text-xs text-slate-400">Możesz zaznaczyć kilka zdjęć jednej realizacji.</p>
+                            <p class="mt-1 text-xs text-slate-400">Możesz zaznaczyć kilka zdjęć jednej realizacji. Każde zdjęcie maksymalnie 10 MB.</p>
+                            @foreach ($errors->get('gallery_images.*') as $messages)
+                                @foreach ($messages as $message)
+                                    <p class="mt-1 text-sm text-rose-300">{{ $message }}</p>
+                                @endforeach
+                            @endforeach
                         </div>
-                        <label class="flex items-center gap-2 text-sm"><input type="checkbox" name="is_published" value="1"> Opublikowany</label>
+                        <label class="flex items-center gap-2 text-sm"><input type="checkbox" name="is_published" value="1" @checked(old('is_published'))> Opublikowany</label>
                         <div class="flex justify-end"><x-primary-button>Dodaj</x-primary-button></div>
                     </form>
                 </div>

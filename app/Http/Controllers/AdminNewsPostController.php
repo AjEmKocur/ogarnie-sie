@@ -34,10 +34,18 @@ class AdminNewsPostController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'excerpt' => ['nullable', 'string', 'max:1000'],
             'content' => ['nullable', 'string'],
-            'cover_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'cover_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
             'gallery_images' => ['nullable', 'array'],
-            'gallery_images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'gallery_images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
             'is_published' => ['nullable', 'boolean'],
+        ], [
+            'title.required' => 'Podaj tytuł realizacji.',
+            'cover_image.image' => 'Zdjęcie główne musi być plikiem graficznym.',
+            'cover_image.mimes' => 'Zdjęcie główne musi być w formacie JPG, PNG albo WebP.',
+            'cover_image.max' => 'Zdjęcie główne może mieć maksymalnie 10 MB.',
+            'gallery_images.*.image' => 'Dodatkowe zdjęcia muszą być plikami graficznymi.',
+            'gallery_images.*.mimes' => 'Dodatkowe zdjęcia muszą być w formacie JPG, PNG albo WebP.',
+            'gallery_images.*.max' => 'Każde dodatkowe zdjęcie może mieć maksymalnie 10 MB.',
         ]);
 
         $isPublished = $request->boolean('is_published');
@@ -73,13 +81,21 @@ class AdminNewsPostController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'excerpt' => ['nullable', 'string', 'max:1000'],
             'content' => ['nullable', 'string'],
-            'cover_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'cover_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
             'remove_cover_image' => ['nullable', 'boolean'],
             'gallery_images' => ['nullable', 'array'],
-            'gallery_images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'gallery_images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
             'remove_gallery_images' => ['nullable', 'array'],
             'remove_gallery_images.*' => ['integer'],
             'is_published' => ['nullable', 'boolean'],
+        ], [
+            'title.required' => 'Podaj tytuł realizacji.',
+            'cover_image.image' => 'Zdjęcie główne musi być plikiem graficznym.',
+            'cover_image.mimes' => 'Zdjęcie główne musi być w formacie JPG, PNG albo WebP.',
+            'cover_image.max' => 'Zdjęcie główne może mieć maksymalnie 10 MB.',
+            'gallery_images.*.image' => 'Dodatkowe zdjęcia muszą być plikami graficznymi.',
+            'gallery_images.*.mimes' => 'Dodatkowe zdjęcia muszą być w formacie JPG, PNG albo WebP.',
+            'gallery_images.*.max' => 'Każde dodatkowe zdjęcie może mieć maksymalnie 10 MB.',
         ]);
 
         $isPublished = $request->boolean('is_published');
