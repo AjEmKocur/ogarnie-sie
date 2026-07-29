@@ -100,7 +100,7 @@
                                 class="absolute left-4 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-amber-300/45 bg-black/75 text-2xl font-bold leading-none text-amber-100 shadow-lg transition hover:bg-amber-400 hover:text-black"
                                 aria-label="Poprzednie zdjęcie"
                             >
-                                <span class="-translate-y-0.5">‹</span>
+                                <span class="-translate-y-1">‹</span>
                             </button>
                             <button
                                 type="button"
@@ -108,7 +108,7 @@
                                 class="absolute right-4 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-amber-300/45 bg-black/75 text-2xl font-bold leading-none text-amber-100 shadow-lg transition hover:bg-amber-400 hover:text-black"
                                 aria-label="Następne zdjęcie"
                             >
-                                <span class="-translate-y-0.5">›</span>
+                                <span class="-translate-y-1">›</span>
                             </button>
                         @endif
                     </div>
@@ -151,7 +151,7 @@
                             class="absolute left-4 top-1/2 z-10 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-amber-300/50 bg-black/75 text-3xl font-bold leading-none text-amber-100 transition hover:bg-amber-400 hover:text-black"
                             aria-label="Poprzednie zdjęcie"
                         >
-                            <span class="-translate-y-0.5">‹</span>
+                            <span class="-translate-y-1">‹</span>
                         </button>
 
                         <button
@@ -162,7 +162,7 @@
                             class="absolute right-4 top-1/2 z-10 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-amber-300/50 bg-black/75 text-3xl font-bold leading-none text-amber-100 transition hover:bg-amber-400 hover:text-black"
                             aria-label="Następne zdjęcie"
                         >
-                            <span class="-translate-y-0.5">›</span>
+                            <span class="-translate-y-1">›</span>
                         </button>
 
                         <div class="relative max-h-[92vh] max-w-6xl">
