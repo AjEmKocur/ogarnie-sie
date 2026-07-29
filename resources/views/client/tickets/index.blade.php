@@ -37,50 +37,55 @@
                     @if ($tickets->isEmpty())
                         <p>Brak zgłoszeń. Dodaj pierwsze zgłoszenie serwisowe.</p>
                     @else
-                        <div class="space-y-3 md:hidden">
+                        <div class="space-y-2 md:hidden">
                             @foreach ($tickets as $ticket)
                                 @php
                                     $canReview = $ticket->status === \App\Models\Ticket::STATUS_CLOSED && !$ticket->testimonial;
                                     $canCancel = !in_array($ticket->status, [\App\Models\Ticket::STATUS_CLOSED, \App\Models\Ticket::STATUS_CANCELLED], true);
                                 @endphp
-                                <article class="rounded-xl border border-amber-300/20 bg-black/45 p-4">
+                                <article class="rounded-lg border border-amber-300/25 bg-black/55 p-3">
                                     <div class="flex items-start justify-between gap-3">
-                                        <p class="text-sm text-slate-400">#{{ $ticket->id }}</p>
-                                        <span class="rounded-full px-3 py-1 text-xs font-semibold {{ $badgeClasses[$ticket->status] ?? 'bg-gray-500/20 text-gray-200 border border-gray-400/30' }}">
+                                        <div class="min-w-0">
+                                            <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-400">
+                                                <span class="font-semibold text-slate-300">#{{ $ticket->id }}</span>
+                                                <span class="text-amber-300/50">/</span>
+                                                <span>{{ $ticket->created_at->format('Y-m-d H:i') }}</span>
+                                            </div>
+                                            <p class="mt-1 truncate text-base font-semibold leading-5 text-white">{{ $ticket->title }}</p>
+                                        </div>
+
+                                        <span class="shrink-0 rounded-full px-2.5 py-1 text-[11px] font-semibold {{ $badgeClasses[$ticket->status] ?? 'bg-gray-500/20 text-gray-200 border border-gray-400/30' }}">
                                             {{ $statuses[$ticket->status] ?? $ticket->status }}
                                         </span>
                                     </div>
 
-                                    <p class="mt-2 font-semibold leading-5">{{ $ticket->title }}</p>
-
-                                    <div class="mt-3 flex items-center justify-between">
-                                        <p class="text-sm text-slate-400">{{ $ticket->created_at->format('Y-m-d H:i') }}</p>
-                                        <span class="rounded-full px-3 py-1 text-xs font-semibold {{ $paymentBadgeClasses[$ticket->payment_status] ?? 'bg-gray-500/20 text-gray-200 border border-gray-400/30' }}">
+                                    <div class="mt-3 flex items-center justify-between gap-2">
+                                        <span class="rounded-full px-2.5 py-1 text-[11px] font-semibold {{ $paymentBadgeClasses[$ticket->payment_status] ?? 'bg-gray-500/20 text-gray-200 border border-gray-400/30' }}">
                                             {{ \App\Models\Ticket::paymentStatuses()[$ticket->payment_status] ?? $ticket->payment_status }}
                                         </span>
-                                    </div>
 
-                                    <div class="mt-4 flex flex-wrap items-center justify-end gap-2">
-                                        @if ($canCancel)
-                                            <form method="POST" action="{{ route('client.tickets.cancel', $ticket) }}" data-confirm-title="Anulowanie zgłoszenia" data-confirm-message="Na pewno anulować zgłoszenie?">
-                                                @csrf
-                                                @method('PATCH')
-                                                <button type="submit"
-                                                        class="inline-flex items-center rounded-md border border-rose-400/50 bg-rose-500/10 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-rose-200 hover:bg-rose-500/20">
-                                                    Anuluj
-                                                </button>
-                                            </form>
-                                        @endif
-                                        @if ($canReview)
-                                            <a href="{{ route('client.testimonials.create', ['ticket' => $ticket->id]) }}"
-                                               class="inline-flex items-center rounded-md border border-amber-400/50 bg-amber-500/10 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-amber-200 hover:bg-amber-500/20">
-                                                Wystaw opinię
+                                        <div class="flex shrink-0 items-center gap-1.5">
+                                            @if ($canCancel)
+                                                <form method="POST" action="{{ route('client.tickets.cancel', $ticket) }}" data-confirm-title="Anulowanie zgłoszenia" data-confirm-message="Na pewno anulować zgłoszenie?">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit"
+                                                            class="inline-flex items-center rounded-md border border-rose-400/50 bg-rose-500/10 px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-rose-200 hover:bg-rose-500/20">
+                                                        Anuluj
+                                                    </button>
+                                                </form>
+                                            @endif
+                                            @if ($canReview)
+                                                <a href="{{ route('client.testimonials.create', ['ticket' => $ticket->id]) }}"
+                                                   class="inline-flex items-center rounded-md border border-amber-400/50 bg-amber-500/10 px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-amber-200 hover:bg-amber-500/20">
+                                                    Opinia
+                                                </a>
+                                            @endif
+                                            <a href="{{ route('client.tickets.show', $ticket) }}"
+                                               class="inline-flex items-center rounded-md border border-white/20 bg-white/5 px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-100 hover:bg-white/10">
+                                                Podgląd
                                             </a>
-                                        @endif
-                                        <a href="{{ route('client.tickets.show', $ticket) }}"
-                                           class="inline-flex items-center rounded-md border border-white/20 bg-white/5 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-slate-100 hover:bg-white/10">
-                                            Podgląd
-                                        </a>
+                                        </div>
                                     </div>
                                 </article>
                             @endforeach
