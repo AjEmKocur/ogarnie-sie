@@ -18,4 +18,9 @@ if [ "${RUN_MIGRATIONS:-false}" = "true" ]; then
   php artisan migrate --force
 fi
 
+if [ -n "${ADMIN_PROMOTE_EMAIL:-}" ]; then
+  php artisan users:make-admin "${ADMIN_PROMOTE_EMAIL}" --verify --force || \
+    echo "Admin promotion skipped or failed for ${ADMIN_PROMOTE_EMAIL}."
+fi
+
 exec php artisan serve --host=0.0.0.0 --port="${PORT:-10000}"
