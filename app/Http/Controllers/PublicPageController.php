@@ -108,28 +108,28 @@ class PublicPageController extends Controller
 
     public function sitemap(): Response
     {
-        $urls = collect([
-            ['loc' => route('public.home'), 'lastmod' => null],
-            ['loc' => route('public.about'), 'lastmod' => null],
-            ['loc' => route('public.services'), 'lastmod' => null],
-            ['loc' => route('public.testimonials'), 'lastmod' => null],
-            ['loc' => route('public.news'), 'lastmod' => null],
-            ['loc' => route('public.contact'), 'lastmod' => null],
-            ['loc' => route('public.terms'), 'lastmod' => null],
-            ['loc' => route('public.privacy'), 'lastmod' => null],
-            ['loc' => route('public.cookies'), 'lastmod' => null],
-            ['loc' => route('public.faq'), 'lastmod' => null],
-        ]);
+        $urls = [
+            ['loc' => url('/'), 'lastmod' => null],
+            ['loc' => url('/o-nas'), 'lastmod' => null],
+            ['loc' => url('/uslugi'), 'lastmod' => null],
+            ['loc' => url('/opinie'), 'lastmod' => null],
+            ['loc' => url('/realizacje'), 'lastmod' => null],
+            ['loc' => url('/kontakt'), 'lastmod' => null],
+            ['loc' => url('/zasady-wspolpracy'), 'lastmod' => null],
+            ['loc' => url('/polityka-prywatnosci'), 'lastmod' => null],
+            ['loc' => url('/cookies'), 'lastmod' => null],
+            ['loc' => url('/faq'), 'lastmod' => null],
+        ];
 
         Service::query()
             ->where('is_active', true)
             ->orderBy('id')
             ->get(['id', 'updated_at'])
-            ->each(function (Service $service) use ($urls): void {
-                $urls->push([
-                    'loc' => route('public.services.show', ['service' => $service->id]),
-                    'lastmod' => optional($service->updated_at)?->toAtomString(),
-                ]);
+            ->each(function (Service $service) use (&$urls): void {
+                $urls[] = [
+                    'loc' => url('/uslugi/'.$service->id),
+                    'lastmod' => $service->updated_at?->toAtomString(),
+                ];
             });
 
         NewsPost::query()
@@ -138,24 +138,42 @@ class PublicPageController extends Controller
             ->whereNotNull('slug')
             ->orderByDesc('published_at')
             ->get(['slug', 'updated_at'])
-            ->each(function (NewsPost $post) use ($urls): void {
-                $urls->push([
-                    'loc' => route('public.news.show', ['newsPost' => $post->slug]),
-                    'lastmod' => optional($post->updated_at)?->toAtomString(),
-                ]);
+            ->each(function (NewsPost $post) use (&$urls): void {
+                $urls[] = [
+                    'loc' => url('/realizacje/'.rawurlencode($post->slug)),
+                    'lastmod' => $post->updated_at?->toAtomString(),
+                ];
             });
 
-        $uniqueUrls = $urls
-            ->unique('loc')
-            ->values()
-            ->all();
+        $seen = [];
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>'."\n";
+        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'."\n";
 
-        $xml = view('public.sitemap', [
-            'urls' => $uniqueUrls,
-        ])->render();
+        foreach ($urls as $url) {
+            if (isset($seen[$url['loc']])) {
+                continue;
+            }
+
+            $seen[$url['loc']] = true;
+            $xml .= "    <url>\n";
+            $xml .= '        <loc>'.$this->escapeXml($url['loc'])."</loc>\n";
+
+            if (! empty($url['lastmod'])) {
+                $xml .= '        <lastmod>'.$this->escapeXml($url['lastmod'])."</lastmod>\n";
+            }
+
+            $xml .= "    </url>\n";
+        }
+
+        $xml .= '</urlset>'."\n";
 
         return response($xml, Response::HTTP_OK)
             ->header('Content-Type', 'application/xml');
+    }
+
+    private function escapeXml(string $value): string
+    {
+        return htmlspecialchars($value, ENT_XML1 | ENT_COMPAT, 'UTF-8');
     }
 
 }
