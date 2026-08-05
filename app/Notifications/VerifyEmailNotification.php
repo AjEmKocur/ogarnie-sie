@@ -20,6 +20,7 @@ class VerifyEmailNotification extends BaseVerifyEmail
             ->line('Dziękujemy za rejestrację w serwisie Kocur Serwis Komputerowy.')
             ->line('Aby aktywować konto, potwierdź swój adres e-mail.')
             ->action('Potwierdź e-mail', $verificationUrl)
-            ->line('Jeśli to nie Ty zakładałeś konto, zignoruj tę wiadomość.');
+            ->line('Jeśli to nie Ty zakładałeś konto, zignoruj tę wiadomość.')
+            ->salutation('Pozdrawiamy, Kocur Serwis Komputerowy');
     }
 }
