@@ -20,7 +20,7 @@ class TicketAttachmentController extends Controller
         ]);
 
         $file = $validated['attachment'];
-        $disk = 'local';
+        $disk = (string) config('filesystems.ticket_attachment_disk', 'local');
         $path = $file->store("ticket-attachments/{$ticket->id}", $disk);
 
         $ticket->attachments()->create([
@@ -74,4 +74,3 @@ class TicketAttachmentController extends Controller
         }
     }
 }
-

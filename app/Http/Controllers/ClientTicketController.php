@@ -76,7 +76,7 @@ class ClientTicketController extends Controller
 
         /** @var UploadedFile $file */
         foreach ($request->file('attachments', []) as $file) {
-            $disk = 'local';
+            $disk = (string) config('filesystems.ticket_attachment_disk', 'local');
             $path = $file->store("ticket-attachments/{$ticket->id}", $disk);
 
             $ticket->attachments()->create([
