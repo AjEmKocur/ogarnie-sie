@@ -23,4 +23,9 @@ if [ -n "${ADMIN_PROMOTE_EMAIL:-}" ]; then
     echo "Admin promotion skipped or failed for ${ADMIN_PROMOTE_EMAIL}."
 fi
 
+if [ -n "${DELETE_USER_EMAIL:-}" ]; then
+  php artisan users:delete "${DELETE_USER_EMAIL}" --force || \
+    echo "User deletion skipped or failed for ${DELETE_USER_EMAIL}."
+fi
+
 exec php artisan serve --host=0.0.0.0 --port="${PORT:-10000}"
