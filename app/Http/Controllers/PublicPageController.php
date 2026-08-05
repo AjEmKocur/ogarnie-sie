@@ -108,36 +108,50 @@ class PublicPageController extends Controller
 
     public function sitemap(): Response
     {
-        $urls = [
-            route('public.home'),
-            route('public.about'),
-            route('public.services'),
-            route('public.testimonials'),
-            route('public.news'),
-            route('public.contact'),
-            route('public.terms'),
-            route('public.privacy'),
-            route('public.cookies'),
-            route('public.faq'),
-        ];
+        $urls = collect([
+            ['loc' => route('public.home'), 'lastmod' => null],
+            ['loc' => route('public.about'), 'lastmod' => null],
+            ['loc' => route('public.services'), 'lastmod' => null],
+            ['loc' => route('public.testimonials'), 'lastmod' => null],
+            ['loc' => route('public.news'), 'lastmod' => null],
+            ['loc' => route('public.contact'), 'lastmod' => null],
+            ['loc' => route('public.terms'), 'lastmod' => null],
+            ['loc' => route('public.privacy'), 'lastmod' => null],
+            ['loc' => route('public.cookies'), 'lastmod' => null],
+            ['loc' => route('public.faq'), 'lastmod' => null],
+        ]);
 
-        Service::where('is_active', true)
+        Service::query()
+            ->where('is_active', true)
             ->orderBy('id')
-            ->get()
-            ->each(function (Service $service) use (&$urls): void {
-                $urls[] = route('public.services.show', $service);
+            ->get(['id', 'updated_at'])
+            ->each(function (Service $service) use ($urls): void {
+                $urls->push([
+                    'loc' => route('public.services.show', ['service' => $service->id]),
+                    'lastmod' => optional($service->updated_at)?->toAtomString(),
+                ]);
             });
 
-        NewsPost::where('is_published', true)
+        NewsPost::query()
+            ->where('is_published', true)
             ->whereNotNull('published_at')
+            ->whereNotNull('slug')
             ->orderByDesc('published_at')
-            ->get()
-            ->each(function (NewsPost $post) use (&$urls): void {
-                $urls[] = route('public.news.show', $post);
+            ->get(['slug', 'updated_at'])
+            ->each(function (NewsPost $post) use ($urls): void {
+                $urls->push([
+                    'loc' => route('public.news.show', ['newsPost' => $post->slug]),
+                    'lastmod' => optional($post->updated_at)?->toAtomString(),
+                ]);
             });
+
+        $uniqueUrls = $urls
+            ->unique('loc')
+            ->values()
+            ->all();
 
         $xml = view('public.sitemap', [
-            'urls' => array_values(array_unique($urls)),
+            'urls' => $uniqueUrls,
         ])->render();
 
         return response($xml, Response::HTTP_OK)
