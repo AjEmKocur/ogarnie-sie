@@ -89,10 +89,10 @@
                 <li>
                     <h2 class="text-xl font-bold text-white">8. Płatność i potwierdzenie sprzedaży</h2>
                     <p class="mt-3 leading-7 text-slate-300">
-                        Sposób płatności jest ustalany indywidualnie z klientem. Przy działalności nierejestrowanej możliwe
-                        jest wystawienie potwierdzenia sprzedaży albo rachunku na żądanie klienta, zgodnie z aktualnymi
-                        przepisami. Ceny podawane klientowi są cenami do zapłaty. Jeżeli działalność zostanie zarejestrowana,
-                        dane rozliczeniowe zostaną uzupełnione.
+                        Sposób płatności ustalamy przed wykonaniem usługi. Ceny podawane klientowi są cenami do zapłaty.
+                        Sprzedaż w ramach działalności nierejestrowanej zapisuję w uproszczonej ewidencji. Na prośbę klienta
+                        mogę wystawić prosty rachunek albo potwierdzenie sprzedaży za wykonaną usługę. Jeżeli działalność
+                        zostanie zarejestrowana, dane rozliczeniowe na stronie zostaną uzupełnione.
                     </p>
                 </li>
 
@@ -112,8 +112,7 @@
                         skontaktować się przez formularz kontaktowy albo adres e-mail wskazany na stronie. Każde zgłoszenie
                         jest analizowane indywidualnie, z uwzględnieniem rodzaju wykonanej usługi oraz stanu sprzętu.
                         Reklamacja powinna zawierać opis problemu, numer zgłoszenia, jeżeli został nadany, oraz dane kontaktowe.
-                        Odpowiedź jest udzielana w rozsądnym terminie, nie później niż w terminie wynikającym z obowiązujących
-                        przepisów dotyczących konsumentów.
+                        Odpowiedź na reklamację klienta będącego konsumentem jest udzielana w ciągu 14 dni od jej otrzymania.
                     </p>
                 </li>
 
@@ -121,11 +120,10 @@
                     <h2 class="text-xl font-bold text-white">11. Rezygnacja i odstąpienie</h2>
                     <p class="mt-3 leading-7 text-slate-300">
                         Jeżeli zakres, termin albo koszt nie odpowiada klientowi, można zrezygnować przed rozpoczęciem prac.
-                        W przypadku usług uzgadnianych na odległość szczegóły realizacji oraz ewentualne rozpoczęcie usługi
-                        przed upływem terminu na odstąpienie powinny być ustalone z klientem w jasny sposób. Jeżeli klient
-                        będący konsumentem zawiera umowę na odległość, może mieć prawo odstąpienia od umowy w terminie
-                        przewidzianym przez przepisy, chyba że przepisy przewidują wyjątek, na przykład po pełnym wykonaniu
-                        usługi za wyraźną zgodą klienta.
+                        Jeżeli usługa jest uzgadniana na odległość, na przykład przez formularz, e-mail, telefon albo wiadomość,
+                        klient będący konsumentem może mieć 14 dni na odstąpienie od umowy. Jeżeli klient poprosi o rozpoczęcie
+                        usługi przed upływem tego terminu, a usługa zostanie w pełni wykonana, prawo odstąpienia może wygasnąć
+                        zgodnie z przepisami. Takie rozpoczęcie usługi powinno być jasno uzgodnione przed pracą.
                     </p>
                 </li>
 
