@@ -13,24 +13,24 @@ class TestimonialModerationService
      */
     public function moderate(string $content): array
     {
-        $pythonEnabled = (bool) config('services.moderation.python_enabled', true);
+        $openAiEnabled = (bool) config('services.moderation.openai_enabled', false);
 
         Log::info('Moderation start.', [
-            'python_enabled' => $pythonEnabled,
+            'openai_enabled' => $openAiEnabled,
         ]);
 
-        if ($pythonEnabled) {
-            $pythonResult = $this->moderateWithPython($content);
-            if ($pythonResult !== null) {
-                Log::info('Moderation used Python.', [
-                    'status' => $pythonResult['status'],
-                    'score' => $pythonResult['score'],
+        if ($openAiEnabled) {
+            $openAiResult = $this->moderateWithOpenAi($content);
+            if ($openAiResult !== null) {
+                Log::info('Moderation used OpenAI.', [
+                    'status' => $openAiResult['status'],
+                    'score' => $openAiResult['score'],
                 ]);
 
-                return $pythonResult;
+                return $openAiResult;
             }
 
-            Log::warning('Moderation fell back from Python.');
+            Log::warning('Moderation fell back from OpenAI.');
         }
 
         $local = $this->moderateLocally($content);
@@ -45,18 +45,39 @@ class TestimonialModerationService
     /**
      * @return array{status:string, score:int, reasons:array<int,string>, source:string}|null
      */
-    private function moderateWithPython(string $content): ?array
+    private function moderateWithOpenAi(string $content): ?array
     {
-        try {
-            $url = (string) config('services.moderation.python_url');
-            $timeout = (int) config('services.moderation.timeout_seconds', 5);
+        $apiKey = (string) config('services.moderation.openai_api_key', '');
+        if ($apiKey === '') {
+            Log::warning('OpenAI moderation enabled but OPENAI_API_KEY is empty.');
 
-            $response = Http::timeout($timeout)->post($url, [
-                'content' => $content,
-            ]);
+            return null;
+        }
+
+        try {
+            $timeout = (int) config('services.moderation.openai_timeout_seconds', 12);
+
+            $response = Http::withToken($apiKey)
+                ->timeout($timeout)
+                ->asJson()
+                ->post('https://api.openai.com/v1/chat/completions', [
+                    'model' => (string) config('services.moderation.openai_model', 'gpt-4.1-mini'),
+                    'temperature' => 0,
+                    'response_format' => ['type' => 'json_object'],
+                    'messages' => [
+                        [
+                            'role' => 'system',
+                            'content' => $this->openAiSystemPrompt(),
+                        ],
+                        [
+                            'role' => 'user',
+                            'content' => $content,
+                        ],
+                    ],
+                ]);
 
             if (! $response->ok()) {
-                Log::warning('Python moderation API returned non-OK response.', [
+                Log::warning('OpenAI moderation returned non-OK response.', [
                     'status' => $response->status(),
                     'body' => $response->body(),
                 ]);
@@ -66,35 +87,69 @@ class TestimonialModerationService
 
             /** @var array<string,mixed> $data */
             $data = $response->json() ?? [];
+            $messageContent = (string) data_get($data, 'choices.0.message.content', '');
+            $parsed = json_decode($messageContent, true);
 
-            $status = (string) ($data['status'] ?? '');
-            $score = (int) ($data['score'] ?? 0);
-            $reasons = $data['reasons'] ?? [];
+            if (! is_array($parsed)) {
+                Log::warning('OpenAI moderation returned invalid JSON.', [
+                    'content' => $messageContent,
+                ]);
+
+                return null;
+            }
+
+            $status = (string) ($parsed['status'] ?? '');
+            $score = (int) ($parsed['score'] ?? 0);
+            $reasons = $parsed['reasons'] ?? [];
 
             if (! in_array($status, ['approve', 'review', 'reject'], true)) {
                 return null;
             }
 
             if (! is_array($reasons)) {
-                $reasons = ['Brak szczegolowego uzasadnienia z modulu moderacji.'];
+                $reasons = ['Brak szczegolowego uzasadnienia z AI.'];
             }
 
             $reasons = array_values(array_map(static fn ($r) => (string) $r, $reasons));
-            $this->appendSourceReason($reasons, 'Python moderation');
+            $this->appendSourceReason($reasons, 'OpenAI');
 
             return [
                 'status' => $status,
                 'score' => max(0, min(100, $score)),
                 'reasons' => $reasons,
-                'source' => 'python',
+                'source' => 'openai',
             ];
         } catch (Throwable $e) {
-            Log::warning('Python moderation API unavailable. Using local fallback.', [
+            Log::warning('OpenAI moderation unavailable. Using local fallback.', [
                 'error' => $e->getMessage(),
             ]);
 
             return null;
         }
+    }
+
+    private function openAiSystemPrompt(): string
+    {
+        return <<<'PROMPT'
+Jestes klasyfikatorem moderacji opinii uzytkownikow po polsku.
+Zwracaj wylacznie poprawny JSON o strukturze:
+{
+  "status": "approve" | "review" | "reject",
+  "score": integer 0-100,
+  "reasons": [string, ...]
+}
+
+Reguly decyzji:
+- Jesli tekst zawiera wulgaryzmy, obelgi albo maskowane formy obrazliwe, zwroc status="reject" i score >= 60.
+- Jesli tekst zawiera dane kontaktowe, telefon, email, link, social handle albo zachete do kontaktu poza platforma, zwroc status="reject" i score >= 60.
+- Traktuj jako kontakt takze numery rozdzielone separatorami, cyfry zapisane slowami i zamaskowane adresy email.
+- Nie traktuj jako kontaktu samych kwot lub cen, np. "50,50 zl", "30.45", "za 120 PLN", jesli brak innych sygnalow kontaktowych.
+- Jesli tekst wyglada na spam lub promocje bez danych kontaktowych, zwroc status="review" i score 25-59.
+- Jesli tekst jest neutralny i bez powyzszych ryzyk, zwroc status="approve" i score 0-24.
+
+Zawsze podaj co najmniej jeden reason.
+Nie dodawaj zadnego tekstu poza JSON.
+PROMPT;
     }
 
     /**
