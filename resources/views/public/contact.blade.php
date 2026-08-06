@@ -17,7 +17,7 @@
             <div class="rounded-xl border border-amber-300/20 bg-slate-950/70 p-6">
                 <h2 class="text-xl font-semibold text-white">Dane kontaktowe</h2>
                 <ul class="mt-4 space-y-2 text-sm text-slate-300">
-                    <li>Email: kocurserwis@gmail.com</li>
+                    <li>Email: kontakt@kocurserwis.pl</li>
                     <li>Obszar: Jarosław i okolice</li>
                     <li>Dojazd: ustalany indywidualnie przed usługą</li>
                     <li>Godziny kontaktu: Pn-Pt 8:00-18:00</li>
@@ -38,6 +38,11 @@
 
             <div class="rounded-xl border border-amber-300/20 bg-slate-950/70 p-6">
                 <h2 class="text-xl font-semibold text-white">Opisz problem</h2>
+                @if ($errors->has('mail'))
+                    <div class="mt-4 rounded-lg border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-100">
+                        {{ $errors->first('mail') }}
+                    </div>
+                @endif
                 <form method="POST" action="{{ route('public.contact.store') }}" class="mt-4 space-y-4">
                     @csrf
 

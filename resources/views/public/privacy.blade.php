@@ -22,7 +22,7 @@
                     <p class="mt-3 leading-7 text-slate-300">
                         Administratorem danych jest Dominik Kocur, działający pod nazwą Kocur Serwis Komputerowy.
                         Kontakt z administratorem jest możliwy przez formularz kontaktowy lub adres e-mail:
-                        <a href="mailto:kocurserwis@gmail.com" class="text-amber-200 underline underline-offset-4 hover:text-amber-100">kocurserwis@gmail.com</a>.
+                        <a href="mailto:kontakt@kocurserwis.pl" class="text-amber-200 underline underline-offset-4 hover:text-amber-100">kontakt@kocurserwis.pl</a>.
                     </p>
                 </li>
 

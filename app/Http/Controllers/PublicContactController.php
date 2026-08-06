@@ -34,13 +34,23 @@ class PublicContactController extends Controller
         $this->verifyTurnstile($request);
         unset($validated['cf-turnstile-response']);
 
-        Mail::to(config('mail.from.address'))->send(new ContactMessageReceived(
-            name: (string) $validated['name'],
-            email: (string) $validated['email'],
-            phone: (string) ($validated['phone'] ?? ''),
-            subjectLine: (string) $validated['subject'],
-            messageBody: (string) $validated['message'],
-        ));
+        try {
+            Mail::to(config('mail.from.address'))->send(new ContactMessageReceived(
+                name: (string) $validated['name'],
+                email: (string) $validated['email'],
+                phone: (string) ($validated['phone'] ?? ''),
+                subjectLine: (string) $validated['subject'],
+                messageBody: (string) $validated['message'],
+            ));
+        } catch (\Throwable $e) {
+            report($e);
+
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'mail' => 'Nie udało się wysłać wiadomości. Spróbuj ponownie za chwilę albo napisz bezpośrednio na kontakt@kocurserwis.pl.',
+                ]);
+        }
 
         try {
             Mail::to((string) $validated['email'])->send(new ContactMessageConfirmation(
