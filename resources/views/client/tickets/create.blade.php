@@ -42,6 +42,27 @@
                             <x-input-error :messages="$errors->get('attachments.*')" class="mt-2" />
                         </div>
 
+                        <div class="rounded-lg border border-amber-300/30 bg-amber-50 p-4">
+                            <label for="terms" class="flex items-start gap-3 text-sm text-slate-700">
+                                <input
+                                    id="terms"
+                                    name="terms"
+                                    type="checkbox"
+                                    value="1"
+                                    @checked(old('terms'))
+                                    required
+                                    class="mt-1 rounded border-amber-300 text-amber-500 focus:ring-amber-500"
+                                >
+                                <span>
+                                    Potwierdzam, że opis zgłoszenia i załączniki są zgodne z moją wiedzą oraz że zapoznałem/am się z
+                                    <a href="{{ route('public.terms') }}" class="font-semibold text-amber-700 underline underline-offset-4 hover:text-amber-800" target="_blank" rel="noopener">zasadami współpracy</a>
+                                    i
+                                    <a href="{{ route('public.privacy') }}" class="font-semibold text-amber-700 underline underline-offset-4 hover:text-amber-800" target="_blank" rel="noopener">polityką prywatności</a>.
+                                </span>
+                            </label>
+                            <x-input-error :messages="$errors->get('terms')" class="mt-2" />
+                        </div>
+
                         <div class="flex justify-end gap-3">
                             <a href="{{ route('client.tickets.index') }}" class="inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 transition hover:bg-gray-50">
                                 {{ __('Anuluj') }}

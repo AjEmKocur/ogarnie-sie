@@ -39,7 +39,16 @@
                 </li>
 
                 <li>
-                    <h2 class="text-xl font-bold text-white">3. Cele przetwarzania</h2>
+                    <h2 class="text-xl font-bold text-white">3. Poprawianie danych konta</h2>
+                    <p class="mt-3 leading-7 text-slate-300">
+                        Użytkownik powinien podawać prawdziwe dane potrzebne do kontaktu i obsługi zgłoszeń. Jeżeli dane
+                        są nieaktualne albo wpisane z błędem, można je poprawić w ustawieniach profilu. W razie problemu
+                        z dostępem do konta można skontaktować się przez adres e-mail wskazany w tej polityce.
+                    </p>
+                </li>
+
+                <li>
+                    <h2 class="text-xl font-bold text-white">4. Cele przetwarzania</h2>
                     <p class="mt-3 leading-7 text-slate-300">
                         Dane są przetwarzane w celu odpowiedzi na wiadomość, ustalenia zakresu usługi, obsługi zgłoszeń,
                         prowadzenia kont użytkowników, zabezpieczenia strony przed spamem, obsługi reklamacji oraz
@@ -50,7 +59,7 @@
                 </li>
 
                 <li>
-                    <h2 class="text-xl font-bold text-white">4. Podstawa przetwarzania</h2>
+                    <h2 class="text-xl font-bold text-white">5. Podstawa przetwarzania</h2>
                     <p class="mt-3 leading-7 text-slate-300">
                         Dane są przetwarzane na podstawie art. 6 ust. 1 lit. b RODO, gdy jest to potrzebne do podjęcia
                         działań przed zawarciem umowy albo wykonania uzgodnionej usługi; art. 6 ust. 1 lit. c RODO, gdy
@@ -61,7 +70,7 @@
                 </li>
 
                 <li>
-                    <h2 class="text-xl font-bold text-white">5. Odbiorcy danych</h2>
+                    <h2 class="text-xl font-bold text-white">6. Odbiorcy danych</h2>
                     <p class="mt-3 leading-7 text-slate-300">
                         Dane mogą być przetwarzane przy pomocy dostawców technicznych, takich jak Render (hosting aplikacji),
                         OVH/Zimbra (obsługa poczty e-mail), Cloudflare (Turnstile, zabezpieczenia i R2 do przechowywania
@@ -72,7 +81,7 @@
                 </li>
 
                 <li>
-                    <h2 class="text-xl font-bold text-white">6. Cloudflare Turnstile</h2>
+                    <h2 class="text-xl font-bold text-white">7. Cloudflare Turnstile</h2>
                     <p class="mt-3 leading-7 text-slate-300">
                         Formularz kontaktowy może korzystać z mechanizmu Cloudflare Turnstile. Rozwiązanie to pomaga
                         sprawdzić, czy formularz nie jest wysyłany automatycznie przez boty. W tym celu mogą być
@@ -81,7 +90,7 @@
                 </li>
 
                 <li>
-                    <h2 class="text-xl font-bold text-white">7. Załączniki i pliki w zgłoszeniach</h2>
+                    <h2 class="text-xl font-bold text-white">8. Załączniki i pliki w zgłoszeniach</h2>
                     <p class="mt-3 leading-7 text-slate-300">
                         Użytkownik może dodać zdjęcia lub inne pliki potrzebne do obsługi zgłoszenia. Pliki są przechowywane
                         w zewnętrznej usłudze storage i są dostępne tylko dla zalogowanego właściciela zgłoszenia oraz
@@ -91,7 +100,7 @@
                 </li>
 
                 <li>
-                    <h2 class="text-xl font-bold text-white">8. Google Maps</h2>
+                    <h2 class="text-xl font-bold text-white">9. Google Maps</h2>
                     <p class="mt-3 leading-7 text-slate-300">
                         Na stronie kontaktowej może być osadzona mapa Google Maps. Po wyświetleniu mapy Google może
                         otrzymać dane techniczne użytkownika, takie jak adres IP, informacje o przeglądarce i podstawowe
@@ -100,7 +109,7 @@
                 </li>
 
                 <li>
-                    <h2 class="text-xl font-bold text-white">9. Opinie i moderacja treści</h2>
+                    <h2 class="text-xl font-bold text-white">10. Opinie i moderacja treści</h2>
                     <p class="mt-3 leading-7 text-slate-300">
                         Opinie dodawane przez klientów mogą być automatycznie sprawdzane pod kątem spamu, wulgaryzmów,
                         danych kontaktowych publikowanych w treści opinii oraz treści nieodpowiednich. Wynik takiej
@@ -110,7 +119,7 @@
                 </li>
 
                 <li>
-                    <h2 class="text-xl font-bold text-white">10. Czas przechowywania danych</h2>
+                    <h2 class="text-xl font-bold text-white">11. Czas przechowywania danych</h2>
                     <p class="mt-3 leading-7 text-slate-300">
                         Dane z formularza i zgłoszeń są przechowywane przez czas potrzebny do obsługi sprawy, a następnie
                         przez okres potrzebny do rozliczeń, reklamacji albo zabezpieczenia ewentualnych roszczeń. Dane konta
@@ -120,7 +129,7 @@
                 </li>
 
                 <li>
-                    <h2 class="text-xl font-bold text-white">11. Prawa osoby, której dane dotyczą</h2>
+                    <h2 class="text-xl font-bold text-white">12. Prawa osoby, której dane dotyczą</h2>
                     <p class="mt-3 leading-7 text-slate-300">
                         Osoba, której dane dotyczą, może żądać dostępu do danych, ich sprostowania, usunięcia, ograniczenia
                         przetwarzania, przeniesienia danych albo wnieść sprzeciw wobec przetwarzania, jeżeli pozwalają na to
@@ -131,7 +140,7 @@
                 </li>
 
                 <li>
-                    <h2 class="text-xl font-bold text-white">12. Dobrowolność podania danych</h2>
+                    <h2 class="text-xl font-bold text-white">13. Dobrowolność podania danych</h2>
                     <p class="mt-3 leading-7 text-slate-300">
                         Podanie danych jest dobrowolne, ale potrzebne do odpowiedzi na wiadomość albo obsługi zgłoszenia.
                         Bez podania danych kontaktowych nie będzie możliwe udzielenie odpowiedzi.
@@ -139,7 +148,7 @@
                 </li>
 
                 <li>
-                    <h2 class="text-xl font-bold text-white">13. Przekazywanie danych poza EOG</h2>
+                    <h2 class="text-xl font-bold text-white">14. Przekazywanie danych poza EOG</h2>
                     <p class="mt-3 leading-7 text-slate-300">
                         Niektóre narzędzia techniczne, takie jak Google Maps, Cloudflare albo usługi AI, mogą wiązać się
                         z przetwarzaniem danych poza Europejskim Obszarem Gospodarczym. W takim przypadku dostawcy usług

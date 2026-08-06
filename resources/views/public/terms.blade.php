@@ -37,7 +37,17 @@
                 </li>
 
                 <li>
-                    <h2 class="text-xl font-bold text-white">3. Wycena i zakres pracy</h2>
+                    <h2 class="text-xl font-bold text-white">3. Dane klienta i konto</h2>
+                    <p class="mt-3 leading-7 text-slate-300">
+                        Przy zakładaniu konta i tworzeniu zgłoszenia klient powinien podać prawdziwe dane kontaktowe.
+                        Dzięki temu mogę skontaktować się w sprawie usługi, potwierdzić ustalenia i wysyłać informacje
+                        o zgłoszeniu. Jeżeli w danych pojawi się pomyłka, klient może poprawić imię, nazwisko i adres e-mail
+                        w ustawieniach profilu albo skontaktować się ze mną przez adres e-mail wskazany na stronie.
+                    </p>
+                </li>
+
+                <li>
+                    <h2 class="text-xl font-bold text-white">4. Wycena i zakres pracy</h2>
                     <p class="mt-3 leading-7 text-slate-300">
                         Koszt usługi jest podawany przed rozpoczęciem pracy. Jeżeli w trakcie diagnozy okaże się, że problem
                         jest szerszy niż wynikało z pierwszego opisu, dodatkowe czynności są uzgadniane z klientem przed ich
@@ -47,7 +57,7 @@
                 </li>
 
                 <li>
-                    <h2 class="text-xl font-bold text-white">4. Części i zakupy sprzętu</h2>
+                    <h2 class="text-xl font-bold text-white">5. Części i zakupy sprzętu</h2>
                     <p class="mt-3 leading-7 text-slate-300">
                         Najbezpieczniejszy model współpracy polega na tym, że klient kupuje części na swoje dane, a ja pomagam
                         w ich doborze, montażu, konfiguracji i testach. Jeżeli zakup części miałby zostać wykonany przeze mnie,
@@ -58,7 +68,7 @@
                 </li>
 
                 <li>
-                    <h2 class="text-xl font-bold text-white">5. Dojazd do klienta</h2>
+                    <h2 class="text-xl font-bold text-white">6. Dojazd do klienta</h2>
                     <p class="mt-3 leading-7 text-slate-300">
                         Pomoc z dojazdem jest możliwa głównie na terenie Jarosławia i okolic. Termin, zakres oraz szczegóły
                         wizyty są ustalane przed przyjazdem. Przy bardziej złożonych problemach może być konieczne
@@ -67,7 +77,7 @@
                 </li>
 
                 <li>
-                    <h2 class="text-xl font-bold text-white">6. Sprzęt i dane użytkownika</h2>
+                    <h2 class="text-xl font-bold text-white">7. Sprzęt i dane użytkownika</h2>
                     <p class="mt-3 leading-7 text-slate-300">
                         Przed przekazaniem komputera lub laptopa warto wykonać kopię ważnych danych. Jeżeli dane są istotne,
                         klient powinien poinformować o tym przed rozpoczęciem pracy. W razie potrzeby można ustalić usługę
@@ -78,7 +88,7 @@
                 </li>
 
                 <li>
-                    <h2 class="text-xl font-bold text-white">7. Przekazanie sprzętu i potwierdzenie ustaleń</h2>
+                    <h2 class="text-xl font-bold text-white">8. Przekazanie sprzętu i potwierdzenie ustaleń</h2>
                     <p class="mt-3 leading-7 text-slate-300">
                         Przy przekazaniu sprzętu można ustalić podstawowe informacje: model urządzenia, opis problemu,
                         widoczne uszkodzenia, przekazane akcesoria oraz orientacyjny zakres prac. Takie ustalenia pomagają
@@ -87,7 +97,7 @@
                 </li>
 
                 <li>
-                    <h2 class="text-xl font-bold text-white">8. Płatność i potwierdzenie sprzedaży</h2>
+                    <h2 class="text-xl font-bold text-white">9. Płatność i potwierdzenie sprzedaży</h2>
                     <p class="mt-3 leading-7 text-slate-300">
                         Sposób płatności ustalamy przed wykonaniem usługi. Ceny podawane klientowi są cenami do zapłaty.
                         Sprzedaż w ramach działalności nierejestrowanej zapisuję w uproszczonej ewidencji. Na prośbę klienta
@@ -97,7 +107,7 @@
                 </li>
 
                 <li>
-                    <h2 class="text-xl font-bold text-white">9. Zakończenie usługi</h2>
+                    <h2 class="text-xl font-bold text-white">10. Zakończenie usługi</h2>
                     <p class="mt-3 leading-7 text-slate-300">
                         Po wykonaniu usługi klient otrzymuje informację, co zostało zrobione oraz czy są potrzebne dalsze
                         działania, np. wymiana części, obserwacja temperatur, aktualizacja systemu albo wykonanie kopii
@@ -106,7 +116,7 @@
                 </li>
 
                 <li>
-                    <h2 class="text-xl font-bold text-white">10. Reklamacje i uwagi</h2>
+                    <h2 class="text-xl font-bold text-white">11. Reklamacje i uwagi</h2>
                     <p class="mt-3 leading-7 text-slate-300">
                         Jeżeli po wykonaniu usługi pojawi się problem związany z ustalonym zakresem prac, klient może
                         skontaktować się przez formularz kontaktowy albo adres e-mail wskazany na stronie. Każde zgłoszenie
@@ -117,7 +127,7 @@
                 </li>
 
                 <li>
-                    <h2 class="text-xl font-bold text-white">11. Rezygnacja i odstąpienie</h2>
+                    <h2 class="text-xl font-bold text-white">12. Rezygnacja i odstąpienie</h2>
                     <p class="mt-3 leading-7 text-slate-300">
                         Jeżeli zakres, termin albo koszt nie odpowiada klientowi, można zrezygnować przed rozpoczęciem prac.
                         Jeżeli usługa jest uzgadniana na odległość, na przykład przez formularz, e-mail, telefon albo wiadomość,
@@ -128,7 +138,7 @@
                 </li>
 
                 <li>
-                    <h2 class="text-xl font-bold text-white">12. Dane osobowe</h2>
+                    <h2 class="text-xl font-bold text-white">13. Dane osobowe</h2>
                     <p class="mt-3 leading-7 text-slate-300">
                         Dane podane w formularzu kontaktowym są wykorzystywane do odpowiedzi na wiadomość i obsługi
                         zgłoszenia. Szczegółowe informacje znajdują się w

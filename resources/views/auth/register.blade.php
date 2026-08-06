@@ -36,6 +36,27 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
+        <div class="mt-5 rounded-lg border border-amber-300/25 bg-amber-400/5 p-4">
+            <label for="terms" class="flex items-start gap-3 text-sm text-slate-300">
+                <input
+                    id="terms"
+                    name="terms"
+                    type="checkbox"
+                    value="1"
+                    @checked(old('terms'))
+                    required
+                    class="mt-1 rounded border-amber-300/40 bg-black text-amber-400 focus:ring-amber-400 focus:ring-offset-black"
+                >
+                <span>
+                    Podaję prawdziwe dane potrzebne do obsługi konta i zgłoszeń oraz potwierdzam, że zapoznałem/am się z
+                    <a href="{{ route('public.terms') }}" class="font-semibold text-amber-100 underline decoration-amber-300/60 underline-offset-4 hover:text-amber-200" target="_blank" rel="noopener">zasadami współpracy</a>
+                    i
+                    <a href="{{ route('public.privacy') }}" class="font-semibold text-amber-100 underline decoration-amber-300/60 underline-offset-4 hover:text-amber-200" target="_blank" rel="noopener">polityką prywatności</a>.
+                </span>
+            </label>
+            <x-input-error :messages="$errors->get('terms')" class="mt-2" />
+        </div>
+
         <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
             <p class="text-sm text-slate-400">
                 Masz już konto?
@@ -58,4 +79,3 @@
         </a>
     </div>
 </x-guest-layout>
-

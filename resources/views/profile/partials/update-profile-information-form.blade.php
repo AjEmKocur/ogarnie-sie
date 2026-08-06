@@ -5,7 +5,7 @@
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("Update your account's profile information and email address.") }}
+            Dane możesz poprawić samodzielnie, jeśli przy rejestracji pojawiła się pomyłka. Używaj prawdziwego imienia, nazwiska i adresu e-mail, żeby zgłoszenia oraz kontakt serwisowy działały prawidłowo.
         </p>
     </header>
 

@@ -49,12 +49,14 @@ class ClientTicketController extends Controller
                 'custom_request' => ['nullable', 'string', 'max:5000'],
                 'attachments' => ['nullable', 'array', 'max:5'],
                 'attachments.*' => ['file', 'image', 'max:10240', 'mimes:jpg,jpeg,png,webp'],
+                'terms' => ['accepted'],
             ],
             [
                 'attachments.max' => 'Możesz dodać maksymalnie 5 zdjęć.',
                 'attachments.*.image' => 'Każdy załącznik musi być obrazem.',
                 'attachments.*.mimes' => 'Dozwolone formaty zdjęć: jpg, jpeg, png, webp.',
                 'attachments.*.max' => 'Maksymalny rozmiar jednego zdjęcia to 10 MB.',
+                'terms.accepted' => 'Potwierdź zapoznanie się z zasadami współpracy i polityką prywatności.',
             ]
         );
 
