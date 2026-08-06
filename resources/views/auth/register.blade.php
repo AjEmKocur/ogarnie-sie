@@ -24,10 +24,9 @@
                 @include('partials.password-visibility-toggle', ['inputId' => 'password'])
             </div>
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
-            @include('partials.password-rules', ['passwordId' => 'password', 'confirmationId' => 'password_confirmation'])
         </div>
 
-        <div class="mt-4">
+        <div class="mt-3">
             <x-input-label for="password_confirmation" :value="'Potwierdź hasło'" />
             <div class="relative mt-1">
                 <x-text-input id="password_confirmation" class="block w-full pr-12" type="password" name="password_confirmation" required autocomplete="new-password" />
@@ -48,7 +47,7 @@
                     class="mt-1 rounded border-amber-300/40 bg-black text-amber-400 focus:ring-amber-400 focus:ring-offset-black"
                 >
                 <span>
-                    Podaję prawdziwe dane potrzebne do obsługi konta i zgłoszeń oraz potwierdzam, że zapoznałem/am się z
+                    Deklaruję, że podane przeze mnie dane są prawdziwe oraz że zapoznałem/am się z
                     <a href="{{ route('public.terms') }}" class="font-semibold text-amber-100 underline decoration-amber-300/60 underline-offset-4 hover:text-amber-200" target="_blank" rel="noopener">zasadami współpracy</a>
                     i
                     <a href="{{ route('public.privacy') }}" class="font-semibold text-amber-100 underline decoration-amber-300/60 underline-offset-4 hover:text-amber-200" target="_blank" rel="noopener">polityką prywatności</a>.
@@ -78,4 +77,6 @@
             Szybki kontakt
         </a>
     </div>
+
+    @include('partials.password-rules', ['passwordId' => 'password', 'confirmationId' => 'password_confirmation'])
 </x-guest-layout>
