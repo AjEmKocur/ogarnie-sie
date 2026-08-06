@@ -20,8 +20,9 @@
                     <h2 class="text-xl font-bold text-white">1. Kto wykonuje usługę</h2>
                     <p class="mt-3 leading-7 text-slate-300">
                         Usługi wykonuje Dominik Kocur jako osoba fizyczna działająca pod nazwą Kocur Serwis Komputerowy.
-                        Nazwa ta służy do oznaczenia usług komputerowych i kontaktu z klientami. W przypadku rozpoczęcia
-                        jednoosobowej działalności gospodarczej dane na stronie zostaną uzupełnione o informacje firmowe.
+                        Jest to działalność nierejestrowana w rozumieniu przepisów prawa. Nazwa ta służy do oznaczenia
+                        usług komputerowych i kontaktu z klientami. W przypadku rozpoczęcia jednoosobowej działalności
+                        gospodarczej dane na stronie zostaną uzupełnione o informacje firmowe.
                     </p>
                 </li>
 
@@ -31,6 +32,7 @@
                         Formularz kontaktowy służy do opisania problemu albo planowanej usługi. Samo wysłanie wiadomości
                         nie oznacza automatycznego przyjęcia zlecenia ani obowiązku wykonania usługi. Po otrzymaniu
                         zgłoszenia kontaktuję się z klientem, dopytuję o szczegóły i dopiero wtedy ustalamy dalsze kroki.
+                        Zlecenie jest przyjmowane dopiero po uzgodnieniu zakresu, terminu i orientacyjnego kosztu.
                     </p>
                 </li>
 
@@ -40,6 +42,7 @@
                         Koszt usługi jest podawany przed rozpoczęciem pracy. Jeżeli w trakcie diagnozy okaże się, że problem
                         jest szerszy niż wynikało z pierwszego opisu, dodatkowe czynności są uzgadniane z klientem przed ich
                         wykonaniem. Nie wymieniam części ani nie wykonuję dodatkowych prac bez wcześniejszego potwierdzenia.
+                        Ceny widoczne na stronie mają charakter orientacyjny, chyba że w konkretnej rozmowie ustalimy inaczej.
                     </p>
                 </li>
 
@@ -49,7 +52,8 @@
                         Najbezpieczniejszy model współpracy polega na tym, że klient kupuje części na swoje dane, a ja pomagam
                         w ich doborze, montażu, konfiguracji i testach. Jeżeli zakup części miałby zostać wykonany przeze mnie,
                         cena, źródło zakupu, sposób rozliczenia i odpowiedzialność za gwarancję są ustalane indywidualnie przed
-                        zakupem.
+                        zakupem. Gwarancja producenta albo sprzedawcy części jest realizowana zgodnie z zasadami tego sprzedawcy
+                        lub producenta.
                     </p>
                 </li>
 
@@ -67,7 +71,9 @@
                     <p class="mt-3 leading-7 text-slate-300">
                         Przed przekazaniem komputera lub laptopa warto wykonać kopię ważnych danych. Jeżeli dane są istotne,
                         klient powinien poinformować o tym przed rozpoczęciem pracy. W razie potrzeby można ustalić usługę
-                        klonowania dysku albo zabezpieczenia plików przed dalszą diagnostyką.
+                        klonowania dysku albo zabezpieczenia plików przed dalszą diagnostyką. Co do zasady nie przeglądam
+                        prywatnych plików klienta, chyba że jest to konieczne do wykonania uzgodnionej usługi i klient został
+                        o tym poinformowany.
                     </p>
                 </li>
 
@@ -85,7 +91,8 @@
                     <p class="mt-3 leading-7 text-slate-300">
                         Sposób płatności jest ustalany indywidualnie z klientem. Przy działalności nierejestrowanej możliwe
                         jest wystawienie potwierdzenia sprzedaży albo rachunku na żądanie klienta, zgodnie z aktualnymi
-                        przepisami. Jeżeli działalność zostanie zarejestrowana, dane rozliczeniowe zostaną uzupełnione.
+                        przepisami. Ceny podawane klientowi są cenami do zapłaty. Jeżeli działalność zostanie zarejestrowana,
+                        dane rozliczeniowe zostaną uzupełnione.
                     </p>
                 </li>
 
@@ -104,6 +111,9 @@
                         Jeżeli po wykonaniu usługi pojawi się problem związany z ustalonym zakresem prac, klient może
                         skontaktować się przez formularz kontaktowy albo adres e-mail wskazany na stronie. Każde zgłoszenie
                         jest analizowane indywidualnie, z uwzględnieniem rodzaju wykonanej usługi oraz stanu sprzętu.
+                        Reklamacja powinna zawierać opis problemu, numer zgłoszenia, jeżeli został nadany, oraz dane kontaktowe.
+                        Odpowiedź jest udzielana w rozsądnym terminie, nie później niż w terminie wynikającym z obowiązujących
+                        przepisów dotyczących konsumentów.
                     </p>
                 </li>
 
@@ -112,7 +122,10 @@
                     <p class="mt-3 leading-7 text-slate-300">
                         Jeżeli zakres, termin albo koszt nie odpowiada klientowi, można zrezygnować przed rozpoczęciem prac.
                         W przypadku usług uzgadnianych na odległość szczegóły realizacji oraz ewentualne rozpoczęcie usługi
-                        przed upływem terminu na odstąpienie powinny być ustalone z klientem w jasny sposób.
+                        przed upływem terminu na odstąpienie powinny być ustalone z klientem w jasny sposób. Jeżeli klient
+                        będący konsumentem zawiera umowę na odległość, może mieć prawo odstąpienia od umowy w terminie
+                        przewidzianym przez przepisy, chyba że przepisy przewidują wyjątek, na przykład po pełnym wykonaniu
+                        usługi za wyraźną zgodą klienta.
                     </p>
                 </li>
 
