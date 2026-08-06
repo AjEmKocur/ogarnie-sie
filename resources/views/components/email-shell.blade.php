@@ -17,11 +17,11 @@
     <body style="margin:0; padding:0; background:#090909; color:#f8fafc; font-family:Arial, Helvetica, sans-serif;">
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#090909; margin:0; padding:0;">
             <tr>
-                <td align="center" style="padding:32px 16px;">
+                <td align="center" style="padding:26px 16px;">
                     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:640px; border-collapse:collapse;">
                         <tr>
-                            <td style="padding:0 0 18px 0;">
-                                <img src="{{ asset('images/kocur-logo-amber.png') }}" alt="Kocur Serwis Komputerowy" width="170" style="display:block; width:170px; max-width:70%; height:auto; border:0;">
+                            <td align="center" style="padding:0 0 16px 0; text-align:center;">
+                                <img src="{{ asset('images/kocur-logo-amber.png') }}" alt="Kocur Serwis Komputerowy" width="170" style="display:block; width:170px; max-width:70%; height:auto; border:0; margin:0 auto;">
                             </td>
                         </tr>
                         <tr>
