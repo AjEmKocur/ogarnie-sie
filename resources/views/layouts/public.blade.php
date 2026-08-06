@@ -141,7 +141,10 @@
 
         <footer class="og-footer border-t border-gray-200">
             <div class="mx-auto flex max-w-7xl flex-col items-start justify-between gap-3 px-5 py-6 text-sm text-slate-400 sm:flex-row sm:items-center sm:px-6 lg:px-8">
-                <p>&copy; {{ date('Y') }} Kocur. Serwis komputerowy.</p>
+                <div class="flex flex-col gap-3">
+                    <p>&copy; {{ date('Y') }} Kocur. Serwis komputerowy.</p>
+                    <x-social-links :show-label="false" />
+                </div>
                 <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
                     <a href="{{ route('public.terms') }}" class="hover:text-amber-200">Zasady współpracy</a>
                     <span class="hidden text-slate-700 sm:inline">/</span>

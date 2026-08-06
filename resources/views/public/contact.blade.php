@@ -25,6 +25,8 @@
                     <li>Godziny kontaktu: Pn-Pt 8:00-18:00</li>
                 </ul>
 
+                <x-social-links class="mt-5" />
+
                 <div class="mt-5 overflow-hidden rounded-lg border border-amber-300/25 bg-slate-950/40">
                     <iframe
                         title="Mapa obszaru działania"
