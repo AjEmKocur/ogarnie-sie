@@ -1,26 +1,29 @@
-<!DOCTYPE html>
-<html lang="pl">
-    <head>
-        <meta charset="utf-8">
-        <title>Nowa wiadomość w zgłoszeniu</title>
-    </head>
-    <body style="font-family: Arial, sans-serif; color: #0f172a;">
-        <h2>Nowa wiadomość w zgłoszeniu #{{ $ticket->id }}</h2>
+@php
+    $panelUrl = $fromAdmin ? route('client.tickets.show', $ticket) : route('admin.tickets.show', $ticket);
+@endphp
 
-        <p><strong>Temat:</strong> {{ $ticket->title }}</p>
-        <p><strong>Nadawca:</strong> {{ $senderName }}</p>
-        <p>
-            <strong>Typ wiadomości:</strong>
-            {{ $fromAdmin ? 'Odpowiedź serwisu' : 'Wiadomość klienta' }}
-        </p>
+<x-email-shell
+    title="Nowa wiadomość w zgłoszeniu"
+    :heading="'Nowa wiadomość w zgłoszeniu #'.$ticket->id"
+    :summary="$fromAdmin ? 'Serwis odpowiedział w Twoim zgłoszeniu.' : 'Klient dodał wiadomość do zgłoszenia.'"
+    :action-url="$panelUrl"
+    action-text="Otwórz zgłoszenie"
+>
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin:0 0 18px 0;">
+        <tr>
+            <td style="padding:10px 0; border-bottom:1px solid #273244; color:#94a3b8;">Temat</td>
+            <td align="right" style="padding:10px 0; border-bottom:1px solid #273244; color:#ffffff; font-weight:700;">{{ $ticket->title }}</td>
+        </tr>
+        <tr>
+            <td style="padding:10px 0; border-bottom:1px solid #273244; color:#94a3b8;">Nadawca</td>
+            <td align="right" style="padding:10px 0; border-bottom:1px solid #273244; color:#ffffff; font-weight:700;">{{ $senderName }}</td>
+        </tr>
+        <tr>
+            <td style="padding:10px 0; border-bottom:1px solid #273244; color:#94a3b8;">Typ wiadomości</td>
+            <td align="right" style="padding:10px 0; border-bottom:1px solid #273244; color:#ffffff; font-weight:700;">{{ $fromAdmin ? 'Odpowiedź serwisu' : 'Wiadomość klienta' }}</td>
+        </tr>
+    </table>
 
-        <p style="margin-top: 14px;"><strong>Treść:</strong></p>
-        <p style="white-space: pre-line;">{{ $messageText }}</p>
-
-        <p style="margin-top: 20px;">
-            Zaloguj się do panelu, aby odpowiedzieć:
-            <a href="{{ url('/dashboard') }}">{{ url('/dashboard') }}</a>
-        </p>
-    </body>
-</html>
-
+    <p style="margin:0 0 8px 0; color:#facc15; font-weight:700;">Treść</p>
+    <div style="white-space:pre-line; border:1px solid #273244; border-radius:10px; background:#090b10; padding:14px; color:#e5e7eb;">{{ $messageText }}</div>
+</x-email-shell>

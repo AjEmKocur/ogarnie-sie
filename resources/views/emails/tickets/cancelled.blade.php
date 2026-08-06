@@ -1,24 +1,26 @@
-<!DOCTYPE html>
-<html lang="pl">
-    <head>
-        <meta charset="utf-8">
-        <title>Anulowanie zgłoszenia</title>
-    </head>
-    <body style="font-family: Arial, sans-serif; color: #0f172a;">
-        @if ($toAdmin)
-            <h2>Klient anulował zgłoszenie</h2>
-            <p>Użytkownik <strong>{{ $cancelledByName }}</strong> anulował zgłoszenie serwisowe.</p>
-        @else
-            <h2>Potwierdzenie anulowania zgłoszenia</h2>
-            <p>Twoje zgłoszenie zostało anulowane.</p>
-        @endif
+@php
+    $panelUrl = $toAdmin ? route('admin.tickets.show', $ticket) : route('client.tickets.show', $ticket);
+@endphp
 
-        <p><strong>Numer zgłoszenia:</strong> #{{ $ticket->id }}</p>
-        <p><strong>Temat:</strong> {{ $ticket->title }}</p>
-        <p><strong>Status:</strong> {{ \App\Models\Ticket::statuses()[$ticket->status] ?? $ticket->status }}</p>
-
-        <p style="margin-top: 20px;">
-            Szczegóły są dostępne po zalogowaniu do panelu.
-        </p>
-    </body>
-</html>
+<x-email-shell
+    title="Anulowanie zgłoszenia"
+    :heading="$toAdmin ? 'Klient anulował zgłoszenie' : 'Zgłoszenie zostało anulowane'"
+    :summary="$toAdmin ? 'Użytkownik '.$cancelledByName.' anulował zgłoszenie serwisowe.' : 'Potwierdzamy anulowanie zgłoszenia w panelu klienta.'"
+    :action-url="$panelUrl"
+    action-text="Otwórz zgłoszenie"
+>
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+        <tr>
+            <td style="padding:10px 0; border-bottom:1px solid #273244; color:#94a3b8;">Numer zgłoszenia</td>
+            <td align="right" style="padding:10px 0; border-bottom:1px solid #273244; color:#ffffff; font-weight:700;">#{{ $ticket->id }}</td>
+        </tr>
+        <tr>
+            <td style="padding:10px 0; border-bottom:1px solid #273244; color:#94a3b8;">Temat</td>
+            <td align="right" style="padding:10px 0; border-bottom:1px solid #273244; color:#ffffff; font-weight:700;">{{ $ticket->title }}</td>
+        </tr>
+        <tr>
+            <td style="padding:10px 0; border-bottom:1px solid #273244; color:#94a3b8;">Status</td>
+            <td align="right" style="padding:10px 0; border-bottom:1px solid #273244; color:#ffffff; font-weight:700;">{{ \App\Models\Ticket::statuses()[$ticket->status] ?? $ticket->status }}</td>
+        </tr>
+    </table>
+</x-email-shell>
