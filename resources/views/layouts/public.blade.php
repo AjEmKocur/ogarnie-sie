@@ -128,7 +128,7 @@
         </header>
 
         <main class="public-page">
-            @if (session('status'))
+            @if (session('status') && ! View::hasSection('local_status'))
                 <div class="mx-auto mt-4 max-w-7xl px-5 sm:px-6 lg:px-8">
                     <div class="rounded-lg border border-green-400/40 bg-green-500/10 px-4 py-3 text-sm text-green-200">
                         {{ session('status') }}

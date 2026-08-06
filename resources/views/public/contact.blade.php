@@ -3,6 +3,8 @@
 @section('title', 'Kontakt - Kocur Serwis Komputerowy')
 @section('meta_description', 'Kontakt w sprawie składania komputerów, diagnostyki laptopów, modernizacji sprzętu, instalacji systemu i pomocy z siecią domową w Jarosławiu i okolicach.')
 
+@section('local_status', true)
+
 @section('content')
     <section class="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
         <h1 class="text-4xl font-black text-white">Kontakt</h1>
@@ -85,9 +87,17 @@
                         <a href="{{ route('public.privacy') }}" class="text-amber-200 underline underline-offset-4 hover:text-amber-100">polityce prywatności</a>.
                     </p>
 
-                    <button type="submit" class="rounded-md bg-amber-400 px-5 py-3 text-sm font-black text-black shadow-[0_18px_40px_rgba(245,158,11,0.22)] transition hover:bg-amber-300">
-                        Wyślij wiadomość
-                    </button>
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+                        <button type="submit" class="rounded-md bg-amber-400 px-5 py-3 text-sm font-black text-black shadow-[0_18px_40px_rgba(245,158,11,0.22)] transition hover:bg-amber-300">
+                            Wyślij wiadomość
+                        </button>
+
+                        @if (session('status'))
+                            <p class="text-sm font-medium text-green-200">
+                                {{ session('status') }}
+                            </p>
+                        @endif
+                    </div>
                 </form>
             </div>
         </div>
