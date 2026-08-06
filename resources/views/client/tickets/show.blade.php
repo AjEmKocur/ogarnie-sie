@@ -139,7 +139,7 @@
 
                             <form method="POST" action="{{ route('tickets.attachments.store', $ticket) }}" enctype="multipart/form-data" class="mt-4 flex flex-wrap items-center gap-3">
                                 @csrf
-                                <input type="file" name="attachment" required class="block rounded-md border border-amber-300/30 bg-black/50 text-sm text-slate-100 file:mr-4 file:rounded-md file:border-0 file:bg-amber-400 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-black" />
+                                <x-file-picker id="client-ticket-attachment" name="attachment" accept=".jpg,.jpeg,.png,.webp,.pdf,.txt,.doc,.docx,image/jpeg,image/png,image/webp,application/pdf,text/plain" button="Wybierz plik" empty="Nie wybrano pliku" required class="min-w-[260px] flex-1" />
                                 <x-primary-button>Dodaj plik</x-primary-button>
                             </form>
 

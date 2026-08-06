@@ -62,6 +62,26 @@
 
         <script>
             document.addEventListener('DOMContentLoaded', () => {
+                document.querySelectorAll('[data-file-picker]').forEach((picker) => {
+                    const input = picker.querySelector('[data-file-picker-input]');
+                    const label = picker.querySelector('[data-file-picker-label]');
+                    if (!input || !label) return;
+
+                    const emptyLabel = label.dataset.emptyLabel || 'Nie wybrano pliku';
+
+                    input.addEventListener('change', () => {
+                        const files = Array.from(input.files || []);
+                        if (!files.length) {
+                            label.textContent = emptyLabel;
+                            return;
+                        }
+
+                        label.textContent = files.length === 1
+                            ? files[0].name
+                            : `${files.length} plików wybrano`;
+                    });
+                });
+
                 const roots = document.querySelectorAll('[data-ticket-notifications-root]');
                 if (!roots.length) {
                     return;

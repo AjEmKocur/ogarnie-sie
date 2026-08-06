@@ -95,6 +95,16 @@ class ClientTicketController extends Controller
                     ticket: $ticket
                 )
             );
+
+            $adminEmails = $this->adminNotificationEmails();
+            if (! empty($adminEmails)) {
+                Mail::to($adminEmails)->send(
+                    new TicketCreated(
+                        ticket: $ticket->loadMissing('user'),
+                        toAdmin: true
+                    )
+                );
+            }
         } catch (Throwable $e) {
             report($e);
         }
@@ -177,22 +187,7 @@ class ClientTicketController extends Controller
     private function sendCancellationNotification(Ticket $ticket, string $cancelledByName): void
     {
         try {
-            $adminEmails = User::query()
-                ->whereIn('role', [User::ROLE_ADMIN, User::ROLE_OPERATOR])
-                ->where('is_active', true)
-                ->whereNotNull('email')
-                ->pluck('email')
-                ->filter()
-                ->unique()
-                ->values()
-                ->all();
-
-            if (empty($adminEmails)) {
-                $fallback = config('mail.from.address');
-                if (! empty($fallback)) {
-                    $adminEmails = [$fallback];
-                }
-            }
+            $adminEmails = $this->adminNotificationEmails();
 
             if (! empty($adminEmails)) {
                 Mail::to($adminEmails)->send(
@@ -221,5 +216,31 @@ class ClientTicketController extends Controller
     private function abortIfAdmin(Request $request): void
     {
         abort_if($request->user()?->isAdmin(), 403);
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function adminNotificationEmails(): array
+    {
+        $adminEmails = User::query()
+            ->whereIn('role', [User::ROLE_ADMIN, User::ROLE_OPERATOR])
+            ->where('is_active', true)
+            ->whereNotNull('email')
+            ->pluck('email')
+            ->filter()
+            ->all();
+
+        $serviceInbox = config('mail.from.address');
+        if (! empty($serviceInbox)) {
+            $adminEmails[] = $serviceInbox;
+        }
+
+        return collect($adminEmails)
+            ->map(fn ($email) => strtolower(trim((string) $email)))
+            ->filter()
+            ->unique()
+            ->values()
+            ->all();
     }
 }

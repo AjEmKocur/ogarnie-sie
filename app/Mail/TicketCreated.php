@@ -14,14 +14,17 @@ class TicketCreated extends Mailable
     use Queueable, SerializesModels;
 
     public function __construct(
-        public Ticket $ticket
+        public Ticket $ticket,
+        public bool $toAdmin = false
     ) {
     }
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: '[Kocur Serwis Komputerowy] Potwierdzenie przyjęcia zgłoszenia #'.$this->ticket->id,
+            subject: $this->toAdmin
+                ? '[Kocur Serwis Komputerowy] Nowe zgłoszenie #'.$this->ticket->id
+                : '[Kocur Serwis Komputerowy] Potwierdzenie przyjęcia zgłoszenia #'.$this->ticket->id,
         );
     }
 
