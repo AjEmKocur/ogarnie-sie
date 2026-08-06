@@ -6,31 +6,31 @@
 @section('local_status', true)
 
 @section('content')
-    <section class="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
-        <h1 class="text-4xl font-black text-white">Kontakt</h1>
-        <p class="mt-4 max-w-2xl text-slate-300">
+    <section class="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8 lg:py-12">
+        <h1 class="text-3xl font-black text-white sm:text-4xl">Kontakt</h1>
+        <p class="mt-3 max-w-2xl text-slate-300">
             Opisz krótko problem, sprzęt albo planowany zestaw. Po wiadomości ustalimy zakres, orientacyjny koszt i możliwy termin.
         </p>
         <p class="mt-2 text-sm text-amber-200">
             Formularz kontaktowy działa bez konta. Jeśli chcesz śledzić zgłoszenie w panelu klienta, załóż konto.
         </p>
 
-        <div class="mt-10 grid gap-6 lg:grid-cols-2">
-            <div class="rounded-xl border border-amber-300/20 bg-slate-950/70 p-6">
+        <div class="mt-7 grid gap-5 lg:grid-cols-2">
+            <div class="rounded-xl border border-amber-300/20 bg-slate-950/70 p-5">
                 <h2 class="text-xl font-semibold text-white">Dane kontaktowe</h2>
-                <ul class="mt-4 space-y-2 text-sm text-slate-300">
+                <ul class="mt-3 space-y-1.5 text-sm text-slate-300">
                     <li>Email: kontakt@kocurserwis.pl</li>
                     <li>Obszar: Jarosław i okolice</li>
                     <li>Dojazd: ustalany indywidualnie przed usługą</li>
                     <li>Godziny kontaktu: Pn-Pt 8:00-18:00</li>
                 </ul>
 
-                <div class="mt-6 overflow-hidden rounded-lg border border-amber-300/25 bg-slate-950/40">
+                <div class="mt-5 overflow-hidden rounded-lg border border-amber-300/25 bg-slate-950/40">
                     <iframe
                         title="Mapa obszaru działania"
                         src="https://maps.google.com/maps?hl=pl&q=Jaros%C5%82aw%2C%20Polska&z=13&output=embed"
                         class="w-full"
-                        style="display:block;width:100%;height:320px;border:0;"
+                        style="display:block;width:100%;height:260px;border:0;"
                         allowfullscreen
                         loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade"
@@ -38,14 +38,14 @@
                 </div>
             </div>
 
-            <div class="rounded-xl border border-amber-300/20 bg-slate-950/70 p-6">
+            <div class="rounded-xl border border-amber-300/20 bg-slate-950/70 p-5">
                 <h2 class="text-xl font-semibold text-white">Opisz problem</h2>
                 @if ($errors->has('mail'))
                     <div class="mt-4 rounded-lg border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-100">
                         {{ $errors->first('mail') }}
                     </div>
                 @endif
-                <form method="POST" action="{{ route('public.contact.store') }}" class="mt-4 space-y-4">
+                <form method="POST" action="{{ route('public.contact.store') }}" class="mt-4 space-y-3">
                     @csrf
 
                     <div>
@@ -69,7 +69,7 @@
                     </div>
 
                     <div>
-                        <textarea name="message" rows="5" placeholder="Opisz sprzęt, objawy, planowany zestaw albo czego potrzebujesz" class="w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2">{{ old('message') }}</textarea>
+                        <textarea name="message" rows="4" placeholder="Opisz sprzęt, objawy, planowany zestaw albo czego potrzebujesz" class="w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2">{{ old('message') }}</textarea>
                         <x-input-error :messages="$errors->get('message')" class="mt-2" />
                     </div>
 
@@ -81,7 +81,7 @@
                         </div>
                     @endif
 
-                    <p class="text-xs leading-5 text-slate-400">
+                    <p class="text-xs leading-4 text-slate-400">
                         Administratorem danych jest Dominik Kocur. Wysyłając formularz, przekazujesz dane w celu obsługi wiadomości
                         i ewentualnego ustalenia szczegółów usługi. Szczegóły znajdziesz w
                         <a href="{{ route('public.privacy') }}" class="text-amber-200 underline underline-offset-4 hover:text-amber-100">polityce prywatności</a>.
