@@ -12,7 +12,7 @@
                     Konkretna pomoc komputerowa.
                 </h1>
                 <p class="mt-5 max-w-2xl text-base leading-8 text-slate-300">
-                    Wybierz kategorię albo opisz problem po swojemu. Dokładny zakres i koszt ustalam indywidualnie przed rozpoczęciem pracy.
+                    Sprawdź najczęstsze tematy albo opisz problem po swojemu. Dokładny zakres, termin i koszt ustalam indywidualnie przed rozpoczęciem pracy.
                 </p>
             </div>
         </div>
@@ -26,12 +26,12 @@
             </article>
         @endif
 
-        <div class="mt-12 grid gap-7 lg:grid-cols-2">
+        <div class="mt-12 space-y-7">
             @foreach ($serviceCategories as $category)
-                <section class="rounded-2xl border border-white/10 bg-zinc-950/65 p-6 shadow-[0_24px_70px_rgba(0,0,0,0.34)]">
-                    <div class="border-b border-white/10 pb-5">
-                        <div class="flex items-start gap-4">
-                            <p class="inline-flex h-8 min-w-8 shrink-0 items-center justify-center rounded-md border border-amber-300/35 bg-amber-300/10 text-xs font-black text-amber-200">
+                <section class="rounded-2xl border border-white/10 bg-zinc-950/65 shadow-[0_24px_70px_rgba(0,0,0,0.34)]">
+                    <div class="border-b border-white/10 px-5 py-5 sm:px-6">
+                        <div class="flex flex-col gap-4 sm:flex-row sm:items-start">
+                            <p class="inline-flex h-8 min-w-8 shrink-0 items-center justify-center self-start rounded-md border border-amber-300/35 bg-amber-300/10 text-xs font-black text-amber-200">
                                 {{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}
                             </p>
                             <div>
@@ -43,10 +43,10 @@
                         </div>
                     </div>
 
-                    <div class="mt-3 divide-y divide-white/10">
+                    <div class="divide-y divide-white/10">
                         @foreach ($category->services as $service)
-                            <article class="group py-5 first:pt-0 last:pb-0">
-                                <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                            <article class="group px-5 py-5 transition hover:bg-white/[0.025] sm:px-6">
+                                <div class="grid gap-4 md:grid-cols-[1fr_auto] md:items-start">
                                     <div class="min-w-0">
                                         <h3 class="text-[1.05rem] font-bold leading-snug text-zinc-50 transition group-hover:text-amber-100">{{ $service->name }}</h3>
                                         <p class="mt-2 max-w-2xl text-sm leading-7 text-zinc-400">
@@ -54,10 +54,17 @@
                                         </p>
                                     </div>
 
-                                    <a href="{{ route('public.services.show', $service) }}" class="inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-zinc-300 transition hover:border-amber-300/50 hover:text-amber-100">
-                                        Szczegóły
-                                        <span aria-hidden="true">&rarr;</span>
-                                    </a>
+                                    <div class="flex flex-wrap items-center gap-3 md:justify-end">
+                                        @if ($service->price_from !== null)
+                                            <p class="rounded-full border border-amber-300/25 bg-amber-300/10 px-3 py-1.5 text-xs font-black uppercase tracking-wider text-amber-100">
+                                                od {{ number_format((float) $service->price_from, 0, ',', ' ') }} zł
+                                            </p>
+                                        @endif
+                                        <a href="{{ route('public.services.show', $service) }}" class="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-zinc-300 transition hover:border-amber-300/50 hover:text-amber-100">
+                                            Szczegóły
+                                            <span aria-hidden="true">&rarr;</span>
+                                        </a>
+                                    </div>
                                 </div>
                             </article>
                         @endforeach
@@ -66,7 +73,7 @@
             @endforeach
 
             @if ($uncategorizedServices->isNotEmpty())
-                <section class="rounded-2xl border border-white/10 bg-zinc-950/65 p-6 shadow-[0_24px_70px_rgba(0,0,0,0.34)] lg:col-span-2">
+                <section class="rounded-2xl border border-white/10 bg-zinc-950/65 p-6 shadow-[0_24px_70px_rgba(0,0,0,0.34)]">
                     <div class="border-b border-white/10 pb-5">
                         <div class="flex items-start gap-4">
                             <p class="inline-flex h-8 min-w-8 shrink-0 items-center justify-center rounded-md border border-amber-300/35 bg-amber-300/10 text-xs font-black text-amber-200">+</p>
@@ -77,10 +84,10 @@
                         </div>
                     </div>
 
-                    <div class="mt-1 grid gap-x-10 md:grid-cols-2">
+                    <div class="mt-1 divide-y divide-white/10">
                         @foreach ($uncategorizedServices as $service)
-                            <article class="group border-b border-white/10 py-5 last:border-b-0">
-                                <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                            <article class="group py-5">
+                                <div class="grid gap-4 md:grid-cols-[1fr_auto] md:items-start">
                                     <div class="min-w-0">
                                         <h3 class="text-[1.05rem] font-bold leading-snug text-zinc-50 transition group-hover:text-amber-100">{{ $service->name }}</h3>
                                         <p class="mt-2 max-w-2xl text-sm leading-7 text-zinc-400">
@@ -88,10 +95,17 @@
                                         </p>
                                     </div>
 
-                                    <a href="{{ route('public.services.show', $service) }}" class="inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-zinc-300 transition hover:border-amber-300/50 hover:text-amber-100">
-                                        Szczegóły
-                                        <span aria-hidden="true">&rarr;</span>
-                                    </a>
+                                    <div class="flex flex-wrap items-center gap-3 md:justify-end">
+                                        @if ($service->price_from !== null)
+                                            <p class="rounded-full border border-amber-300/25 bg-amber-300/10 px-3 py-1.5 text-xs font-black uppercase tracking-wider text-amber-100">
+                                                od {{ number_format((float) $service->price_from, 0, ',', ' ') }} zł
+                                            </p>
+                                        @endif
+                                        <a href="{{ route('public.services.show', $service) }}" class="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-zinc-300 transition hover:border-amber-300/50 hover:text-amber-100">
+                                            Szczegóły
+                                            <span aria-hidden="true">&rarr;</span>
+                                        </a>
+                                    </div>
                                 </div>
                             </article>
                         @endforeach
@@ -110,9 +124,9 @@
         </div>
 
         <div class="mt-6 rounded-2xl border border-amber-300/20 bg-black/50 p-6">
-            <p class="text-lg font-bold text-white">Nie wiesz, którą usługę wybrać?</p>
+            <p class="text-lg font-bold text-white">Brak usługi na liście?</p>
             <p class="mt-2 max-w-3xl text-sm leading-6 text-slate-300">
-                Napisz krótko, jaki masz sprzęt i co się dzieje. Dobiorę właściwy zakres po krótkiej rozmowie.
+                Napisz krótko, jaki masz sprzęt i co się dzieje. Sprawdzę temat i powiem, czy mogę pomóc albo jaki zakres będzie miał sens.
             </p>
             <div class="mt-5 flex flex-wrap gap-3">
                 <a href="{{ route('public.contact') }}" class="inline-flex items-center justify-center rounded-md bg-amber-400 px-5 py-3 text-sm font-black text-black shadow-[0_18px_40px_rgba(245,158,11,0.22)] transition hover:bg-amber-300">
