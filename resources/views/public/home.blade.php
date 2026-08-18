@@ -15,7 +15,7 @@
 
         <div class="relative mx-auto grid min-h-[660px] max-w-7xl items-center gap-10 px-5 py-16 sm:px-6 lg:grid-cols-[0.88fr_1.12fr] lg:px-8">
             <div class="max-w-xl">
-                <p class="text-sm font-semibold uppercase tracking-[0.28em] text-amber-200">Serwis komputerowy</p>
+                <p class="text-sm font-semibold uppercase tracking-[0.28em] text-amber-200">Serwis komputerowy z pazurem</p>
                 <h1 class="mt-5 text-4xl font-black leading-[1.02] text-white sm:text-5xl lg:text-[3.55rem]">
                     Składanie i naprawa komputerów bez kombinowania.
                 </h1>
