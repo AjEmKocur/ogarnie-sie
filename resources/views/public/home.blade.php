@@ -84,10 +84,10 @@
     <section class="og-section-band py-16">
         <div class="mx-auto max-w-[1500px] px-5 sm:px-6 lg:px-8">
         <div class="max-w-3xl">
-            <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">Oferta na start</p>
+            <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">Oferta</p>
             <h2 class="mt-3 text-3xl font-black text-white">Co mogę zrobić dla Ciebie?</h2>
             <p class="mt-4 text-base leading-7 text-slate-300">
-                Na start skupiam się na usługach, które realnie wykonuję sam: składanie zestawów, modernizacja, diagnostyka, systemy i podstawowa konfiguracja sieci domowych.
+                Pomagam przy konkretnych problemach i modernizacjach: składam zestawy PC, diagnozuję komputery i laptopy, instaluję systemy, usprawniam sprzęt oraz konfiguruję podstawowe sieci domowe.
             </p>
         </div>
 
