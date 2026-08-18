@@ -45,13 +45,10 @@
 
                     <div class="divide-y divide-white/10">
                         @foreach ($category->services as $service)
-                            <article class="group px-5 py-5 transition hover:bg-white/[0.025] sm:px-6">
-                                <div class="grid gap-4 md:grid-cols-[1fr_auto] md:items-start">
+                            <article class="group px-5 py-4 transition hover:bg-white/[0.025] sm:px-6">
+                                <div class="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
                                     <div class="min-w-0">
                                         <h3 class="text-[1.05rem] font-bold leading-snug text-zinc-50 transition group-hover:text-amber-100">{{ $service->name }}</h3>
-                                        <p class="mt-2 max-w-2xl text-sm leading-7 text-zinc-400">
-                                            {{ $service->description ?: 'Zakres usługi ustalany indywidualnie.' }}
-                                        </p>
                                     </div>
 
                                     <div class="flex flex-wrap items-center gap-3 md:justify-end">
@@ -86,13 +83,10 @@
 
                     <div class="mt-1 divide-y divide-white/10">
                         @foreach ($uncategorizedServices as $service)
-                            <article class="group py-5">
-                                <div class="grid gap-4 md:grid-cols-[1fr_auto] md:items-start">
+                            <article class="group py-4">
+                                <div class="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
                                     <div class="min-w-0">
                                         <h3 class="text-[1.05rem] font-bold leading-snug text-zinc-50 transition group-hover:text-amber-100">{{ $service->name }}</h3>
-                                        <p class="mt-2 max-w-2xl text-sm leading-7 text-zinc-400">
-                                            {{ $service->description ?: 'Zakres usługi ustalany indywidualnie.' }}
-                                        </p>
                                     </div>
 
                                     <div class="flex flex-wrap items-center gap-3 md:justify-end">
