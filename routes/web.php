@@ -49,6 +49,11 @@ Route::middleware(['auth', 'verified', 'password.change.required', 'admin'])->gr
     Route::delete('/admin/testimonials/{testimonial}', [AdminTestimonialController::class, 'destroy'])->middleware('admin.permission:testimonials_moderation')->name('admin.testimonials.destroy');
 
     Route::get('/admin/cms/services', [AdminServiceController::class, 'index'])->middleware('admin.permission:cms_services')->name('admin.cms.services.index');
+    Route::post('/admin/cms/services/categories', [AdminServiceController::class, 'storeCategory'])->middleware('admin.permission:cms_services')->name('admin.cms.services.categories.store');
+    Route::get('/admin/cms/services/categories/uncategorized', [AdminServiceController::class, 'uncategorized'])->middleware('admin.permission:cms_services')->name('admin.cms.services.uncategorized');
+    Route::get('/admin/cms/services/categories/{serviceCategory}', [AdminServiceController::class, 'showCategory'])->middleware('admin.permission:cms_services')->name('admin.cms.services.categories.show');
+    Route::patch('/admin/cms/services/categories/{serviceCategory}', [AdminServiceController::class, 'updateCategory'])->middleware('admin.permission:cms_services')->name('admin.cms.services.categories.update');
+    Route::delete('/admin/cms/services/categories/{serviceCategory}', [AdminServiceController::class, 'destroyCategory'])->middleware('admin.permission:cms_services')->name('admin.cms.services.categories.destroy');
     Route::post('/admin/cms/services', [AdminServiceController::class, 'store'])->middleware('admin.permission:cms_services')->name('admin.cms.services.store');
     Route::patch('/admin/cms/services', [AdminServiceController::class, 'bulkUpdate'])->middleware('admin.permission:cms_services')->name('admin.cms.services.bulk-update');
     Route::patch('/admin/cms/services/{service}', [AdminServiceController::class, 'update'])->middleware('admin.permission:cms_services')->name('admin.cms.services.update');

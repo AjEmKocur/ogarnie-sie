@@ -13,9 +13,94 @@ class AdminServiceController extends Controller
     public function index(): View
     {
         return view('admin.cms.services', [
-            'categories' => ServiceCategory::orderBy('sort_order')->orderBy('name')->get(),
-            'services' => Service::with('category')->orderBy('sort_order')->orderBy('name')->get(),
+            'categories' => ServiceCategory::withCount([
+                'services',
+                'services as active_services_count' => fn ($query) => $query->where('is_active', true),
+            ])
+                ->orderBy('sort_order')
+                ->orderBy('name')
+                ->get(),
+            'uncategorizedServicesCount' => Service::whereNull('service_category_id')->count(),
+            'uncategorizedActiveServicesCount' => Service::whereNull('service_category_id')->where('is_active', true)->count(),
         ]);
+    }
+
+    public function showCategory(ServiceCategory $serviceCategory): View
+    {
+        return view('admin.cms.service-category', [
+            'category' => $serviceCategory->load(['services' => fn ($query) => $query
+                ->orderBy('sort_order')
+                ->orderBy('name')]),
+            'categories' => ServiceCategory::orderBy('sort_order')->orderBy('name')->get(),
+        ]);
+    }
+
+    public function uncategorized(): View
+    {
+        return view('admin.cms.service-category', [
+            'category' => null,
+            'categories' => ServiceCategory::orderBy('sort_order')->orderBy('name')->get(),
+            'services' => Service::with('category')
+                ->whereNull('service_category_id')
+                ->orderBy('sort_order')
+                ->orderBy('name')
+                ->get(),
+        ]);
+    }
+
+    public function storeCategory(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255', 'unique:service_categories,name'],
+            'description' => ['nullable', 'string', 'max:5000'],
+            'sort_order' => ['nullable', 'integer', 'min:0'],
+            'is_active' => ['nullable', 'boolean'],
+        ]);
+
+        $category = ServiceCategory::create([
+            ...$validated,
+            'sort_order' => $validated['sort_order'] ?? 0,
+            'is_active' => $request->boolean('is_active'),
+        ]);
+
+        return redirect()
+            ->route('admin.cms.services.categories.show', $category)
+            ->with('status', __('Kategoria dodana.'));
+    }
+
+    public function updateCategory(Request $request, ServiceCategory $serviceCategory): RedirectResponse
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255', 'unique:service_categories,name,'.$serviceCategory->id],
+            'description' => ['nullable', 'string', 'max:5000'],
+            'sort_order' => ['nullable', 'integer', 'min:0'],
+            'is_active' => ['nullable', 'boolean'],
+        ]);
+
+        $serviceCategory->update([
+            ...$validated,
+            'sort_order' => $validated['sort_order'] ?? 0,
+            'is_active' => $request->boolean('is_active'),
+        ]);
+
+        return redirect()
+            ->route('admin.cms.services.categories.show', $serviceCategory)
+            ->with('status', __('Kategoria zaktualizowana.'));
+    }
+
+    public function destroyCategory(ServiceCategory $serviceCategory): RedirectResponse
+    {
+        if ($serviceCategory->services()->exists()) {
+            return redirect()
+                ->route('admin.cms.services.categories.show', $serviceCategory)
+                ->with('status', __('Najpierw przenieś albo usuń usługi z tej kategorii.'));
+        }
+
+        $serviceCategory->delete();
+
+        return redirect()
+            ->route('admin.cms.services.index')
+            ->with('status', __('Kategoria usunięta.'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -36,9 +121,7 @@ class AdminServiceController extends Controller
             'sort_order' => $validated['sort_order'] ?? 0,
         ]);
 
-        return redirect()
-            ->route('admin.cms.services.index')
-            ->with('status', __('Usługa dodana.'));
+        return $this->redirectAfterServiceChange($validated['service_category_id'] ?? null, __('Usługa dodana.'));
     }
 
     public function update(Request $request, Service $service): RedirectResponse
@@ -59,9 +142,7 @@ class AdminServiceController extends Controller
             'sort_order' => $validated['sort_order'] ?? 0,
         ]);
 
-        return redirect()
-            ->route('admin.cms.services.index')
-            ->with('status', __('Usługa zaktualizowana.'));
+        return $this->redirectAfterServiceChange($validated['service_category_id'] ?? null, __('Usługa zaktualizowana.'));
     }
 
     public function bulkUpdate(Request $request): RedirectResponse
@@ -99,7 +180,7 @@ class AdminServiceController extends Controller
         }
 
         return redirect()
-            ->route('admin.cms.services.index')
+            ->back()
             ->with('status', __('Wszystkie zmiany w usługach zostały zapisane.'));
     }
 
@@ -108,7 +189,20 @@ class AdminServiceController extends Controller
         $service->delete();
 
         return redirect()
-            ->route('admin.cms.services.index')
+            ->back()
             ->with('status', __('Usługa usunięta.'));
+    }
+
+    private function redirectAfterServiceChange(int|string|null $categoryId, string $status): RedirectResponse
+    {
+        if ($categoryId) {
+            return redirect()
+                ->route('admin.cms.services.categories.show', $categoryId)
+                ->with('status', $status);
+        }
+
+        return redirect()
+            ->route('admin.cms.services.uncategorized')
+            ->with('status', $status);
     }
 }
