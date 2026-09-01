@@ -23,24 +23,30 @@ class AdminAboutGalleryController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'images' => ['required', 'array', 'min:1', 'max:20'],
+            'images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             'caption' => ['nullable', 'string', 'max:255'],
         ]);
 
         $disk = (string) config('filesystems.about_gallery_disk', 'public');
-        $path = $validated['image']->store('about-gallery', $disk);
+        $sortOrder = (int) AboutGalleryImage::max('sort_order');
 
-        AboutGalleryImage::create([
-            'disk' => $disk,
-            'path' => $path,
-            'caption' => $validated['caption'] ?? null,
-            'sort_order' => (int) AboutGalleryImage::max('sort_order') + 10,
-            'is_active' => true,
-        ]);
+        foreach ($validated['images'] as $image) {
+            $sortOrder += 10;
+            $path = $image->store('about-gallery', $disk);
+
+            AboutGalleryImage::create([
+                'disk' => $disk,
+                'path' => $path,
+                'caption' => $validated['caption'] ?? null,
+                'sort_order' => $sortOrder,
+                'is_active' => true,
+            ]);
+        }
 
         return redirect()
             ->route('admin.cms.about-gallery.index')
-            ->with('status', 'Zdjęcie zostało dodane do galerii O nas.');
+            ->with('status', 'Dodano zdjęcia do galerii O nas: '.count($validated['images']).'.');
     }
 
     public function update(Request $request, AboutGalleryImage $aboutGalleryImage): RedirectResponse

@@ -44,16 +44,16 @@
                 </summary>
 
                 <div class="border-t border-gray-200 px-5 py-4">
-                    <p class="text-sm text-slate-300">Formaty: jpg, png, webp. Maks. 5 MB.</p>
+                    <p class="text-sm text-slate-300">Możesz wybrać kilka zdjęć naraz. Formaty: jpg, png, webp. Maks. 5 MB na zdjęcie.</p>
 
                     <form method="POST" action="{{ route('admin.cms.about-gallery.store') }}" enctype="multipart/form-data" class="mt-4 grid gap-4 md:grid-cols-2">
                         @csrf
                         <div>
-                            <label class="mb-1 block text-sm font-medium">Plik zdjęcia</label>
-                            <input type="file" name="image" accept=".jpg,.jpeg,.png,.webp" required class="block w-full rounded-md border border-gray-300 bg-white text-sm file:mr-4 file:rounded-md file:border-0 file:bg-gray-100 file:px-3 file:py-2 file:text-sm file:font-semibold">
+                            <label class="mb-1 block text-sm font-medium">Pliki zdjęć</label>
+                            <input type="file" name="images[]" accept=".jpg,.jpeg,.png,.webp" multiple required class="block w-full rounded-md border border-gray-300 bg-white text-sm file:mr-4 file:rounded-md file:border-0 file:bg-gray-100 file:px-3 file:py-2 file:text-sm file:font-semibold">
                         </div>
                         <div>
-                            <label class="mb-1 block text-sm font-medium">Podpis (opcjonalnie)</label>
+                            <label class="mb-1 block text-sm font-medium">Wspólny podpis (opcjonalnie)</label>
                             <input type="text" name="caption" value="{{ old('caption') }}" maxlength="255" class="w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2">
                         </div>
                         <div class="md:col-span-2 flex justify-end">
