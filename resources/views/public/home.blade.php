@@ -131,25 +131,25 @@
                 </p>
             </div>
 
-            <ol class="grid gap-4 md:grid-cols-2">
-                <li class="og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
-                    <span class="flex h-10 w-10 items-center justify-center rounded-full bg-amber-400 text-sm font-black text-black">1</span>
-                    <h3 class="mt-4 font-bold text-white">Opisujesz temat</h3>
+            <ol class="grid border-y border-amber-300/20 md:grid-cols-2 md:divide-x md:divide-amber-300/20">
+                <li class="border-b border-amber-300/20 py-5 md:pr-6">
+                    <span class="text-sm font-black text-amber-300">01</span>
+                    <h3 class="mt-3 font-bold text-white">Opisujesz temat</h3>
                     <p class="mt-2 text-sm leading-6 text-slate-300">Piszesz, czy chodzi o nowy komputer, modernizację, problem ze sprzętem albo sieć.</p>
                 </li>
-                <li class="og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
-                    <span class="flex h-10 w-10 items-center justify-center rounded-full bg-amber-400 text-sm font-black text-black">2</span>
-                    <h3 class="mt-4 font-bold text-white">Ustalam zakres</h3>
+                <li class="border-b border-amber-300/20 py-5 md:pl-6">
+                    <span class="text-sm font-black text-amber-300">02</span>
+                    <h3 class="mt-3 font-bold text-white">Ustalam zakres</h3>
                     <p class="mt-2 text-sm leading-6 text-slate-300">Dopytuję o szczegóły i podaję orientacyjny koszt oraz możliwy termin.</p>
                 </li>
-                <li class="og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
-                    <span class="flex h-10 w-10 items-center justify-center rounded-full bg-amber-400 text-sm font-black text-black">3</span>
-                    <h3 class="mt-4 font-bold text-white">Realizuję usługę</h3>
+                <li class="py-5 md:pr-6">
+                    <span class="text-sm font-black text-amber-300">03</span>
+                    <h3 class="mt-3 font-bold text-white">Realizuję usługę</h3>
                     <p class="mt-2 text-sm leading-6 text-slate-300">Składam zestaw, diagnozuję sprzęt, konfiguruję system albo ogarniam sieć.</p>
                 </li>
-                <li class="og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
-                    <span class="flex h-10 w-10 items-center justify-center rounded-full bg-amber-400 text-sm font-black text-black">4</span>
-                    <h3 class="mt-4 font-bold text-white">Potwierdzamy koniec</h3>
+                <li class="border-t border-amber-300/20 py-5 md:border-t-0 md:pl-6">
+                    <span class="text-sm font-black text-amber-300">04</span>
+                    <h3 class="mt-3 font-bold text-white">Potwierdzamy koniec</h3>
                     <p class="mt-2 text-sm leading-6 text-slate-300">Po wykonaniu usługi dostajesz informację, co zostało zrobione.</p>
                 </li>
             </ol>
@@ -158,32 +158,30 @@
 
     <section class="og-section-band py-16">
         <div class="mx-auto grid max-w-[1500px] gap-8 px-5 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:px-8">
-        <div class="og-panel-depth rounded-2xl border border-amber-300/20 bg-black/60 p-7">
+        <div class="border-t border-amber-300/20 pt-7">
             <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">Dojazd</p>
             <h2 class="mt-3 text-3xl font-black text-white">Pomoc techniczna u klienta.</h2>
             <p class="mt-4 text-base leading-7 text-slate-300">
                 Przy prostszych tematach mogę dojechać do klienta, np. przy konfiguracji routera, WiFi, switcha, drukarki albo podstawowej diagnostyce.
             </p>
-            <div class="mt-6 rounded-lg border border-amber-300/20 bg-black/45 p-4">
-                <p class="text-2xl font-black text-white">Jarosław i okolice</p>
-                <p class="mt-1 text-sm text-slate-300">dojazd po wcześniejszym ustaleniu</p>
-            </div>
+            <p class="mt-6 border-l-2 border-amber-300 pl-4 text-2xl font-black text-white">Jarosław i okolice</p>
+            <p class="mt-2 pl-4 text-sm text-slate-300">dojazd po wcześniejszym ustaleniu</p>
         </div>
 
-        <div class="og-panel-depth rounded-2xl border border-amber-300/20 bg-black/60 p-7">
+        <div class="border-t border-amber-300/20 pt-7">
             <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">Najczęściej wybierane</p>
             <h2 class="mt-3 text-3xl font-black text-white">Usługi</h2>
 
-            <div class="mt-6 grid gap-4">
+            <div class="mt-6 divide-y divide-white/10 border-y border-white/10">
                 @forelse ($featuredServices as $service)
-                    <article class="service-card rounded-xl border border-amber-300/20 bg-black/45 p-5">
+                    <article class="py-4">
                         <h3 class="font-bold text-white">{{ $service->name }}</h3>
                         <p class="mt-2 text-sm leading-6 text-slate-300">
                             {{ $service->description ?: 'Zakres ustalimy po krótkim opisie problemu.' }}
                         </p>
                     </article>
                 @empty
-                    <article class="rounded-xl border border-amber-300/20 bg-black/45 p-5">
+                    <article class="py-4">
                         <h3 class="font-bold text-white">Zakres przed usługą</h3>
                         <p class="mt-2 text-sm leading-6 text-slate-300">Opisz sprzęt albo problem, a ustalimy orientacyjny koszt i możliwy termin.</p>
                     </article>
