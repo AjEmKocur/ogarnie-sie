@@ -61,6 +61,7 @@ Route::middleware(['auth', 'verified', 'password.change.required', 'admin'])->gr
 
     Route::get('/admin/cms/about-gallery', [AdminAboutGalleryController::class, 'index'])->middleware('admin.permission:cms_services')->name('admin.cms.about-gallery.index');
     Route::post('/admin/cms/about-gallery', [AdminAboutGalleryController::class, 'store'])->middleware('admin.permission:cms_services')->name('admin.cms.about-gallery.store');
+    Route::delete('/admin/cms/about-gallery', [AdminAboutGalleryController::class, 'bulkDestroy'])->middleware('admin.permission:cms_services')->name('admin.cms.about-gallery.bulk-destroy');
     Route::patch('/admin/cms/about-gallery/{aboutGalleryImage}', [AdminAboutGalleryController::class, 'update'])->middleware('admin.permission:cms_services')->name('admin.cms.about-gallery.update');
     Route::delete('/admin/cms/about-gallery/{aboutGalleryImage}', [AdminAboutGalleryController::class, 'destroy'])->middleware('admin.permission:cms_services')->name('admin.cms.about-gallery.destroy');
 

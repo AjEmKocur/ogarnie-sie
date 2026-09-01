@@ -71,4 +71,25 @@ class AdminAboutGalleryController extends Controller
             ->route('admin.cms.about-gallery.index')
             ->with('status', 'Zdjęcie zostało usunięte.');
     }
+
+    public function bulkDestroy(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'image_ids' => ['required', 'array', 'min:1'],
+            'image_ids.*' => ['integer', 'distinct', 'exists:about_gallery_images,id'],
+        ]);
+
+        $images = AboutGalleryImage::query()
+            ->whereKey($validated['image_ids'])
+            ->get();
+
+        foreach ($images as $image) {
+            Storage::disk($image->disk)->delete($image->path);
+            $image->delete();
+        }
+
+        return redirect()
+            ->route('admin.cms.about-gallery.index')
+            ->with('status', 'Usunięto zaznaczone zdjęcia: '.$images->count().'.');
+    }
 }

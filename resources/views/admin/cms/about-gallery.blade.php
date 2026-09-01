@@ -65,8 +65,40 @@
                 </div>
             </details>
 
+            <form
+                id="bulk-delete-about-images"
+                method="POST"
+                action="{{ route('admin.cms.about-gallery.bulk-destroy') }}"
+                onsubmit="return confirm('Usunąć zaznaczone zdjęcia z galerii?');"
+            >
+                @csrf
+                @method('DELETE')
+            </form>
+
             <div id="lista-zdjec" class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-                <h3 class="text-lg font-semibold">Aktualne zdjęcia</h3>
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                        <h3 class="text-lg font-semibold">Aktualne zdjęcia</h3>
+                        @if ($images->isNotEmpty())
+                            <label class="mt-2 inline-flex items-center gap-2 text-sm text-slate-300">
+                                <input type="checkbox" data-about-gallery-select-all class="rounded border-gray-300 bg-slate-900 text-amber-500">
+                                <span>Zaznacz wszystkie</span>
+                            </label>
+                        @endif
+                    </div>
+
+                    @if ($images->isNotEmpty())
+                        <button
+                            type="submit"
+                            form="bulk-delete-about-images"
+                            data-about-gallery-bulk-delete
+                            disabled
+                            class="rounded-md border border-red-400/50 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-red-200 opacity-40 transition hover:bg-red-900/20 disabled:cursor-not-allowed"
+                        >
+                            Usuń zaznaczone
+                        </button>
+                    @endif
+                </div>
 
                 <div class="mt-4 space-y-4">
                     @forelse ($images as $image)
@@ -74,12 +106,30 @@
                             <summary class="cursor-pointer list-none px-4 py-3">
                                 <div class="flex flex-wrap items-center justify-between gap-3">
                                     <div class="flex items-center gap-3">
+                                        <input
+                                            type="checkbox"
+                                            name="image_ids[]"
+                                            value="{{ $image->id }}"
+                                            form="bulk-delete-about-images"
+                                            data-about-gallery-checkbox
+                                            onclick="event.stopPropagation();"
+                                            class="rounded border-gray-300 bg-slate-900 text-amber-500"
+                                            aria-label="Zaznacz zdjęcie do usunięcia"
+                                        >
                                         <img src="{{ $image->publicUrl() }}" alt="Zdjęcie galerii" class="h-12 w-16 rounded-md object-cover border border-gray-200">
                                         <div>
                                             <p class="text-sm font-semibold">{{ $image->caption ?: 'Bez podpisu' }}</p>
                                             <p class="text-xs text-slate-400">Kolejność: {{ $image->sort_order }} · {{ $image->is_active ? 'Widoczne' : 'Ukryte' }}</p>
                                         </div>
                                     </div>
+                                    <button
+                                        type="submit"
+                                        form="delete-about-image-{{ $image->id }}"
+                                        onclick="event.stopPropagation();"
+                                        class="rounded-md border border-red-400/50 px-3 py-2 text-xs font-semibold uppercase tracking-widest text-red-200 hover:bg-red-900/20"
+                                    >
+                                        Usuń
+                                    </button>
                                 </div>
                             </summary>
 
@@ -142,4 +192,41 @@
             </div>
         </div>
     </div>
+
+    @if ($images->isNotEmpty())
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const checkboxes = Array.from(document.querySelectorAll('[data-about-gallery-checkbox]'));
+                const selectAll = document.querySelector('[data-about-gallery-select-all]');
+                const bulkDelete = document.querySelector('[data-about-gallery-bulk-delete]');
+
+                const refreshBulkDelete = () => {
+                    const checkedCount = checkboxes.filter((checkbox) => checkbox.checked).length;
+                    if (bulkDelete) {
+                        bulkDelete.disabled = checkedCount === 0;
+                        bulkDelete.classList.toggle('opacity-40', checkedCount === 0);
+                    }
+                    if (selectAll) {
+                        selectAll.checked = checkedCount === checkboxes.length;
+                        selectAll.indeterminate = checkedCount > 0 && checkedCount < checkboxes.length;
+                    }
+                };
+
+                checkboxes.forEach((checkbox) => {
+                    checkbox.addEventListener('change', refreshBulkDelete);
+                });
+
+                if (selectAll) {
+                    selectAll.addEventListener('change', () => {
+                        checkboxes.forEach((checkbox) => {
+                            checkbox.checked = selectAll.checked;
+                        });
+                        refreshBulkDelete();
+                    });
+                }
+
+                refreshBulkDelete();
+            });
+        </script>
+    @endif
 </x-app-layout>
