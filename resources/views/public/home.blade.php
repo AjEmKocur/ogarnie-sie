@@ -93,28 +93,28 @@
 
         <div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-5">
             <article class="service-card og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
-                <p class="text-sm font-semibold uppercase tracking-[0.18em] text-amber-200">01</p>
-                <h3 class="mt-3 text-lg font-bold text-white">Składanie komputerów</h3>
+                <span class="block h-1 w-10 rounded-full bg-amber-300"></span>
+                <h3 class="mt-5 text-lg font-bold text-white">Składanie komputerów</h3>
                 <p class="mt-3 text-sm leading-6 text-slate-300">Dobór części, montaż, konfiguracja BIOS/UEFI i test stabilności.</p>
             </article>
             <article class="service-card og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
-                <p class="text-sm font-semibold uppercase tracking-[0.18em] text-amber-200">02</p>
-                <h3 class="mt-3 text-lg font-bold text-white">Modernizacja sprzętu</h3>
+                <span class="block h-1 w-10 rounded-full bg-amber-300"></span>
+                <h3 class="mt-5 text-lg font-bold text-white">Modernizacja sprzętu</h3>
                 <p class="mt-3 text-sm leading-6 text-slate-300">Wymiana dysku, rozbudowa RAM, czyszczenie i klonowanie danych.</p>
             </article>
             <article class="service-card og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
-                <p class="text-sm font-semibold uppercase tracking-[0.18em] text-amber-200">03</p>
-                <h3 class="mt-3 text-lg font-bold text-white">Diagnostyka</h3>
+                <span class="block h-1 w-10 rounded-full bg-amber-300"></span>
+                <h3 class="mt-5 text-lg font-bold text-white">Diagnostyka</h3>
                 <p class="mt-3 text-sm leading-6 text-slate-300">Sprawdzenie dysku, pamięci RAM i problemów z uruchamianiem.</p>
             </article>
             <article class="service-card og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
-                <p class="text-sm font-semibold uppercase tracking-[0.18em] text-amber-200">04</p>
-                <h3 class="mt-3 text-lg font-bold text-white">Systemy</h3>
+                <span class="block h-1 w-10 rounded-full bg-amber-300"></span>
+                <h3 class="mt-5 text-lg font-bold text-white">Systemy</h3>
                 <p class="mt-3 text-sm leading-6 text-slate-300">Instalacja systemu, sterowniki, aktualizacje i przygotowanie komputera.</p>
             </article>
             <article class="service-card og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
-                <p class="text-sm font-semibold uppercase tracking-[0.18em] text-amber-200">05</p>
-                <h3 class="mt-3 text-lg font-bold text-white">Sieci domowe</h3>
+                <span class="block h-1 w-10 rounded-full bg-amber-300"></span>
+                <h3 class="mt-5 text-lg font-bold text-white">Sieci domowe</h3>
                 <p class="mt-3 text-sm leading-6 text-slate-300">Router, WiFi, repeater, switch i podstawowa konfiguracja internetu.</p>
             </article>
         </div>
@@ -132,33 +132,21 @@
             </div>
 
             <ol class="border-y border-amber-300/20">
-                <li class="grid gap-4 border-b border-white/10 py-5 sm:grid-cols-[3.5rem_1fr]">
-                    <span class="text-sm font-black text-amber-300">01</span>
-                    <div>
-                        <h3 class="font-bold text-white">Opisujesz temat</h3>
-                        <p class="mt-2 text-sm leading-6 text-slate-300">Piszesz, czy chodzi o nowy komputer, modernizację, problem ze sprzętem albo sieć.</p>
-                    </div>
+                <li class="border-b border-white/10 py-5">
+                    <h3 class="font-bold text-white">Opisujesz temat</h3>
+                    <p class="mt-2 text-sm leading-6 text-slate-300">Piszesz, czy chodzi o nowy komputer, modernizację, problem ze sprzętem albo sieć.</p>
                 </li>
-                <li class="grid gap-4 border-b border-white/10 py-5 sm:grid-cols-[3.5rem_1fr]">
-                    <span class="text-sm font-black text-amber-300">02</span>
-                    <div>
-                        <h3 class="font-bold text-white">Ustalam zakres</h3>
-                        <p class="mt-2 text-sm leading-6 text-slate-300">Dopytuję o szczegóły i podaję orientacyjny koszt oraz możliwy termin.</p>
-                    </div>
+                <li class="border-b border-white/10 py-5">
+                    <h3 class="font-bold text-white">Ustalam zakres</h3>
+                    <p class="mt-2 text-sm leading-6 text-slate-300">Dopytuję o szczegóły i podaję orientacyjny koszt oraz możliwy termin.</p>
                 </li>
-                <li class="grid gap-4 border-b border-white/10 py-5 sm:grid-cols-[3.5rem_1fr]">
-                    <span class="text-sm font-black text-amber-300">03</span>
-                    <div>
-                        <h3 class="font-bold text-white">Realizuję usługę</h3>
-                        <p class="mt-2 text-sm leading-6 text-slate-300">Składam zestaw, diagnozuję sprzęt, konfiguruję system albo ogarniam sieć.</p>
-                    </div>
+                <li class="border-b border-white/10 py-5">
+                    <h3 class="font-bold text-white">Realizuję usługę</h3>
+                    <p class="mt-2 text-sm leading-6 text-slate-300">Składam zestaw, diagnozuję sprzęt, konfiguruję system albo ogarniam sieć.</p>
                 </li>
-                <li class="grid gap-4 py-5 sm:grid-cols-[3.5rem_1fr]">
-                    <span class="text-sm font-black text-amber-300">04</span>
-                    <div>
-                        <h3 class="font-bold text-white">Potwierdzamy koniec</h3>
-                        <p class="mt-2 text-sm leading-6 text-slate-300">Po wykonaniu usługi dostajesz informację, co zostało zrobione.</p>
-                    </div>
+                <li class="py-5">
+                    <h3 class="font-bold text-white">Potwierdzamy koniec</h3>
+                    <p class="mt-2 text-sm leading-6 text-slate-300">Po wykonaniu usługi dostajesz informację, co zostało zrobione.</p>
                 </li>
             </ol>
         </div>
