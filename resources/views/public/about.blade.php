@@ -73,6 +73,19 @@
                         },
                         nextImage() {
                             this.currentIndex = (this.currentIndex + 1) % this.images.length;
+                        },
+                        handleWheel(event) {
+                            if (this.images.length <= 1 || Math.abs(event.deltaY) < 24) {
+                                return;
+                            }
+
+                            event.preventDefault();
+
+                            if (event.deltaY > 0) {
+                                this.nextImage();
+                            } else {
+                                this.previousImage();
+                            }
                         }
                     }"
                     x-on:keydown.escape.window="closeImage()"
@@ -84,6 +97,7 @@
                         <button
                             type="button"
                             x-on:click="openImage(currentIndex)"
+                            x-on:wheel="handleWheel($event)"
                             class="group relative block aspect-[16/9] w-full overflow-hidden rounded-xl bg-black/55 text-left shadow-[0_24px_80px_rgba(0,0,0,0.35)]"
                         >
                             <img
@@ -119,28 +133,13 @@
                         @endif
                     </div>
 
-                    @if ($galleryImages->count() > 1)
-                        <div class="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-6">
-                            @foreach ($galleryImages as $index => $image)
-                                <button
-                                    type="button"
-                                    x-on:click="selectImage({{ $index }})"
-                                    class="overflow-hidden rounded-lg bg-black/45 transition hover:opacity-90"
-                                    x-bind:class="currentIndex === {{ $index }} ? 'ring-2 ring-amber-300' : 'opacity-70'"
-                                    aria-label="Pokaż zdjęcie {{ $loop->iteration }}"
-                                >
-                                    <img src="{{ $image['url'] }}" alt="{{ $image['alt'] }}" class="h-24 w-full object-cover">
-                                </button>
-                            @endforeach
-                        </div>
-                    @endif
-
                     <div
                         x-show="isOpen"
                         x-transition.opacity
                         x-cloak
                         class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
                         x-on:click.self="closeImage()"
+                        x-on:wheel="handleWheel($event)"
                     >
                         <div class="absolute left-4 right-4 top-4 z-10 flex flex-wrap items-center justify-between gap-3">
                             <p class="rounded-md border border-amber-300/30 bg-black/70 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-amber-100">
