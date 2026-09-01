@@ -134,7 +134,7 @@
             <ol class="border-y border-amber-300/20">
                 <li class="border-b border-white/10 py-5">
                     <h3 class="font-bold text-white">Opisujesz temat</h3>
-                    <p class="mt-2 text-sm leading-6 text-slate-300">Piszesz, czy chodzi o nowy komputer, modernizację, problem ze sprzętem albo sieć.</p>
+                    <p class="mt-2 text-sm leading-6 text-slate-300">W formularzu podajesz sprzęt, problem albo zakres pomocy, której potrzebujesz.</p>
                 </li>
                 <li class="border-b border-white/10 py-5">
                     <h3 class="font-bold text-white">Ustalam zakres</h3>
@@ -142,7 +142,7 @@
                 </li>
                 <li class="border-b border-white/10 py-5">
                     <h3 class="font-bold text-white">Realizuję usługę</h3>
-                    <p class="mt-2 text-sm leading-6 text-slate-300">Składam zestaw, diagnozuję sprzęt, konfiguruję system albo ogarniam sieć.</p>
+                    <p class="mt-2 text-sm leading-6 text-slate-300">Wykonuję ustalone prace: montaż, diagnostykę, konfigurację systemu lub sieci.</p>
                 </li>
                 <li class="py-5">
                     <h3 class="font-bold text-white">Potwierdzamy koniec</h3>
