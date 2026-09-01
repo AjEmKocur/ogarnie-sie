@@ -131,26 +131,34 @@
                 </p>
             </div>
 
-            <ol class="grid border-y border-amber-300/20 md:grid-cols-2 md:divide-x md:divide-amber-300/20">
-                <li class="border-b border-amber-300/20 py-5 md:pr-6">
+            <ol class="border-y border-amber-300/20">
+                <li class="grid gap-4 border-b border-white/10 py-5 sm:grid-cols-[3.5rem_1fr]">
                     <span class="text-sm font-black text-amber-300">01</span>
-                    <h3 class="mt-3 font-bold text-white">Opisujesz temat</h3>
-                    <p class="mt-2 text-sm leading-6 text-slate-300">Piszesz, czy chodzi o nowy komputer, modernizację, problem ze sprzętem albo sieć.</p>
+                    <div>
+                        <h3 class="font-bold text-white">Opisujesz temat</h3>
+                        <p class="mt-2 text-sm leading-6 text-slate-300">Piszesz, czy chodzi o nowy komputer, modernizację, problem ze sprzętem albo sieć.</p>
+                    </div>
                 </li>
-                <li class="border-b border-amber-300/20 py-5 md:pl-6">
+                <li class="grid gap-4 border-b border-white/10 py-5 sm:grid-cols-[3.5rem_1fr]">
                     <span class="text-sm font-black text-amber-300">02</span>
-                    <h3 class="mt-3 font-bold text-white">Ustalam zakres</h3>
-                    <p class="mt-2 text-sm leading-6 text-slate-300">Dopytuję o szczegóły i podaję orientacyjny koszt oraz możliwy termin.</p>
+                    <div>
+                        <h3 class="font-bold text-white">Ustalam zakres</h3>
+                        <p class="mt-2 text-sm leading-6 text-slate-300">Dopytuję o szczegóły i podaję orientacyjny koszt oraz możliwy termin.</p>
+                    </div>
                 </li>
-                <li class="py-5 md:pr-6">
+                <li class="grid gap-4 border-b border-white/10 py-5 sm:grid-cols-[3.5rem_1fr]">
                     <span class="text-sm font-black text-amber-300">03</span>
-                    <h3 class="mt-3 font-bold text-white">Realizuję usługę</h3>
-                    <p class="mt-2 text-sm leading-6 text-slate-300">Składam zestaw, diagnozuję sprzęt, konfiguruję system albo ogarniam sieć.</p>
+                    <div>
+                        <h3 class="font-bold text-white">Realizuję usługę</h3>
+                        <p class="mt-2 text-sm leading-6 text-slate-300">Składam zestaw, diagnozuję sprzęt, konfiguruję system albo ogarniam sieć.</p>
+                    </div>
                 </li>
-                <li class="border-t border-amber-300/20 py-5 md:border-t-0 md:pl-6">
+                <li class="grid gap-4 py-5 sm:grid-cols-[3.5rem_1fr]">
                     <span class="text-sm font-black text-amber-300">04</span>
-                    <h3 class="mt-3 font-bold text-white">Potwierdzamy koniec</h3>
-                    <p class="mt-2 text-sm leading-6 text-slate-300">Po wykonaniu usługi dostajesz informację, co zostało zrobione.</p>
+                    <div>
+                        <h3 class="font-bold text-white">Potwierdzamy koniec</h3>
+                        <p class="mt-2 text-sm leading-6 text-slate-300">Po wykonaniu usługi dostajesz informację, co zostało zrobione.</p>
+                    </div>
                 </li>
             </ol>
         </div>
