@@ -24,7 +24,7 @@
 
     <section class="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
         <h1 class="text-4xl font-bold">O mnie</h1>
-        <p class="mt-6 max-w-3xl text-lg text-slate-300">
+        <p class="mt-6 max-w-4xl text-lg leading-8 text-slate-300 text-justify">
             Kocur Serwis Komputerowy to lokalna pomoc techniczna prowadzona osobiście w Jarosławiu i okolicach.
             Pomagam przy składaniu zestawów PC, modernizacji sprzętu, diagnostyce komputerów i laptopów,
             instalacji systemów oraz podstawowej konfiguracji sieci domowych. Stawiam na jasne ustalenia,

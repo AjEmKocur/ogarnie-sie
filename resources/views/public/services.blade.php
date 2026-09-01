@@ -53,7 +53,7 @@
 
                                     <div class="flex flex-wrap items-center gap-3 md:justify-end">
                                         @if ($service->price_from !== null)
-                                            <p class="rounded-full border border-amber-300/25 bg-amber-300/10 px-3 py-1.5 text-xs font-black uppercase tracking-wider text-amber-100">
+                                            <p class="rounded-full border border-emerald-300/25 bg-emerald-400/10 px-3 py-1.5 text-xs font-black uppercase tracking-wider text-emerald-100">
                                                 od {{ number_format((float) $service->price_from, 0, ',', ' ') }} zł
                                             </p>
                                         @endif
@@ -91,7 +91,7 @@
 
                                     <div class="flex flex-wrap items-center gap-3 md:justify-end">
                                         @if ($service->price_from !== null)
-                                            <p class="rounded-full border border-amber-300/25 bg-amber-300/10 px-3 py-1.5 text-xs font-black uppercase tracking-wider text-amber-100">
+                                            <p class="rounded-full border border-emerald-300/25 bg-emerald-400/10 px-3 py-1.5 text-xs font-black uppercase tracking-wider text-emerald-100">
                                                 od {{ number_format((float) $service->price_from, 0, ',', ' ') }} zł
                                             </p>
                                         @endif
