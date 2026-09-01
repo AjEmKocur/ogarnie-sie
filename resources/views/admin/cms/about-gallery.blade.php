@@ -50,7 +50,13 @@
                         @csrf
                         <div>
                             <label class="mb-1 block text-sm font-medium">Pliki zdjęć</label>
-                            <input type="file" name="images[]" accept=".jpg,.jpeg,.png,.webp" multiple required class="block w-full rounded-md border border-gray-300 bg-white text-sm file:mr-4 file:rounded-md file:border-0 file:bg-gray-100 file:px-3 file:py-2 file:text-sm file:font-semibold">
+                            <div class="flex flex-wrap items-center gap-3 rounded-md border border-gray-300 bg-slate-950/60 p-2">
+                                <label for="about-gallery-images" class="inline-flex cursor-pointer items-center justify-center rounded-md bg-amber-500 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-black transition hover:bg-amber-400">
+                                    Wybierz zdjęcia
+                                </label>
+                                <span data-about-gallery-file-summary class="text-sm font-medium text-slate-200">Nie wybrano plików</span>
+                            </div>
+                            <input id="about-gallery-images" type="file" name="images[]" accept=".jpg,.jpeg,.png,.webp" multiple required class="sr-only" data-about-gallery-file-input>
                         </div>
                         <div>
                             <label class="mb-1 block text-sm font-medium">Wspólny podpis (opcjonalnie)</label>
@@ -193,9 +199,21 @@
         </div>
     </div>
 
-    @if ($images->isNotEmpty())
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const fileInput = document.querySelector('[data-about-gallery-file-input]');
+            const fileSummary = document.querySelector('[data-about-gallery-file-summary]');
+
+            if (fileInput && fileSummary) {
+                fileInput.addEventListener('change', () => {
+                    const count = fileInput.files ? fileInput.files.length : 0;
+                    fileSummary.textContent = count === 0
+                        ? 'Nie wybrano plików'
+                        : `Liczba plików: ${count}`;
+                });
+            }
+
+            @if ($images->isNotEmpty())
                 const checkboxes = Array.from(document.querySelectorAll('[data-about-gallery-checkbox]'));
                 const selectAll = document.querySelector('[data-about-gallery-select-all]');
                 const bulkDelete = document.querySelector('[data-about-gallery-bulk-delete]');
@@ -226,7 +244,7 @@
                 }
 
                 refreshBulkDelete();
-            });
-        </script>
-    @endif
+            @endif
+        });
+    </script>
 </x-app-layout>
