@@ -18,22 +18,18 @@
         <div class="mt-9 grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
             <div class="border-t border-amber-300/20 pt-6">
                 <h2 class="text-xl font-semibold text-white">Dane kontaktowe</h2>
-                <dl class="mt-4 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-1">
+                <dl class="mt-5 grid gap-4 text-base sm:grid-cols-2 lg:grid-cols-1">
                     <div>
-                        <dt class="text-slate-500">Email</dt>
-                        <dd class="mt-1 font-semibold text-slate-100">kontakt@kocurserwis.pl</dd>
+                        <dt class="text-sm font-semibold text-slate-400">Email</dt>
+                        <dd class="mt-1 font-bold text-slate-50">kontakt@kocurserwis.pl</dd>
                     </div>
                     <div>
-                        <dt class="text-slate-500">Obszar</dt>
-                        <dd class="mt-1 text-slate-300">Jarosław i okolice</dd>
+                        <dt class="text-sm font-semibold text-slate-400">Obszar</dt>
+                        <dd class="mt-1 font-semibold text-slate-100">Jarosław i okolice</dd>
                     </div>
                     <div>
-                        <dt class="text-slate-500">Dojazd</dt>
-                        <dd class="mt-1 text-slate-300">ustalany indywidualnie przed usługą</dd>
-                    </div>
-                    <div>
-                        <dt class="text-slate-500">Godziny kontaktu</dt>
-                        <dd class="mt-1 text-slate-300">Pn-Pt 8:00-18:00</dd>
+                        <dt class="text-sm font-semibold text-slate-400">Godziny kontaktu</dt>
+                        <dd class="mt-1 font-semibold text-slate-100">Pn-Pt 8:00-18:00</dd>
                     </div>
                 </dl>
 
