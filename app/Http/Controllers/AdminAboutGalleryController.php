@@ -134,6 +134,8 @@ class AdminAboutGalleryController extends Controller
             return $image->store('about-gallery', $disk);
         }
 
+        [$source, $width, $height] = $this->applyImageOrientation($source, $sourcePath, $mime, $width, $height);
+
         $maxDimension = 2000;
         $scale = min(1, $maxDimension / max($width, $height));
         $targetWidth = max(1, (int) round($width * $scale));
@@ -183,5 +185,38 @@ class AdminAboutGalleryController extends Controller
         @unlink($temporaryPath);
 
         return $path;
+    }
+
+    /**
+     * @param resource|\GdImage $source
+     * @return array{0: resource|\GdImage, 1: int, 2: int}
+     */
+    private function applyImageOrientation($source, string $sourcePath, string $mime, int $width, int $height): array
+    {
+        if ($mime !== 'image/jpeg' || ! function_exists('exif_read_data')) {
+            return [$source, $width, $height];
+        }
+
+        $exif = @exif_read_data($sourcePath);
+        $orientation = (int) ($exif['Orientation'] ?? 1);
+
+        $rotated = match ($orientation) {
+            3 => imagerotate($source, 180, 0),
+            6 => imagerotate($source, -90, 0),
+            8 => imagerotate($source, 90, 0),
+            default => false,
+        };
+
+        if (! $rotated) {
+            return [$source, $width, $height];
+        }
+
+        imagedestroy($source);
+
+        if (in_array($orientation, [6, 8], true)) {
+            return [$rotated, $height, $width];
+        }
+
+        return [$rotated, $width, $height];
     }
 }

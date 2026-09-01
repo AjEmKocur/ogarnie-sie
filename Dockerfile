@@ -33,6 +33,7 @@ RUN apk add --no-cache \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install \
     bcmath \
+    exif \
     gd \
     mbstring \
     pdo_pgsql \
