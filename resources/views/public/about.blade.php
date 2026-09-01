@@ -4,23 +4,14 @@
 @section('meta_description', 'Kocur Serwis Komputerowy to lokalna pomoc przy składaniu komputerów, modernizacji sprzętu, diagnostyce laptopów, instalacji systemów i sieciach domowych.')
 
 @section('content')
-    <style>
-        #about-gallery-viewport {
-            overflow: hidden;
-        }
+    @php
+        $galleryImages = $aboutGalleryImages->map(fn ($image) => [
+            'url' => $image->publicUrl(),
+            'alt' => $image->caption ?: 'Zdjęcie realizacji lub stanowiska pracy',
+        ])->values();
 
-        #about-gallery-track {
-            display: flex;
-            gap: 1rem;
-            transition: transform 320ms ease;
-            will-change: transform;
-        }
-
-        .about-gallery-item {
-            flex: 0 0 100%;
-            min-width: 0;
-        }
-    </style>
+        $mainImage = $galleryImages->first();
+    @endphp
 
     <section class="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
         <h1 class="text-4xl font-bold">O mnie</h1>
@@ -46,146 +37,164 @@
             </div>
         </div>
 
-        <div class="mt-14 rounded-2xl border border-gray-200 bg-white p-6">
-            <div class="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                    <h2 class="text-2xl font-semibold">Jak pracuję</h2>
-                    <p class="mt-1 text-sm text-slate-300">Zdjęcia realizacji, stanowiska i przykładowych etapów pracy.</p>
-                </div>
+        <div class="mt-14">
+            <div>
+                <h2 class="text-2xl font-semibold">Jak pracuję</h2>
+                <p class="mt-1 text-sm text-slate-300">Zdjęcia realizacji, stanowiska i przykładowych etapów pracy.</p>
             </div>
 
-            @if ($aboutGalleryImages->isEmpty())
+            @if ($galleryImages->isEmpty())
                 <div class="mt-6 rounded-xl border border-dashed border-gray-300 p-6 text-sm text-slate-300">
                     Wkrótce pojawią się tutaj zdjęcia stanowiska i przykładowych etapów pracy.
                 </div>
             @else
-                <div class="relative mt-6">
-                    @if ($aboutGalleryImages->count() > 3)
-                        <button type="button" id="about-gallery-prev" class="absolute -left-3 top-1/2 z-10 -translate-y-1/2 rounded-full border border-amber-300/40 bg-slate-900/90 px-3 py-2 text-sm font-semibold text-slate-100 shadow-lg hover:bg-slate-800 md:-left-4">
-                            ←
+                <div
+                    x-data="{
+                        images: @js($galleryImages),
+                        currentIndex: 0,
+                        isOpen: false,
+                        get currentImage() {
+                            return this.images[this.currentIndex] || { url: '', alt: '' };
+                        },
+                        selectImage(index) {
+                            this.currentIndex = index;
+                        },
+                        openImage(index = null) {
+                            if (index !== null) {
+                                this.currentIndex = index;
+                            }
+                            this.isOpen = true;
+                        },
+                        closeImage() {
+                            this.isOpen = false;
+                        },
+                        previousImage() {
+                            this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+                        },
+                        nextImage() {
+                            this.currentIndex = (this.currentIndex + 1) % this.images.length;
+                        }
+                    }"
+                    x-on:keydown.escape.window="closeImage()"
+                    x-on:keydown.arrow-left.window="isOpen && previousImage()"
+                    x-on:keydown.arrow-right.window="isOpen && nextImage()"
+                    class="mt-6"
+                >
+                    <div class="relative">
+                        <button
+                            type="button"
+                            x-on:click="openImage(currentIndex)"
+                            class="group relative block aspect-[16/9] w-full overflow-hidden rounded-xl bg-black/55 text-left shadow-[0_24px_80px_rgba(0,0,0,0.35)]"
+                        >
+                            <img
+                                src="{{ $mainImage['url'] }}"
+                                alt="{{ $mainImage['alt'] }}"
+                                x-bind:src="currentImage.url"
+                                x-bind:alt="currentImage.alt"
+                                class="h-full w-full object-contain transition duration-500 group-hover:scale-[1.01]"
+                                loading="eager"
+                            >
+                            <span class="absolute bottom-4 right-4 rounded-md bg-black/75 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-amber-100 opacity-0 transition group-hover:opacity-100">
+                                Powiększ
+                            </span>
                         </button>
-                        <button type="button" id="about-gallery-next" class="absolute -right-3 top-1/2 z-10 -translate-y-1/2 rounded-full border border-amber-300/40 bg-slate-900/90 px-3 py-2 text-sm font-semibold text-slate-100 shadow-lg hover:bg-slate-800 md:-right-4">
-                            →
-                        </button>
+
+                        @if ($galleryImages->count() > 1)
+                            <button
+                                type="button"
+                                x-on:click.stop="previousImage()"
+                                class="absolute left-4 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-amber-300/45 bg-black/75 text-2xl font-bold leading-none text-amber-100 shadow-lg transition hover:bg-amber-400 hover:text-black"
+                                aria-label="Poprzednie zdjęcie"
+                            >
+                                <span class="-translate-y-1">‹</span>
+                            </button>
+                            <button
+                                type="button"
+                                x-on:click.stop="nextImage()"
+                                class="absolute right-4 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-amber-300/45 bg-black/75 text-2xl font-bold leading-none text-amber-100 shadow-lg transition hover:bg-amber-400 hover:text-black"
+                                aria-label="Następne zdjęcie"
+                            >
+                                <span class="-translate-y-1">›</span>
+                            </button>
+                        @endif
+                    </div>
+
+                    @if ($galleryImages->count() > 1)
+                        <div class="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-6">
+                            @foreach ($galleryImages as $index => $image)
+                                <button
+                                    type="button"
+                                    x-on:click="selectImage({{ $index }})"
+                                    class="overflow-hidden rounded-lg bg-black/45 transition hover:opacity-90"
+                                    x-bind:class="currentIndex === {{ $index }} ? 'ring-2 ring-amber-300' : 'opacity-70'"
+                                    aria-label="Pokaż zdjęcie {{ $loop->iteration }}"
+                                >
+                                    <img src="{{ $image['url'] }}" alt="{{ $image['alt'] }}" class="h-24 w-full object-cover">
+                                </button>
+                            @endforeach
+                        </div>
                     @endif
 
-                    <div id="about-gallery-viewport">
-                        <div id="about-gallery-track">
-                            @foreach ($aboutGalleryImages as $image)
-                                <figure class="about-gallery-item overflow-hidden rounded-xl border border-gray-200 bg-slate-900/40" data-about-gallery-item>
-                                    <a href="{{ $image->publicUrl() }}" target="_blank" rel="noopener" class="block bg-black/60">
-                                        <img src="{{ $image->publicUrl() }}" alt="{{ $image->caption ?: 'Zdjęcie realizacji lub stanowiska pracy' }}" class="h-64 w-full object-contain">
-                                    </a>
-                                    @if ($image->caption)
-                                        <figcaption class="border-t border-gray-200 px-4 py-3 text-sm text-slate-200">{{ $image->caption }}</figcaption>
-                                    @endif
-                                </figure>
-                            @endforeach
+                    <div
+                        x-show="isOpen"
+                        x-transition.opacity
+                        x-cloak
+                        class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
+                        x-on:click.self="closeImage()"
+                    >
+                        <div class="absolute left-4 right-4 top-4 z-10 flex flex-wrap items-center justify-between gap-3">
+                            <p class="rounded-md border border-amber-300/30 bg-black/70 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-amber-100">
+                                <span x-text="currentIndex + 1"></span> / <span x-text="images.length"></span>
+                            </p>
+                            <button
+                                type="button"
+                                x-on:click="closeImage()"
+                                class="rounded-md border border-amber-300/50 bg-black px-4 py-2 text-xs font-semibold uppercase tracking-wider text-amber-100 hover:bg-amber-400 hover:text-black"
+                            >
+                                Zamknij
+                            </button>
+                        </div>
+
+                        <button
+                            type="button"
+                            x-show="images.length > 1"
+                            x-cloak
+                            x-on:click.stop="previousImage()"
+                            class="absolute left-4 top-1/2 z-10 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-amber-300/50 bg-black/75 text-3xl font-bold leading-none text-amber-100 transition hover:bg-amber-400 hover:text-black"
+                            aria-label="Poprzednie zdjęcie"
+                        >
+                            <span class="-translate-y-1">‹</span>
+                        </button>
+
+                        <button
+                            type="button"
+                            x-show="images.length > 1"
+                            x-cloak
+                            x-on:click.stop="nextImage()"
+                            class="absolute right-4 top-1/2 z-10 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-amber-300/50 bg-black/75 text-3xl font-bold leading-none text-amber-100 transition hover:bg-amber-400 hover:text-black"
+                            aria-label="Następne zdjęcie"
+                        >
+                            <span class="-translate-y-1">›</span>
+                        </button>
+
+                        <div class="relative max-h-[92vh] max-w-6xl">
+                            <button
+                                type="button"
+                                x-on:click.stop="nextImage()"
+                                x-show="images.length > 1"
+                                x-cloak
+                                class="absolute inset-0 z-10 cursor-pointer"
+                                aria-label="Następne zdjęcie"
+                            ></button>
+                            <img
+                                x-bind:src="currentImage.url"
+                                x-bind:alt="currentImage.alt"
+                                class="max-h-[88vh] max-w-[92vw] rounded-xl object-contain shadow-2xl"
+                            >
                         </div>
                     </div>
                 </div>
             @endif
         </div>
     </section>
-
-    @if ($aboutGalleryImages->count() > 3)
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const originalItems = Array.from(document.querySelectorAll('[data-about-gallery-item]'));
-                const prev = document.getElementById('about-gallery-prev');
-                const next = document.getElementById('about-gallery-next');
-                const track = document.getElementById('about-gallery-track');
-                const viewport = document.getElementById('about-gallery-viewport');
-                if (!track || !viewport || originalItems.length === 0) {
-                    return;
-                }
-
-                const total = originalItems.length;
-                let currentIndex = 0;
-                let cloneCount = 0;
-                let isAnimating = false;
-
-                const pageSize = () => {
-                    if (window.matchMedia('(min-width: 768px)').matches) return 3;
-                    if (window.matchMedia('(min-width: 640px)').matches) return 2;
-                    return 1;
-                };
-
-                const itemStep = () => {
-                    const first = track.querySelector('[data-about-gallery-item]');
-                    if (!first) return 0;
-                    const gap = parseFloat(window.getComputedStyle(track).columnGap || window.getComputedStyle(track).gap || '0') || 0;
-                    return first.getBoundingClientRect().width + gap;
-                };
-
-                const setWidths = () => {
-                    const visible = Math.min(pageSize(), total);
-                    const gap = parseFloat(window.getComputedStyle(track).columnGap || window.getComputedStyle(track).gap || '0') || 0;
-                    const widthPx = Math.max(120, (viewport.clientWidth - (gap * (visible - 1))) / visible);
-                    track.querySelectorAll('[data-about-gallery-item]').forEach((item) => {
-                        item.style.flex = `0 0 ${widthPx}px`;
-                    });
-                };
-
-                const applyTransform = () => {
-                    track.style.transform = `translateX(${-currentIndex * itemStep()}px)`;
-                };
-
-                const setTransition = (enabled) => {
-                    track.style.transition = enabled ? 'transform 320ms ease' : 'none';
-                };
-
-                const rebuildTrack = () => {
-                    const visible = Math.min(pageSize(), total);
-                    cloneCount = visible;
-                    const beforeClones = originalItems.slice(-cloneCount).map((item) => item.cloneNode(true));
-                    const afterClones = originalItems.slice(0, cloneCount).map((item) => item.cloneNode(true));
-
-                    track.innerHTML = '';
-                    [...beforeClones, ...originalItems, ...afterClones].forEach((item) => track.appendChild(item.cloneNode(true)));
-
-                    setWidths();
-                    currentIndex = cloneCount;
-                    setTransition(false);
-                    applyTransform();
-                };
-
-                const shift = (direction) => {
-                    if (isAnimating) return;
-                    isAnimating = true;
-                    setTransition(true);
-                    currentIndex += direction;
-                    applyTransform();
-                };
-
-                track.addEventListener('transitionend', () => {
-                    if (!isAnimating) return;
-
-                    if (currentIndex >= total + cloneCount) {
-                        currentIndex -= total;
-                        setTransition(false);
-                        applyTransform();
-                    } else if (currentIndex < cloneCount) {
-                        currentIndex += total;
-                        setTransition(false);
-                        applyTransform();
-                    }
-
-                    requestAnimationFrame(() => {
-                        isAnimating = false;
-                    });
-                });
-
-                prev?.addEventListener('click', () => shift(-1));
-                next?.addEventListener('click', () => shift(1));
-
-                rebuildTrack();
-
-                window.addEventListener('resize', () => {
-                    if (isAnimating) return;
-                    rebuildTrack();
-                });
-            });
-        </script>
-    @endif
 @endsection
