@@ -82,112 +82,113 @@
     </section>
 
     <section class="og-section-band py-16">
-        <div class="mx-auto max-w-[1500px] px-5 sm:px-6 lg:px-8">
-        <div class="max-w-3xl">
-            <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">Oferta</p>
-            <h2 class="mt-3 text-3xl font-black text-white">Co mogę zrobić dla Ciebie?</h2>
-            <p class="mt-4 text-base leading-7 text-slate-300">
-                Pomagam przy konkretnych problemach i modernizacjach: składam zestawy PC, diagnozuję komputery i laptopy, instaluję systemy, usprawniam sprzęt oraz konfiguruję podstawowe sieci domowe.
-            </p>
-        </div>
+        <div class="mx-auto grid max-w-[1500px] gap-10 px-5 sm:px-6 lg:grid-cols-[0.75fr_1.25fr] lg:px-8">
+            <div class="max-w-2xl">
+                <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">Oferta</p>
+                <h2 class="mt-3 text-3xl font-black text-white">Co mogę zrobić dla Ciebie?</h2>
+                <p class="mt-4 text-base leading-7 text-slate-300">
+                    Pomagam przy składaniu zestawów PC, modernizacji sprzętu, diagnostyce komputerów i laptopów, instalacji systemów oraz podstawowej konfiguracji sieci domowych.
+                </p>
+                <a href="{{ route('public.services') }}" class="mt-7 inline-flex items-center justify-center rounded-md bg-amber-400 px-5 py-3 text-sm font-black text-black shadow-[0_18px_40px_rgba(245,158,11,0.22)] transition hover:bg-amber-300">
+                    Zobacz pełną ofertę
+                </a>
+            </div>
 
-        <div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-5">
-            <article class="service-card og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
-                <span class="block h-1 w-10 rounded-full bg-amber-300"></span>
-                <h3 class="mt-5 text-lg font-bold text-white">Składanie komputerów</h3>
-                <p class="mt-3 text-sm leading-6 text-slate-300">Dobór części, montaż, konfiguracja BIOS/UEFI i test stabilności.</p>
-            </article>
-            <article class="service-card og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
-                <span class="block h-1 w-10 rounded-full bg-amber-300"></span>
-                <h3 class="mt-5 text-lg font-bold text-white">Modernizacja sprzętu</h3>
-                <p class="mt-3 text-sm leading-6 text-slate-300">Wymiana dysku, rozbudowa RAM, czyszczenie i klonowanie danych.</p>
-            </article>
-            <article class="service-card og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
-                <span class="block h-1 w-10 rounded-full bg-amber-300"></span>
-                <h3 class="mt-5 text-lg font-bold text-white">Diagnostyka</h3>
-                <p class="mt-3 text-sm leading-6 text-slate-300">Sprawdzenie dysku, pamięci RAM i problemów z uruchamianiem.</p>
-            </article>
-            <article class="service-card og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
-                <span class="block h-1 w-10 rounded-full bg-amber-300"></span>
-                <h3 class="mt-5 text-lg font-bold text-white">Systemy</h3>
-                <p class="mt-3 text-sm leading-6 text-slate-300">Instalacja systemu, sterowniki, aktualizacje i przygotowanie komputera.</p>
-            </article>
-            <article class="service-card og-panel-depth rounded-xl border border-amber-300/20 bg-black/60 p-5">
-                <span class="block h-1 w-10 rounded-full bg-amber-300"></span>
-                <h3 class="mt-5 text-lg font-bold text-white">Sieci domowe</h3>
-                <p class="mt-3 text-sm leading-6 text-slate-300">Router, WiFi, repeater, switch i podstawowa konfiguracja internetu.</p>
-            </article>
-        </div>
+            <div class="grid gap-x-10 gap-y-6 sm:grid-cols-2">
+                <article class="relative pl-5">
+                    <span class="absolute left-0 top-2 h-2 w-2 rounded-full bg-amber-300"></span>
+                    <h3 class="text-lg font-bold text-white">Składanie komputerów</h3>
+                    <p class="mt-2 text-sm leading-6 text-slate-300">Dobór części, montaż, konfiguracja BIOS/UEFI i test stabilności.</p>
+                </article>
+                <article class="relative pl-5">
+                    <span class="absolute left-0 top-2 h-2 w-2 rounded-full bg-amber-300"></span>
+                    <h3 class="text-lg font-bold text-white">Modernizacja sprzętu</h3>
+                    <p class="mt-2 text-sm leading-6 text-slate-300">Wymiana dysku, rozbudowa RAM, czyszczenie i klonowanie danych.</p>
+                </article>
+                <article class="relative pl-5">
+                    <span class="absolute left-0 top-2 h-2 w-2 rounded-full bg-amber-300"></span>
+                    <h3 class="text-lg font-bold text-white">Diagnostyka</h3>
+                    <p class="mt-2 text-sm leading-6 text-slate-300">Sprawdzenie dysku, pamięci RAM i problemów z uruchamianiem.</p>
+                </article>
+                <article class="relative pl-5">
+                    <span class="absolute left-0 top-2 h-2 w-2 rounded-full bg-amber-300"></span>
+                    <h3 class="text-lg font-bold text-white">Systemy</h3>
+                    <p class="mt-2 text-sm leading-6 text-slate-300">Instalacja systemu, sterowniki, aktualizacje i przygotowanie komputera.</p>
+                </article>
+                <article class="relative pl-5 sm:col-span-2">
+                    <span class="absolute left-0 top-2 h-2 w-2 rounded-full bg-amber-300"></span>
+                    <h3 class="text-lg font-bold text-white">Sieci domowe i dojazd</h3>
+                    <p class="mt-2 text-sm leading-6 text-slate-300">Router, WiFi, repeater, switch, drukarka i prosta pomoc techniczna na miejscu.</p>
+                </article>
+            </div>
         </div>
     </section>
 
-    <section class="og-section-band py-16">
-        <div class="mx-auto grid max-w-[1500px] gap-8 px-5 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
+    <section class="py-16">
+        <div class="mx-auto grid max-w-[1500px] gap-10 px-5 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
             <div>
                 <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">Jak wygląda współpraca?</p>
                 <h2 class="mt-3 text-3xl font-black text-white">Prosty proces, bez zgadywania.</h2>
                 <p class="mt-4 text-base leading-7 text-slate-300">
-                    Najpierw ustalam z Tobą problem albo potrzebę, potem zakres i orientacyjny koszt. Dzięki temu wiesz, czego się spodziewać przed realizacją.
+                    Najpierw ustalam problem, zakres i orientacyjny koszt. Dzięki temu przed rozpoczęciem prac wiadomo, czego dotyczy usługa i jaki jest plan działania.
                 </p>
             </div>
 
-            <ol class="border-y border-amber-300/20">
-                <li class="border-b border-white/10 py-5">
-                    <h3 class="font-bold text-white">Opisujesz temat</h3>
-                    <p class="mt-2 text-sm leading-6 text-slate-300">W formularzu podajesz sprzęt, problem albo zakres pomocy, której potrzebujesz.</p>
+            <ol class="grid gap-5 sm:grid-cols-2">
+                <li>
+                    <h3 class="text-lg font-bold text-white">Opis problemu</h3>
+                    <p class="mt-2 text-sm leading-6 text-slate-300">W formularzu podajesz sprzęt, objawy albo zakres pomocy, której potrzebujesz.</p>
                 </li>
-                <li class="border-b border-white/10 py-5">
-                    <h3 class="font-bold text-white">Ustalam zakres</h3>
+                <li>
+                    <h3 class="text-lg font-bold text-white">Ustalenie zakresu</h3>
                     <p class="mt-2 text-sm leading-6 text-slate-300">Dopytuję o szczegóły i podaję orientacyjny koszt oraz możliwy termin.</p>
                 </li>
-                <li class="border-b border-white/10 py-5">
-                    <h3 class="font-bold text-white">Realizuję usługę</h3>
+                <li>
+                    <h3 class="text-lg font-bold text-white">Realizacja usługi</h3>
                     <p class="mt-2 text-sm leading-6 text-slate-300">Wykonuję ustalone prace: montaż, diagnostykę, konfigurację systemu lub sieci.</p>
                 </li>
-                <li class="py-5">
-                    <h3 class="font-bold text-white">Potwierdzamy koniec</h3>
-                    <p class="mt-2 text-sm leading-6 text-slate-300">Po wykonaniu usługi dostajesz informację, co zostało zrobione.</p>
+                <li>
+                    <h3 class="text-lg font-bold text-white">Podsumowanie prac</h3>
+                    <p class="mt-2 text-sm leading-6 text-slate-300">Po zakończeniu przekazuję informację, co zostało zrobione i na co warto zwrócić uwagę.</p>
                 </li>
             </ol>
         </div>
     </section>
 
     <section class="og-section-band py-16">
-        <div class="mx-auto grid max-w-[1500px] gap-8 px-5 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:px-8">
-        <div class="border-t border-amber-300/20 pt-7">
-            <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">Dojazd</p>
-            <h2 class="mt-3 text-3xl font-black text-white">Pomoc techniczna u klienta.</h2>
-            <p class="mt-4 text-base leading-7 text-slate-300">
-                Przy prostszych tematach mogę dojechać do klienta, np. przy konfiguracji routera, WiFi, switcha, drukarki albo podstawowej diagnostyce.
-            </p>
-            <p class="mt-6 border-l-2 border-amber-300 pl-4 text-2xl font-black text-white">Jarosław i okolice</p>
-            <p class="mt-2 pl-4 text-sm text-slate-300">dojazd po wcześniejszym ustaleniu</p>
-        </div>
-
-        <div class="border-t border-amber-300/20 pt-7">
-            <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">Najczęściej wybierane</p>
-            <h2 class="mt-3 text-3xl font-black text-white">Usługi</h2>
-
-            <div class="mt-6 divide-y divide-white/10 border-y border-white/10">
-                @forelse ($featuredServices as $service)
-                    <article class="py-4">
-                        <h3 class="font-bold text-white">{{ $service->name }}</h3>
-                        <p class="mt-2 text-sm leading-6 text-slate-300">
-                            {{ $service->description ?: 'Zakres ustalimy po krótkim opisie problemu.' }}
-                        </p>
-                    </article>
-                @empty
-                    <article class="py-4">
-                        <h3 class="font-bold text-white">Zakres przed usługą</h3>
-                        <p class="mt-2 text-sm leading-6 text-slate-300">Opisz sprzęt albo problem, a ustalimy orientacyjny koszt i możliwy termin.</p>
-                    </article>
-                @endforelse
+        <div class="mx-auto grid max-w-[1500px] gap-10 px-5 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
+            <div>
+                <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">Dojazd</p>
+                <h2 class="mt-3 text-3xl font-black text-white">Pomoc techniczna u klienta.</h2>
+                <p class="mt-4 text-base leading-7 text-slate-300">
+                    Przy prostszych tematach mogę dojechać do klienta, np. przy konfiguracji routera, WiFi, switcha, drukarki albo podstawowej diagnostyce.
+                </p>
+                <p class="mt-6 text-2xl font-black text-white">Jarosław i okolice</p>
+                <p class="mt-2 text-sm text-slate-300">Dojazd jest ustalany indywidualnie przed usługą.</p>
             </div>
 
-            <a href="{{ route('public.services') }}" class="mt-6 inline-flex items-center justify-center rounded-md border border-amber-300/50 bg-amber-400/10 px-5 py-3 text-sm font-bold text-amber-100 transition hover:border-amber-200 hover:bg-amber-400/20">
-                Zobacz usługi
-            </a>
-        </div>
+            <div>
+                <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">Najczęściej wybierane</p>
+                <h2 class="mt-3 text-3xl font-black text-white">Popularne usługi</h2>
+
+                <div class="mt-6 grid gap-4">
+                    @forelse ($featuredServices as $service)
+                        <article class="relative pl-5">
+                            <span class="absolute left-0 top-2 h-2 w-2 rounded-full bg-amber-300"></span>
+                            <h3 class="font-bold text-white">{{ $service->name }}</h3>
+                            <p class="mt-2 text-sm leading-6 text-slate-300">
+                                {{ $service->description ?: 'Zakres ustalimy po krótkim opisie problemu.' }}
+                            </p>
+                        </article>
+                    @empty
+                        <article class="relative pl-5">
+                            <span class="absolute left-0 top-2 h-2 w-2 rounded-full bg-amber-300"></span>
+                            <h3 class="font-bold text-white">Zakres przed usługą</h3>
+                            <p class="mt-2 text-sm leading-6 text-slate-300">Opisz sprzęt albo problem, a ustalimy orientacyjny koszt i możliwy termin.</p>
+                        </article>
+                    @endforelse
+                </div>
+            </div>
         </div>
     </section>
 
