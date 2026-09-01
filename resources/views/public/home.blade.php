@@ -82,7 +82,7 @@
     </section>
 
     <section class="og-section-band py-16">
-        <div class="mx-auto grid max-w-[1500px] gap-10 px-5 sm:px-6 lg:grid-cols-[0.75fr_1.25fr] lg:px-8">
+        <div class="mx-auto grid max-w-7xl gap-10 px-5 sm:px-6 lg:grid-cols-[0.75fr_1.25fr] lg:px-8">
             <div class="max-w-2xl">
                 <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">Oferta</p>
                 <h2 class="mt-3 text-3xl font-black text-white">Co mogę zrobić dla Ciebie?</h2>
@@ -125,7 +125,7 @@
     </section>
 
     <section class="py-16">
-        <div class="mx-auto grid max-w-[1500px] gap-10 px-5 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
+        <div class="mx-auto grid max-w-7xl gap-10 px-5 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
             <div>
                 <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">Jak wygląda współpraca?</p>
                 <h2 class="mt-3 text-3xl font-black text-white">Prosty proces, bez zgadywania.</h2>
@@ -156,7 +156,7 @@
     </section>
 
     <section class="og-section-band py-16">
-        <div class="mx-auto grid max-w-[1500px] gap-10 px-5 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
+        <div class="mx-auto grid max-w-7xl gap-10 px-5 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
             <div>
                 <p class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">Dojazd</p>
                 <h2 class="mt-3 text-3xl font-black text-white">Pomoc techniczna u klienta.</h2>
@@ -192,7 +192,7 @@
         </div>
     </section>
 
-    <section class="mx-auto max-w-[1500px] px-5 py-16 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
         <div class="og-panel-depth rounded-2xl border border-amber-300/20 bg-gradient-to-r from-white/10 via-black/90 to-amber-500/10 p-7 sm:p-9">
             <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
                 <div>
