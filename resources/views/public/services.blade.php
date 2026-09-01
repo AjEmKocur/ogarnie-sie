@@ -108,15 +108,6 @@
             @endif
         </div>
 
-        <div class="mt-14 border-t border-amber-300/20 pt-7 text-sm leading-7 text-slate-300">
-            <p class="font-semibold text-amber-100">Jak rozliczamy części?</p>
-            <p class="mt-2">
-                Przy składaniu i modernizacji najczęściej pomagam dobrać podzespoły, a klient kupuje części na swoje dane.
-                Dzięki temu gwarancja i dokument zakupu są bezpośrednio po stronie klienta. Ewentualny zakup części przeze
-                mnie jest ustalany indywidualnie przed realizacją.
-            </p>
-        </div>
-
         <div class="mt-8 border-t border-white/10 pt-7">
             <p class="text-lg font-bold text-white">Brak usługi na liście?</p>
             <p class="mt-2 max-w-3xl text-sm leading-6 text-slate-300">

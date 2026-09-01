@@ -59,11 +59,9 @@
                 <li>
                     <h2 class="text-xl font-bold text-white">5. Części i zakupy sprzętu</h2>
                     <p class="mt-3 leading-7 text-slate-300">
-                        Najbezpieczniejszy model współpracy polega na tym, że klient kupuje części na swoje dane, a ja pomagam
-                        w ich doborze, montażu, konfiguracji i testach. Jeżeli zakup części miałby zostać wykonany przeze mnie,
-                        cena, źródło zakupu, sposób rozliczenia i odpowiedzialność za gwarancję są ustalane indywidualnie przed
-                        zakupem. Gwarancja producenta albo sprzedawcy części jest realizowana zgodnie z zasadami tego sprzedawcy
-                        lub producenta.
+                        Jeżeli realizacja usługi wymaga dodatkowych części, koszt i sposób ich zakupu są ustalane z klientem
+                        przed zakupem albo montażem. Gwarancja producenta albo sprzedawcy części jest realizowana zgodnie z
+                        zasadami tego sprzedawcy lub producenta.
                     </p>
                 </li>
 
