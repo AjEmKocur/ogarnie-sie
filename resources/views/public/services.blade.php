@@ -51,9 +51,9 @@
                                         <h3 class="text-[1.05rem] font-bold leading-snug text-zinc-50 transition group-hover:text-amber-100">{{ $service->name }}</h3>
                                     </div>
 
-                                    <div class="flex flex-wrap items-center gap-3 md:justify-end">
+                                    <div class="flex flex-wrap items-center gap-x-6 gap-y-3 md:justify-end">
                                         @if ($service->price_from !== null)
-                                            <p class="rounded-full border border-emerald-300/25 bg-emerald-400/10 px-3 py-1.5 text-xs font-black uppercase tracking-wider text-emerald-100">
+                                            <p class="text-sm font-black uppercase tracking-wider text-amber-200">
                                                 od {{ number_format((float) $service->price_from, 0, ',', ' ') }} zł
                                             </p>
                                         @endif
@@ -89,9 +89,9 @@
                                         <h3 class="text-[1.05rem] font-bold leading-snug text-zinc-50 transition group-hover:text-amber-100">{{ $service->name }}</h3>
                                     </div>
 
-                                    <div class="flex flex-wrap items-center gap-3 md:justify-end">
+                                    <div class="flex flex-wrap items-center gap-x-6 gap-y-3 md:justify-end">
                                         @if ($service->price_from !== null)
-                                            <p class="rounded-full border border-emerald-300/25 bg-emerald-400/10 px-3 py-1.5 text-xs font-black uppercase tracking-wider text-emerald-100">
+                                            <p class="text-sm font-black uppercase tracking-wider text-amber-200">
                                                 od {{ number_format((float) $service->price_from, 0, ',', ' ') }} zł
                                             </p>
                                         @endif
