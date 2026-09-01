@@ -15,15 +15,27 @@
             Formularz kontaktowy działa bez konta. Jeśli chcesz śledzić zgłoszenie w panelu klienta, załóż konto.
         </p>
 
-        <div class="mt-7 grid gap-5 lg:grid-cols-2">
-            <div class="rounded-xl border border-amber-300/20 bg-slate-950/70 p-5">
+        <div class="mt-9 grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <div class="border-t border-amber-300/20 pt-6">
                 <h2 class="text-xl font-semibold text-white">Dane kontaktowe</h2>
-                <ul class="mt-3 space-y-1.5 text-sm text-slate-300">
-                    <li>Email: kontakt@kocurserwis.pl</li>
-                    <li>Obszar: Jarosław i okolice</li>
-                    <li>Dojazd: ustalany indywidualnie przed usługą</li>
-                    <li>Godziny kontaktu: Pn-Pt 8:00-18:00</li>
-                </ul>
+                <dl class="mt-4 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-1">
+                    <div>
+                        <dt class="text-slate-500">Email</dt>
+                        <dd class="mt-1 font-semibold text-slate-100">kontakt@kocurserwis.pl</dd>
+                    </div>
+                    <div>
+                        <dt class="text-slate-500">Obszar</dt>
+                        <dd class="mt-1 text-slate-300">Jarosław i okolice</dd>
+                    </div>
+                    <div>
+                        <dt class="text-slate-500">Dojazd</dt>
+                        <dd class="mt-1 text-slate-300">ustalany indywidualnie przed usługą</dd>
+                    </div>
+                    <div>
+                        <dt class="text-slate-500">Godziny kontaktu</dt>
+                        <dd class="mt-1 text-slate-300">Pn-Pt 8:00-18:00</dd>
+                    </div>
+                </dl>
 
                 <x-social-links class="mt-5" />
 
@@ -40,7 +52,7 @@
                 </div>
             </div>
 
-            <div class="rounded-xl border border-amber-300/20 bg-slate-950/70 p-5">
+            <div class="border-t border-amber-300/20 pt-6">
                 <h2 class="text-xl font-semibold text-white">Opisz problem</h2>
                 @if ($errors->has('mail'))
                     <div class="mt-4 rounded-lg border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-100">

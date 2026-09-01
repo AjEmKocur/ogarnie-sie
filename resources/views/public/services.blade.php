@@ -26,26 +26,26 @@
             </article>
         @endif
 
-        <div class="mt-12 space-y-7">
+        <div class="mt-12 space-y-10">
             @foreach ($serviceCategories as $category)
-                <section class="rounded-2xl border border-white/10 bg-zinc-950/65 shadow-[0_24px_70px_rgba(0,0,0,0.34)]">
-                    <div class="border-b border-white/10 px-5 py-5 sm:px-6">
-                        <div class="flex flex-col gap-4 sm:flex-row sm:items-start">
-                            <p class="inline-flex h-8 min-w-8 shrink-0 items-center justify-center self-start rounded-md border border-amber-300/35 bg-amber-300/10 text-xs font-black text-amber-200">
+                <section class="border-t border-amber-300/20 pt-7">
+                    <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                        <div class="flex items-start gap-4">
+                            <p class="mt-1 text-sm font-black text-amber-300">
                                 {{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}
                             </p>
                             <div>
                                 <h2 class="text-2xl font-black leading-tight text-white">{{ $category->name }}</h2>
                                 @if ($category->description)
-                                    <p class="mt-3 max-w-3xl text-sm leading-7 text-zinc-400">{{ $category->description }}</p>
+                                    <p class="mt-2 max-w-3xl text-sm leading-7 text-zinc-400">{{ $category->description }}</p>
                                 @endif
                             </div>
                         </div>
                     </div>
 
-                    <div class="divide-y divide-white/10">
+                    <div class="mt-5 divide-y divide-white/10 border-y border-white/10 bg-white/[0.025]">
                         @foreach ($category->services as $service)
-                            <article class="group px-5 py-4 transition hover:bg-white/[0.025] sm:px-6">
+                            <article class="group py-4 transition hover:bg-amber-300/[0.035] sm:px-4">
                                 <div class="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
                                     <div class="min-w-0">
                                         <h3 class="text-[1.05rem] font-bold leading-snug text-zinc-50 transition group-hover:text-amber-100">{{ $service->name }}</h3>
@@ -70,10 +70,10 @@
             @endforeach
 
             @if ($uncategorizedServices->isNotEmpty())
-                <section class="rounded-2xl border border-white/10 bg-zinc-950/65 p-6 shadow-[0_24px_70px_rgba(0,0,0,0.34)]">
-                    <div class="border-b border-white/10 pb-5">
+                <section class="border-t border-amber-300/20 pt-7">
+                    <div class="pb-2">
                         <div class="flex items-start gap-4">
-                            <p class="inline-flex h-8 min-w-8 shrink-0 items-center justify-center rounded-md border border-amber-300/35 bg-amber-300/10 text-xs font-black text-amber-200">+</p>
+                            <p class="mt-1 text-sm font-black text-amber-300">+</p>
                             <div>
                                 <p class="text-sm font-semibold uppercase tracking-[0.18em] text-amber-200">Pozostałe</p>
                                 <h2 class="mt-2 text-2xl font-black leading-tight text-white">Pozostałe usługi</h2>
@@ -81,9 +81,9 @@
                         </div>
                     </div>
 
-                    <div class="mt-1 divide-y divide-white/10">
+                    <div class="mt-5 divide-y divide-white/10 border-y border-white/10 bg-white/[0.025]">
                         @foreach ($uncategorizedServices as $service)
-                            <article class="group py-4">
+                            <article class="group py-4 transition hover:bg-amber-300/[0.035] sm:px-4">
                                 <div class="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
                                     <div class="min-w-0">
                                         <h3 class="text-[1.05rem] font-bold leading-snug text-zinc-50 transition group-hover:text-amber-100">{{ $service->name }}</h3>
@@ -108,8 +108,8 @@
             @endif
         </div>
 
-        <div class="mt-14 rounded-2xl border border-amber-300/20 bg-black/45 p-5 text-sm leading-7 text-slate-300">
-            <p class="font-semibold text-white">Jak rozliczamy części?</p>
+        <div class="mt-14 border-t border-amber-300/20 pt-7 text-sm leading-7 text-slate-300">
+            <p class="font-semibold text-amber-100">Jak rozliczamy części?</p>
             <p class="mt-2">
                 Przy składaniu i modernizacji najczęściej pomagam dobrać podzespoły, a klient kupuje części na swoje dane.
                 Dzięki temu gwarancja i dokument zakupu są bezpośrednio po stronie klienta. Ewentualny zakup części przeze
@@ -117,7 +117,7 @@
             </p>
         </div>
 
-        <div class="mt-6 rounded-2xl border border-amber-300/20 bg-black/50 p-6">
+        <div class="mt-8 border-t border-white/10 pt-7">
             <p class="text-lg font-bold text-white">Brak usługi na liście?</p>
             <p class="mt-2 max-w-3xl text-sm leading-6 text-slate-300">
                 Napisz krótko, jaki masz sprzęt i co się dzieje. Sprawdzę temat i powiem, czy mogę pomóc albo jaki zakres będzie miał sens.
