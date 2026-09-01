@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\AboutGalleryImage;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class AdminAboutGalleryController extends Controller
@@ -24,8 +26,14 @@ class AdminAboutGalleryController extends Controller
     {
         $validated = $request->validate([
             'images' => ['required', 'array', 'min:1', 'max:20'],
-            'images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:20480'],
             'caption' => ['nullable', 'string', 'max:255'],
+        ], [
+            'images.required' => 'Wybierz co najmniej jedno zdjęcie.',
+            'images.max' => 'Możesz dodać maksymalnie 20 zdjęć naraz.',
+            'images.*.image' => 'Każdy wybrany plik musi być zdjęciem.',
+            'images.*.mimes' => 'Zdjęcia muszą być w formacie JPG, PNG albo WebP.',
+            'images.*.max' => 'Każde zdjęcie może mieć maksymalnie 20 MB.',
         ]);
 
         $disk = (string) config('filesystems.about_gallery_disk', 'public');
@@ -33,7 +41,7 @@ class AdminAboutGalleryController extends Controller
 
         foreach ($validated['images'] as $image) {
             $sortOrder += 10;
-            $path = $image->store('about-gallery', $disk);
+            $path = $this->storeOptimizedImage($image, $disk);
 
             AboutGalleryImage::create([
                 'disk' => $disk,
@@ -97,5 +105,83 @@ class AdminAboutGalleryController extends Controller
         return redirect()
             ->route('admin.cms.about-gallery.index')
             ->with('status', 'Usunięto zaznaczone zdjęcia: '.$images->count().'.');
+    }
+
+    private function storeOptimizedImage(UploadedFile $image, string $disk): string
+    {
+        if (! extension_loaded('gd')) {
+            return $image->store('about-gallery', $disk);
+        }
+
+        $sourcePath = $image->getRealPath();
+        $size = $sourcePath ? @getimagesize($sourcePath) : false;
+
+        if (! $sourcePath || ! $size) {
+            return $image->store('about-gallery', $disk);
+        }
+
+        [$width, $height] = $size;
+        $mime = $size['mime'] ?? '';
+
+        $source = match ($mime) {
+            'image/jpeg' => @imagecreatefromjpeg($sourcePath),
+            'image/png' => @imagecreatefrompng($sourcePath),
+            'image/webp' => function_exists('imagecreatefromwebp') ? @imagecreatefromwebp($sourcePath) : false,
+            default => false,
+        };
+
+        if (! $source) {
+            return $image->store('about-gallery', $disk);
+        }
+
+        $maxDimension = 2000;
+        $scale = min(1, $maxDimension / max($width, $height));
+        $targetWidth = max(1, (int) round($width * $scale));
+        $targetHeight = max(1, (int) round($height * $scale));
+
+        $target = imagecreatetruecolor($targetWidth, $targetHeight);
+        if (! $target) {
+            imagedestroy($source);
+
+            return $image->store('about-gallery', $disk);
+        }
+        $background = imagecolorallocate($target, 8, 8, 8);
+        imagefill($target, 0, 0, $background);
+        imagecopyresampled($target, $source, 0, 0, 0, 0, $targetWidth, $targetHeight, $width, $height);
+
+        $extension = function_exists('imagewebp') ? 'webp' : 'jpg';
+        $path = 'about-gallery/'.Str::uuid().'.'.$extension;
+        $temporaryPath = tempnam(sys_get_temp_dir(), 'about-gallery-');
+        if (! $temporaryPath) {
+            imagedestroy($source);
+            imagedestroy($target);
+
+            return $image->store('about-gallery', $disk);
+        }
+
+        $saved = $extension === 'webp'
+            ? imagewebp($target, $temporaryPath, 82)
+            : imagejpeg($target, $temporaryPath, 84);
+
+        imagedestroy($source);
+        imagedestroy($target);
+
+        if (! $saved) {
+            @unlink($temporaryPath);
+
+            return $image->store('about-gallery', $disk);
+        }
+
+        $contents = file_get_contents($temporaryPath);
+        if ($contents === false) {
+            @unlink($temporaryPath);
+
+            return $image->store('about-gallery', $disk);
+        }
+
+        Storage::disk($disk)->put($path, $contents);
+        @unlink($temporaryPath);
+
+        return $path;
     }
 }

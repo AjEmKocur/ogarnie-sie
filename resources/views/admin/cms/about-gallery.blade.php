@@ -44,7 +44,7 @@
                 </summary>
 
                 <div class="border-t border-gray-200 px-5 py-4">
-                    <p class="text-sm text-slate-300">Możesz wybrać kilka zdjęć naraz. Formaty: jpg, png, webp. Maks. 5 MB na zdjęcie.</p>
+                    <p class="text-sm text-slate-300">Możesz wybrać kilka zdjęć naraz. Formaty: jpg, png, webp. Maks. 20 MB na zdjęcie. Zdjęcia zostaną automatycznie zmniejszone i skompresowane.</p>
 
                     <form method="POST" action="{{ route('admin.cms.about-gallery.store') }}" enctype="multipart/form-data" class="mt-4 grid gap-4 md:grid-cols-2">
                         @csrf

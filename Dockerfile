@@ -26,8 +26,14 @@ RUN apk add --no-cache \
     oniguruma-dev \
     postgresql-dev \
     icu-dev \
+    freetype-dev \
+    libjpeg-turbo-dev \
+    libpng-dev \
+    libwebp-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install \
     bcmath \
+    gd \
     mbstring \
     pdo_pgsql \
     pcntl
