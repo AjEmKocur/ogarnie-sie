@@ -73,7 +73,9 @@
                         <div id="about-gallery-track">
                             @foreach ($aboutGalleryImages as $image)
                                 <figure class="about-gallery-item overflow-hidden rounded-xl border border-gray-200 bg-slate-900/40" data-about-gallery-item>
-                                    <img src="{{ $image->publicUrl() }}" alt="{{ $image->caption ?: 'Zdjęcie realizacji lub stanowiska pracy' }}" class="h-56 w-full object-cover">
+                                    <a href="{{ $image->publicUrl() }}" target="_blank" rel="noopener" class="block bg-black/60">
+                                        <img src="{{ $image->publicUrl() }}" alt="{{ $image->caption ?: 'Zdjęcie realizacji lub stanowiska pracy' }}" class="h-64 w-full object-contain">
+                                    </a>
                                     @if ($image->caption)
                                         <figcaption class="border-t border-gray-200 px-4 py-3 text-sm text-slate-200">{{ $image->caption }}</figcaption>
                                     @endif
