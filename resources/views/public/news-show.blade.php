@@ -118,7 +118,7 @@
                         x-show="isOpen"
                         x-transition.opacity
                         x-cloak
-                        class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
+                        class="fixed inset-0 z-50 bg-black/90"
                         x-on:click.self="closeImage()"
                     >
                         <div class="absolute left-4 right-4 top-4 z-10 flex flex-wrap items-center justify-between gap-3">
@@ -166,21 +166,23 @@
                             <span class="-translate-y-1">›</span>
                         </button>
 
-                        <div class="relative max-h-[92vh] max-w-6xl">
-                            <button
-                                type="button"
-                                x-on:click.stop="nextImage()"
-                                x-show="images.length > 1"
-                                x-cloak
-                                class="absolute inset-0 z-10 cursor-pointer"
-                                aria-label="Następne zdjęcie"
-                            ></button>
-                            <img
-                                x-bind:src="currentImage.url"
-                                x-bind:alt="currentImage.alt"
-                                class="max-h-[88vh] max-w-[92vw] rounded-xl border border-amber-300/25 object-contain shadow-2xl"
-                                decoding="async"
-                            >
+                        <div class="absolute inset-0 flex items-center justify-center p-4">
+                            <div class="relative flex max-h-[88vh] w-full max-w-[92vw] items-center justify-center">
+                                <button
+                                    type="button"
+                                    x-on:click.stop="nextImage()"
+                                    x-show="images.length > 1"
+                                    x-cloak
+                                    class="absolute inset-0 z-10 cursor-pointer"
+                                    aria-label="Następne zdjęcie"
+                                ></button>
+                                <img
+                                    x-bind:src="currentImage.url"
+                                    x-bind:alt="currentImage.alt"
+                                    class="max-h-[88vh] max-w-full rounded-xl border border-amber-300/25 object-contain shadow-2xl"
+                                    decoding="async"
+                                >
+                            </div>
                         </div>
 
                     </div>
