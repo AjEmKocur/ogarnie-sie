@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\NewsPost;
+use App\Support\OptimizedImageStorage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
@@ -34,25 +35,27 @@ class AdminNewsPostController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'excerpt' => ['nullable', 'string', 'max:1000'],
             'content' => ['nullable', 'string'],
-            'cover_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
+            'cover_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:20480'],
             'gallery_images' => ['nullable', 'array'],
-            'gallery_images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
+            'gallery_images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:20480'],
             'is_published' => ['nullable', 'boolean'],
         ], [
             'title.required' => 'Podaj tytuł realizacji.',
             'cover_image.uploaded' => 'Nie udało się wgrać zdjęcia głównego. Sprawdź, czy plik nie jest za duży i spróbuj ponownie.',
             'cover_image.image' => 'Zdjęcie główne musi być plikiem graficznym.',
             'cover_image.mimes' => 'Zdjęcie główne musi być w formacie JPG, PNG albo WebP.',
-            'cover_image.max' => 'Zdjęcie główne może mieć maksymalnie 10 MB.',
+            'cover_image.max' => 'Zdjęcie główne może mieć maksymalnie 20 MB.',
             'gallery_images.*.uploaded' => 'Nie udało się wgrać jednego z dodatkowych zdjęć. Sprawdź rozmiar pliku i spróbuj ponownie.',
             'gallery_images.*.image' => 'Dodatkowe zdjęcia muszą być plikami graficznymi.',
             'gallery_images.*.mimes' => 'Dodatkowe zdjęcia muszą być w formacie JPG, PNG albo WebP.',
-            'gallery_images.*.max' => 'Każde dodatkowe zdjęcie może mieć maksymalnie 10 MB.',
+            'gallery_images.*.max' => 'Każde dodatkowe zdjęcie może mieć maksymalnie 20 MB.',
         ]);
 
         $isPublished = $request->boolean('is_published');
         $disk = (string) config('filesystems.news_cover_disk', 'public');
-        $coverPath = $request->hasFile('cover_image') ? $validated['cover_image']->store('news-covers', $disk) : null;
+        $coverPath = $request->hasFile('cover_image')
+            ? OptimizedImageStorage::store($validated['cover_image'], $disk, 'news-covers')
+            : null;
 
         $post = NewsPost::create([
             'title' => $validated['title'],
@@ -83,10 +86,10 @@ class AdminNewsPostController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'excerpt' => ['nullable', 'string', 'max:1000'],
             'content' => ['nullable', 'string'],
-            'cover_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
+            'cover_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:20480'],
             'remove_cover_image' => ['nullable', 'boolean'],
             'gallery_images' => ['nullable', 'array'],
-            'gallery_images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
+            'gallery_images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:20480'],
             'remove_gallery_images' => ['nullable', 'array'],
             'remove_gallery_images.*' => ['integer'],
             'is_published' => ['nullable', 'boolean'],
@@ -95,11 +98,11 @@ class AdminNewsPostController extends Controller
             'cover_image.uploaded' => 'Nie udało się wgrać zdjęcia głównego. Sprawdź, czy plik nie jest za duży i spróbuj ponownie.',
             'cover_image.image' => 'Zdjęcie główne musi być plikiem graficznym.',
             'cover_image.mimes' => 'Zdjęcie główne musi być w formacie JPG, PNG albo WebP.',
-            'cover_image.max' => 'Zdjęcie główne może mieć maksymalnie 10 MB.',
+            'cover_image.max' => 'Zdjęcie główne może mieć maksymalnie 20 MB.',
             'gallery_images.*.uploaded' => 'Nie udało się wgrać jednego z dodatkowych zdjęć. Sprawdź rozmiar pliku i spróbuj ponownie.',
             'gallery_images.*.image' => 'Dodatkowe zdjęcia muszą być plikami graficznymi.',
             'gallery_images.*.mimes' => 'Dodatkowe zdjęcia muszą być w formacie JPG, PNG albo WebP.',
-            'gallery_images.*.max' => 'Każde dodatkowe zdjęcie może mieć maksymalnie 10 MB.',
+            'gallery_images.*.max' => 'Każde dodatkowe zdjęcie może mieć maksymalnie 20 MB.',
         ]);
 
         $isPublished = $request->boolean('is_published');
@@ -117,7 +120,7 @@ class AdminNewsPostController extends Controller
             if ($coverDisk && $coverPath) {
                 Storage::disk($coverDisk)->delete($coverPath);
             }
-            $coverPath = $validated['cover_image']->store('news-covers', $disk);
+            $coverPath = OptimizedImageStorage::store($validated['cover_image'], $disk, 'news-covers');
             $coverDisk = $disk;
         }
 
@@ -170,7 +173,7 @@ class AdminNewsPostController extends Controller
                 continue;
             }
 
-            $path = $image->store('news-gallery', $disk);
+            $path = OptimizedImageStorage::store($image, $disk, 'news-gallery');
 
             $newsPost->images()->create([
                 'disk' => $disk,

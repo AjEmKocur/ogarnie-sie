@@ -3,10 +3,17 @@
 @section('title', 'Kocur Serwis Komputerowy - składanie i naprawa komputerów')
 @section('meta_description', 'Składanie komputerów, diagnostyka laptopów, modernizacja sprzętu, instalacja systemów i pomoc z siecią domową w Jarosławiu i okolicach.')
 
+@push('head')
+    <link rel="preload" as="image" href="{{ asset('images/home-aquarium-pc.webp') }}" type="image/webp" fetchpriority="high">
+@endpush
+
 @section('content')
     <section class="relative isolate overflow-hidden border-b border-white/10 bg-black">
         <div class="absolute inset-y-0 right-0 hidden w-[58%] lg:block">
-            <img src="{{ asset('images/home-aquarium-pc.png') }}" alt="Komputer typu akwarium na biurku" class="h-full w-full object-cover object-center opacity-100">
+            <picture class="block h-full w-full">
+                <source srcset="{{ asset('images/home-aquarium-pc.webp') }}" type="image/webp">
+                <img src="{{ asset('images/home-aquarium-pc.png') }}" alt="Komputer typu akwarium na biurku" class="h-full w-full object-cover object-center opacity-100" fetchpriority="high" decoding="async">
+            </picture>
             <div class="absolute inset-0 bg-gradient-to-r from-black via-black/72 to-black/5"></div>
             <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/18"></div>
         </div>
@@ -75,7 +82,10 @@
             </div>
 
             <div class="relative lg:hidden">
-                <img src="{{ asset('images/home-aquarium-pc.png') }}" alt="Komputer typu akwarium na biurku" class="aspect-[4/3] w-full rounded-2xl object-cover shadow-2xl shadow-black/50">
+                <picture class="block">
+                    <source srcset="{{ asset('images/home-aquarium-pc.webp') }}" type="image/webp">
+                    <img src="{{ asset('images/home-aquarium-pc.png') }}" alt="Komputer typu akwarium na biurku" class="aspect-[4/3] w-full rounded-2xl object-cover shadow-2xl shadow-black/50" fetchpriority="high" decoding="async">
+                </picture>
                 <div class="absolute inset-0 rounded-2xl bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
             </div>
         </div>

@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\AboutGalleryImage;
+use App\Support\OptimizedImageStorage;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class AdminAboutGalleryController extends Controller
@@ -41,7 +40,7 @@ class AdminAboutGalleryController extends Controller
 
         foreach ($validated['images'] as $image) {
             $sortOrder += 10;
-            $path = $this->storeOptimizedImage($image, $disk);
+            $path = OptimizedImageStorage::store($image, $disk, 'about-gallery');
 
             AboutGalleryImage::create([
                 'disk' => $disk,
@@ -107,116 +106,4 @@ class AdminAboutGalleryController extends Controller
             ->with('status', 'Usunięto zaznaczone zdjęcia: '.$images->count().'.');
     }
 
-    private function storeOptimizedImage(UploadedFile $image, string $disk): string
-    {
-        if (! extension_loaded('gd')) {
-            return $image->store('about-gallery', $disk);
-        }
-
-        $sourcePath = $image->getRealPath();
-        $size = $sourcePath ? @getimagesize($sourcePath) : false;
-
-        if (! $sourcePath || ! $size) {
-            return $image->store('about-gallery', $disk);
-        }
-
-        [$width, $height] = $size;
-        $mime = $size['mime'] ?? '';
-
-        $source = match ($mime) {
-            'image/jpeg' => @imagecreatefromjpeg($sourcePath),
-            'image/png' => @imagecreatefrompng($sourcePath),
-            'image/webp' => function_exists('imagecreatefromwebp') ? @imagecreatefromwebp($sourcePath) : false,
-            default => false,
-        };
-
-        if (! $source) {
-            return $image->store('about-gallery', $disk);
-        }
-
-        [$source, $width, $height] = $this->applyImageOrientation($source, $sourcePath, $mime, $width, $height);
-
-        $maxDimension = 2000;
-        $scale = min(1, $maxDimension / max($width, $height));
-        $targetWidth = max(1, (int) round($width * $scale));
-        $targetHeight = max(1, (int) round($height * $scale));
-
-        $target = imagecreatetruecolor($targetWidth, $targetHeight);
-        if (! $target) {
-            imagedestroy($source);
-
-            return $image->store('about-gallery', $disk);
-        }
-        $background = imagecolorallocate($target, 8, 8, 8);
-        imagefill($target, 0, 0, $background);
-        imagecopyresampled($target, $source, 0, 0, 0, 0, $targetWidth, $targetHeight, $width, $height);
-
-        $extension = function_exists('imagewebp') ? 'webp' : 'jpg';
-        $path = 'about-gallery/'.Str::uuid().'.'.$extension;
-        $temporaryPath = tempnam(sys_get_temp_dir(), 'about-gallery-');
-        if (! $temporaryPath) {
-            imagedestroy($source);
-            imagedestroy($target);
-
-            return $image->store('about-gallery', $disk);
-        }
-
-        $saved = $extension === 'webp'
-            ? imagewebp($target, $temporaryPath, 82)
-            : imagejpeg($target, $temporaryPath, 84);
-
-        imagedestroy($source);
-        imagedestroy($target);
-
-        if (! $saved) {
-            @unlink($temporaryPath);
-
-            return $image->store('about-gallery', $disk);
-        }
-
-        $contents = file_get_contents($temporaryPath);
-        if ($contents === false) {
-            @unlink($temporaryPath);
-
-            return $image->store('about-gallery', $disk);
-        }
-
-        Storage::disk($disk)->put($path, $contents);
-        @unlink($temporaryPath);
-
-        return $path;
-    }
-
-    /**
-     * @param resource|\GdImage $source
-     * @return array{0: resource|\GdImage, 1: int, 2: int}
-     */
-    private function applyImageOrientation($source, string $sourcePath, string $mime, int $width, int $height): array
-    {
-        if ($mime !== 'image/jpeg' || ! function_exists('exif_read_data')) {
-            return [$source, $width, $height];
-        }
-
-        $exif = @exif_read_data($sourcePath);
-        $orientation = (int) ($exif['Orientation'] ?? 1);
-
-        $rotated = match ($orientation) {
-            3 => imagerotate($source, 180, 0),
-            6 => imagerotate($source, -90, 0),
-            8 => imagerotate($source, 90, 0),
-            default => false,
-        };
-
-        if (! $rotated) {
-            return [$source, $width, $height];
-        }
-
-        imagedestroy($source);
-
-        if (in_array($orientation, [6, 8], true)) {
-            return [$rotated, $height, $width];
-        }
-
-        return [$rotated, $width, $height];
-    }
 }

@@ -10,7 +10,8 @@
     <meta property="og:description" content="@yield('meta_description', 'Składanie komputerów, naprawa komputerów i laptopów, modernizacja sprzętu oraz pomoc techniczna w Jarosławiu i okolicach.')">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
-    <link rel="icon" type="image/png" href="{{ asset('images/kocur-logo-amber.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/kocur-favicon.png') }}">
+    @stack('head')
     <title>@yield('title', $title ?? config('app.name', 'Kocur Serwis Komputerowy'))</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>

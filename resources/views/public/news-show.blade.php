@@ -84,6 +84,7 @@
                                 class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
                                 loading="eager"
                                 fetchpriority="high"
+                                decoding="async"
                             >
                             <span class="absolute left-4 top-4 rounded-md border border-amber-300/35 bg-black/75 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-amber-100">
                                 <span x-text="currentIndex + 1"></span> / <span x-text="images.length"></span>
@@ -178,6 +179,7 @@
                                 x-bind:src="currentImage.url"
                                 x-bind:alt="currentImage.alt"
                                 class="max-h-[88vh] max-w-[92vw] rounded-xl border border-amber-300/25 object-contain shadow-2xl"
+                                decoding="async"
                             >
                         </div>
 

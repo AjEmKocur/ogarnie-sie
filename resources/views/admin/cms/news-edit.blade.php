@@ -65,7 +65,7 @@
 
                         @if ($post->coverImageUrl())
                             <div class="flex items-center gap-4">
-                                <img src="{{ $post->coverImageUrl() }}" alt="Miniatura wpisu" class="h-24 w-40 rounded-md border border-gray-200 object-cover">
+                                <img src="{{ $post->coverImageUrl() }}" alt="Miniatura wpisu" class="h-24 w-40 rounded-md border border-gray-200 object-cover" loading="lazy" decoding="async">
                                 <label class="flex items-center gap-2 text-sm">
                                     <input type="checkbox" name="remove_cover_image" value="1">
                                     Usuń obecne zdjęcie
@@ -76,7 +76,7 @@
                         <div>
                             <label class="mb-1 block text-sm font-medium text-slate-200">Podmień zdjęcie główne (opcjonalnie)</label>
                             <input type="file" name="cover_image" accept=".jpg,.jpeg,.png,.webp" class="block w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2 text-sm text-slate-200">
-                            <p class="mt-1 text-xs text-slate-400">JPG, PNG albo WebP, maksymalnie 10 MB.</p>
+                            <p class="mt-1 text-xs text-slate-400">JPG, PNG albo WebP, maksymalnie 20 MB. Zdjęcie zostanie automatycznie zmniejszone.</p>
                             <x-input-error :messages="$errors->get('cover_image')" class="mt-2" />
                         </div>
 
@@ -86,7 +86,7 @@
                                 <div class="grid gap-3 sm:grid-cols-2">
                                     @foreach ($post->images as $image)
                                         <label class="rounded-lg border border-gray-300 bg-slate-900 p-3">
-                                            <img src="{{ $image->publicUrl() }}" alt="Zdjęcie galerii" class="h-36 w-full rounded-md object-cover">
+                                            <img src="{{ $image->publicUrl() }}" alt="Zdjęcie galerii" class="h-36 w-full rounded-md object-cover" loading="lazy" decoding="async">
                                             <span class="mt-3 flex items-center gap-2 text-sm">
                                                 <input type="checkbox" name="remove_gallery_images[]" value="{{ $image->id }}">
                                                 Usuń to zdjęcie
@@ -100,7 +100,7 @@
                         <div>
                             <label class="mb-1 block text-sm font-medium text-slate-200">Dodaj kolejne zdjęcia do galerii (opcjonalnie)</label>
                             <input type="file" name="gallery_images[]" accept=".jpg,.jpeg,.png,.webp" multiple class="block w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2 text-sm text-slate-200">
-                            <p class="mt-1 text-xs text-slate-400">Możesz zaznaczyć kilka zdjęć jednej realizacji. Każde zdjęcie maksymalnie 10 MB.</p>
+                            <p class="mt-1 text-xs text-slate-400">Możesz zaznaczyć kilka zdjęć jednej realizacji. Każde maksymalnie 20 MB, po dodaniu zostanie automatycznie zmniejszone.</p>
                             <x-input-error :messages="$errors->get('gallery_images')" class="mt-2" />
                             <x-input-error :messages="$errors->get('gallery_images.*')" class="mt-2" />
                         </div>

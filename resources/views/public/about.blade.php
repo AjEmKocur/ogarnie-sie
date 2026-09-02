@@ -107,6 +107,7 @@
                                 x-bind:alt="currentImage.alt"
                                 class="h-full w-full object-contain transition duration-500 group-hover:scale-[1.01]"
                                 loading="eager"
+                                decoding="async"
                             >
                             <span class="absolute bottom-4 right-4 rounded-md bg-black/75 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-amber-100 opacity-0 transition group-hover:opacity-100">
                                 Powiększ
@@ -189,6 +190,7 @@
                                 x-bind:src="currentImage.url"
                                 x-bind:alt="currentImage.alt"
                                 class="max-h-[88vh] max-w-[92vw] rounded-xl object-contain shadow-2xl"
+                                decoding="async"
                             >
                         </div>
                     </div>

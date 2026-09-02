@@ -55,7 +55,7 @@
                         <div>
                             <label class="mb-1 block text-sm font-medium text-slate-200">Zdjęcie główne (opcjonalnie)</label>
                             <input type="file" name="cover_image" accept=".jpg,.jpeg,.png,.webp" class="block w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2 text-sm text-slate-200">
-                            <p class="mt-1 text-xs text-slate-400">JPG, PNG albo WebP, maksymalnie 10 MB.</p>
+                            <p class="mt-1 text-xs text-slate-400">JPG, PNG albo WebP, maksymalnie 20 MB. Zdjęcie zostanie automatycznie zmniejszone.</p>
                             @error('cover_image')
                                 <p class="mt-1 text-sm text-rose-300">{{ $message }}</p>
                             @enderror
@@ -63,7 +63,7 @@
                         <div>
                             <label class="mb-1 block text-sm font-medium text-slate-200">Dodatkowe zdjęcia realizacji (opcjonalnie)</label>
                             <input type="file" name="gallery_images[]" accept=".jpg,.jpeg,.png,.webp" multiple class="block w-full rounded-md border border-gray-300 bg-slate-900 px-3 py-2 text-sm text-slate-200">
-                            <p class="mt-1 text-xs text-slate-400">Możesz zaznaczyć kilka zdjęć jednej realizacji. Każde zdjęcie maksymalnie 10 MB.</p>
+                            <p class="mt-1 text-xs text-slate-400">Możesz zaznaczyć kilka zdjęć jednej realizacji. Każde maksymalnie 20 MB, po dodaniu zostanie automatycznie zmniejszone.</p>
                             @foreach ($errors->get('gallery_images.*') as $messages)
                                 @foreach ($messages as $message)
                                     <p class="mt-1 text-sm text-rose-300">{{ $message }}</p>
