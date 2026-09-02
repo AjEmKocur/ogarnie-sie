@@ -6,6 +6,7 @@ use App\Mail\TicketCancelled;
 use App\Mail\TicketCreated;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Support\TicketAttachmentStorage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
@@ -48,14 +49,14 @@ class ClientTicketController extends Controller
                 'description' => ['required', 'string', 'max:5000'],
                 'custom_request' => ['nullable', 'string', 'max:5000'],
                 'attachments' => ['nullable', 'array', 'max:5'],
-                'attachments.*' => ['file', 'image', 'max:10240', 'mimes:jpg,jpeg,png,webp'],
+                'attachments.*' => ['file', 'image', 'max:20480', 'mimes:jpg,jpeg,png,webp'],
                 'terms' => ['accepted'],
             ],
             [
                 'attachments.max' => 'Możesz dodać maksymalnie 5 zdjęć.',
                 'attachments.*.image' => 'Każdy załącznik musi być obrazem.',
                 'attachments.*.mimes' => 'Dozwolone formaty zdjęć: jpg, jpeg, png, webp.',
-                'attachments.*.max' => 'Maksymalny rozmiar jednego zdjęcia to 10 MB.',
+                'attachments.*.max' => 'Maksymalny rozmiar jednego zdjęcia to 20 MB. Zdjęcie zostanie automatycznie zmniejszone.',
                 'terms.accepted' => 'Potwierdź zapoznanie się z zasadami współpracy i polityką prywatności.',
             ]
         );
@@ -79,15 +80,15 @@ class ClientTicketController extends Controller
         /** @var UploadedFile $file */
         foreach ($request->file('attachments', []) as $file) {
             $disk = (string) config('filesystems.ticket_attachment_disk', 'local');
-            $path = $file->store("ticket-attachments/{$ticket->id}", $disk);
+            $storedFile = TicketAttachmentStorage::store($file, $ticket->id, $disk);
 
             $ticket->attachments()->create([
                 'user_id' => $request->user()->id,
                 'disk' => $disk,
-                'path' => $path,
-                'original_name' => $file->getClientOriginalName(),
-                'mime_type' => $file->getClientMimeType(),
-                'size' => $file->getSize(),
+                'path' => $storedFile['path'],
+                'original_name' => $storedFile['original_name'],
+                'mime_type' => $storedFile['mime_type'],
+                'size' => $storedFile['size'],
             ]);
         }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ticket;
 use App\Models\TicketAttachment;
+use App\Support\TicketAttachmentStorage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -16,20 +17,23 @@ class TicketAttachmentController extends Controller
         $this->abortIfUnauthorized($request, $ticket);
 
         $validated = $request->validate([
-            'attachment' => ['required', 'file', 'max:10240', 'mimes:jpg,jpeg,png,pdf,txt,doc,docx'],
+            'attachment' => ['required', 'file', 'max:20480', 'mimes:jpg,jpeg,png,webp,pdf,txt,doc,docx'],
+        ], [
+            'attachment.max' => 'Maksymalny rozmiar pliku to 20 MB. Zdjęcia zostaną automatycznie zmniejszone.',
+            'attachment.mimes' => 'Dozwolone formaty: jpg, jpeg, png, webp, pdf, txt, doc, docx.',
         ]);
 
         $file = $validated['attachment'];
         $disk = (string) config('filesystems.ticket_attachment_disk', 'local');
-        $path = $file->store("ticket-attachments/{$ticket->id}", $disk);
+        $storedFile = TicketAttachmentStorage::store($file, $ticket->id, $disk);
 
         $ticket->attachments()->create([
             'user_id' => $request->user()->id,
             'disk' => $disk,
-            'path' => $path,
-            'original_name' => $file->getClientOriginalName(),
-            'mime_type' => $file->getClientMimeType(),
-            'size' => $file->getSize(),
+            'path' => $storedFile['path'],
+            'original_name' => $storedFile['original_name'],
+            'mime_type' => $storedFile['mime_type'],
+            'size' => $storedFile['size'],
         ]);
 
         return redirect()

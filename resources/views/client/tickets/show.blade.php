@@ -142,6 +142,7 @@
                                 <x-file-picker id="client-ticket-attachment" name="attachment" accept=".jpg,.jpeg,.png,.webp,.pdf,.txt,.doc,.docx,image/jpeg,image/png,image/webp,application/pdf,text/plain" button="Wybierz plik" empty="Nie wybrano pliku" required class="min-w-[260px] flex-1" />
                                 <x-primary-button>Dodaj plik</x-primary-button>
                             </form>
+                            <p class="mt-2 text-xs text-slate-400">Maks. 20 MB. Zdjęcia JPG, PNG i WebP zostaną automatycznie zmniejszone.</p>
 
                             @if ($ticket->attachments->isEmpty())
                                 <p class="mt-4 text-sm text-slate-400">Brak załączników.</p>

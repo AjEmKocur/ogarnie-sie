@@ -37,7 +37,7 @@
                         <div>
                             <x-input-label for="attachments" :value="__('Załączniki (opcjonalnie)')" />
                             <x-file-picker id="attachments" name="attachments[]" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" multiple button="Wybierz zdjęcia" empty="Nie wybrano zdjęć" class="mt-1" />
-                            <p class="mt-2 text-xs text-gray-500">{{ __('Możesz dodać do 5 zdjęć. Dozwolone: jpg, jpeg, png, webp. Maks. 10 MB na zdjęcie.') }}</p>
+                            <p class="mt-2 text-xs text-gray-500">{{ __('Możesz dodać do 5 zdjęć. Dozwolone: jpg, jpeg, png, webp. Maks. 20 MB na zdjęcie. Zdjęcia zostaną automatycznie zmniejszone.') }}</p>
                             <x-input-error :messages="$errors->get('attachments')" class="mt-2" />
                             <x-input-error :messages="$errors->get('attachments.*')" class="mt-2" />
                         </div>
