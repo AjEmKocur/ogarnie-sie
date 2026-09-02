@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Mail\ContactMessageConfirmation;
 use App\Mail\ContactMessageReceived;
+use App\Mail\TicketCreated;
+use App\Models\Ticket;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class PublicContactController extends Controller
@@ -33,6 +37,30 @@ class PublicContactController extends Controller
 
         $this->verifyTurnstile($request);
         unset($validated['cf-turnstile-response']);
+
+        $matchedClient = $this->findVerifiedClientByEmail((string) $validated['email']);
+
+        if ($matchedClient) {
+            $ticket = $this->createTicketForMatchedClient($matchedClient, $validated);
+
+            try {
+                Mail::to($matchedClient->email)->send(new TicketCreated($ticket));
+
+                $adminEmails = $this->adminNotificationEmails();
+                if (! empty($adminEmails)) {
+                    Mail::to($adminEmails)->send(new TicketCreated(
+                        ticket: $ticket->loadMissing('user'),
+                        toAdmin: true
+                    ));
+                }
+            } catch (\Throwable $e) {
+                report($e);
+            }
+
+            return redirect()
+                ->route('public.contact')
+                ->with('status', 'Dziękujemy! Zgłoszenie zostało dodane i jest dostępne w panelu klienta.');
+        }
 
         try {
             Mail::to(config('mail.from.address'))->send(new ContactMessageReceived(
@@ -118,5 +146,70 @@ class PublicContactController extends Controller
                 'captcha' => 'Weryfikacja CAPTCHA nie powiodła się. Spróbuj ponownie.',
             ]);
         }
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     */
+    private function createTicketForMatchedClient(User $user, array $data): Ticket
+    {
+        $phone = trim((string) ($data['phone'] ?? ''));
+        $description = trim((string) $data['message']);
+
+        if ($phone !== '') {
+            $description .= "\n\nTelefon kontaktowy: ".$phone;
+        }
+
+        $ticket = $user->tickets()->create([
+            'title' => (string) $data['subject'],
+            'description' => $description,
+            'custom_request' => null,
+            'estimated_price_from' => null,
+            'status' => Ticket::STATUS_NEW,
+        ]);
+
+        $ticket->statusHistories()->create([
+            'changed_by_user_id' => null,
+            'status' => $ticket->status,
+            'admin_note' => null,
+        ]);
+
+        return $ticket->loadMissing('user');
+    }
+
+    private function findVerifiedClientByEmail(string $email): ?User
+    {
+        return User::query()
+            ->whereRaw('LOWER(email) = ?', [Str::lower(trim($email))])
+            ->where('role', User::ROLE_CLIENT)
+            ->where('is_active', true)
+            ->whereNotNull('email_verified_at')
+            ->first();
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function adminNotificationEmails(): array
+    {
+        $adminEmails = User::query()
+            ->whereIn('role', [User::ROLE_ADMIN, User::ROLE_OPERATOR])
+            ->where('is_active', true)
+            ->whereNotNull('email')
+            ->pluck('email')
+            ->filter()
+            ->all();
+
+        $serviceInbox = config('mail.from.address');
+        if (! empty($serviceInbox)) {
+            $adminEmails[] = $serviceInbox;
+        }
+
+        return collect($adminEmails)
+            ->map(fn ($email) => strtolower(trim((string) $email)))
+            ->filter()
+            ->unique()
+            ->values()
+            ->all();
     }
 }

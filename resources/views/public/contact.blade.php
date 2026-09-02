@@ -12,7 +12,7 @@
             Opisz krótko problem, sprzęt albo planowany zestaw. Po wiadomości ustalimy zakres, orientacyjny koszt i możliwy termin.
         </p>
         <p class="mt-2 text-sm text-amber-200">
-            Formularz kontaktowy działa bez konta. Jeśli chcesz śledzić zgłoszenie w panelu klienta, załóż konto.
+            Formularz działa bez konta. Jeśli podasz e-mail ze zweryfikowanego konta klienta, zgłoszenie pojawi się także w panelu klienta.
         </p>
 
         <div class="mt-9 grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
