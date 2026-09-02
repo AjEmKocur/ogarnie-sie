@@ -118,30 +118,22 @@
                         x-show="isOpen"
                         x-transition.opacity
                         x-cloak
-                        class="fixed inset-0 z-50 bg-black/90"
+                        class="fixed inset-0 z-[100] bg-black/90"
                         x-on:click.self="closeImage()"
                     >
-                        <div class="absolute left-4 right-4 top-4 z-10 flex flex-wrap items-center justify-between gap-3">
+                        <button
+                            type="button"
+                            x-on:click="closeImage()"
+                            class="absolute right-4 top-4 z-[120] inline-flex h-11 w-11 items-center justify-center rounded-full border border-amber-300/50 bg-black/80 text-3xl font-light leading-none text-amber-100 shadow-lg transition hover:bg-amber-400 hover:text-black"
+                            aria-label="Zamknij galerię"
+                        >
+                            <span class="-translate-y-px">&times;</span>
+                        </button>
+
+                        <div class="absolute left-4 top-4 z-[110] flex flex-wrap items-center gap-3">
                             <p class="rounded-md border border-amber-300/30 bg-black/70 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-amber-100">
                                 <span x-text="currentIndex + 1"></span> / <span x-text="images.length"></span>
                             </p>
-                            <div class="flex flex-wrap items-center gap-2">
-                                <a
-                                    x-bind:href="currentImage.url"
-                                    target="_blank"
-                                    rel="noopener"
-                                    class="rounded-md border border-amber-300/50 bg-black px-4 py-2 text-xs font-semibold uppercase tracking-wider text-amber-100 hover:bg-amber-400 hover:text-black"
-                                >
-                                    Otwórz oryginał
-                                </a>
-                                <button
-                                    type="button"
-                                    x-on:click="closeImage()"
-                                    class="rounded-md border border-amber-300/50 bg-black px-4 py-2 text-xs font-semibold uppercase tracking-wider text-amber-100 hover:bg-amber-400 hover:text-black"
-                                >
-                                    Zamknij
-                                </button>
-                            </div>
                         </div>
 
                         <button
